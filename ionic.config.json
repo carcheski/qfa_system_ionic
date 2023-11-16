@@ -1,0 +1,7 @@
+{
+  "name": "qfa_system_ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
