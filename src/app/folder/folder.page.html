@@ -1,21 +1,26 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>{{ folder }}</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">{{ folder }}</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <div id="container">
-    <strong class="capitalize">{{ folder }}</strong>
-    <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+    <img src="assets/medalhao_logo.png" alt="logo">
+
+    <form id="formLogin">
+      <ion-item>
+        <ion-label position="stacked" style="font: 20px bold;">Login</ion-label>
+        <ion-input name="login" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked" style="font: 20px bold;">Senha</ion-label>
+        <ion-input  name="senha" type="password"></ion-input>
+      </ion-item>
+  
+      <ion-button expand="block" color="primary"  id="btnLogar">Entrar
+        <ion-icon slot="end" name="open"></ion-icon>
+      </ion-button>
+
+      <ion-button expand="block" fill="outline" id="btnLogar">Registrar
+        <ion-icon slot="end" name="open"></ion-icon>
+      </ion-button>
+  
+    </form>
+  
+
 </ion-content>
