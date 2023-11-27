@@ -22,4 +22,8 @@ export class FolderPage implements OnInit {
   login() {
     this.router.navigate(['/home']);
   }
+
+  ionViewDidLeave() {
+    this.menu.enable(true);
+  }
 }
