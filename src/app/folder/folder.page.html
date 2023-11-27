@@ -6,10 +6,12 @@
       <ion-item>
         <ion-label position="stacked" style="font: 20px bold;">Login</ion-label>
         <ion-input name="login" type="text"></ion-input>
+        <ion-input [(ngModel)]="creds.login" name="login" type="text"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="stacked" style="font: 20px bold;">Senha</ion-label>
         <ion-input  name="senha" type="password"></ion-input>
+        <ion-input [(ngModel)]="creds.senha" name="senha" type="password"></ion-input>
       </ion-item>
   
       <ion-button expand="block" color="primary"  id="btnLogar" (click)="login()">Entrar

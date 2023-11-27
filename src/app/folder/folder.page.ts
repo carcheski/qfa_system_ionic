@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuController, NavController } from '@ionic/angular';
+import { CredenciaisDTO } from 'src/models/credenciais.dto';
 
 @Component({
   selector: 'app-folder',
@@ -10,6 +11,11 @@ import { MenuController, NavController } from '@ionic/angular';
 export class FolderPage implements OnInit {
   public folder!: string;
   private activatedRoute = inject(ActivatedRoute);
+
+  creds : CredenciaisDTO = {
+    login: "",
+    senha: ""
+  };
   constructor(
     public router: Router,
     public menu: MenuController) {}
@@ -20,6 +26,7 @@ export class FolderPage implements OnInit {
   }
 
   login() {
+    console.log(this.creds);
     this.router.navigate(['/home']);
   }
 
