@@ -32,6 +32,7 @@ export class FolderPage implements OnInit {
     this.auth.authenticate(this.creds)
     .subscribe(response =>{
       console.log(response.body)
+      this.auth.successfulLogin(response.body as any);
       this.router.navigate(['/home']);
     })
     console.log(this.creds);
