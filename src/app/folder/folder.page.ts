@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuController, NavController } from '@ionic/angular';
 import { CredenciaisDTO } from 'src/models/credenciais.dto';
+import { AuthService } from 'src/services/auth.service';
 
 @Component({
   selector: 'app-folder',
@@ -14,11 +15,13 @@ export class FolderPage implements OnInit {
 
   creds : CredenciaisDTO = {
     login: "",
-    senha: ""
+    password: ""
   };
   constructor(
     public router: Router,
-    public menu: MenuController) {}
+    public menu: MenuController,
+    public auth: AuthService
+    ) {}
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') as string;
@@ -26,8 +29,12 @@ export class FolderPage implements OnInit {
   }
 
   login() {
+    this.auth.authenticate(this.creds)
+    .subscribe(response =>{
+      console.log(response.body)
+      this.router.navigate(['/home']);
+    })
     console.log(this.creds);
-    this.router.navigate(['/home']);
   }
 
   ionViewDidLeave() {

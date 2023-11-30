@@ -2,13 +2,11 @@ import { Injectable } from "@angular/core";
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { catchError } from 'rxjs/operators';
-import { StorageService } from "src/services/storage";
  
  
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor{
 
-    constructor(public storage: StorageService){ }
  
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
         console.log("passou")!
@@ -29,7 +27,7 @@ export class ErrorInterceptor implements HttpInterceptor{
  
  
 handle403(){
-        this.storage.setLocalUser(null as any);
+        
     }
  
 }
