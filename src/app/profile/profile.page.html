@@ -10,5 +10,9 @@
       <ion-title size="large">Profile</ion-title>
     </ion-toolbar>
   </ion-header>
-  {{ login }}
+  <ion-avatar>
+    <img class="circle" [src]="usuario?.imageUrl || 'assets/imgs/avatar-blank.png'">
+  </ion-avatar>
+  <h2 text-center>{{usuario?.login}}</h2>
+  <p text-center>{{usuario?.email}}</p>
 </ion-content>

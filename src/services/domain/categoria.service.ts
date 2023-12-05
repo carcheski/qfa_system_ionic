@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { CategoriaDTO } from "src/models/categoria.dto";
 import { Observable } from 'rxjs';
+import { API_CONFIG } from "src/config/api.config";
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +16,6 @@ export class CategoriaService {
     }
 
     findAll() : Observable<CategoriaDTO[]> {
-        return this.http.get<CategoriaDTO[]>(`/categorias`);
+        return this.http.get<CategoriaDTO[]>(`${API_CONFIG.baseUrl}/categorias`);
     }
 }

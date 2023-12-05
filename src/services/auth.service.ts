@@ -4,20 +4,31 @@ import { CredenciaisDTO } from "src/models/credenciais.dto";
 import { LocalUser } from "src/models/local_user";
 import { StorageService } from "./storage.service";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { API_CONFIG } from "src/config/api.config";
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+  })
 export class AuthService {
 
     jwtDecode: JwtHelperService = new JwtHelperService();
 
     constructor(
         public http: HttpClient,
-        public storage: StorageService) {
+        public storage: StorageService,
+        ) {
     }
 
     authenticate(creds : CredenciaisDTO) {
+        console.log('1');
+        console.log(this.storage.getLocalUser());
+        console.log(creds);
+        if(this.storage.getLocalUser() != null){
+            console.log('2');
+            this.logout();
+        }
         return this.http.post(
-            `/auth/login`, 
+            `${API_CONFIG.baseUrl}/auth/login`, 
             creds,
             {
                 observe: 'response',
@@ -26,6 +37,7 @@ export class AuthService {
     }
 
     successfulLogin(body : string) {
+        console.log('Passou aqui');
         let tok = body.substring(17);
         let user : LocalUser = {
             token: tok,
