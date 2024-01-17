@@ -28,13 +28,27 @@ export class FolderPage implements OnInit {
     this.menu.enable(false);
   }
 
+  ionViewDidEnter() {
+    this.auth.refreshToken()
+    .subscribe(response => {
+      this.auth.successfulLogin(response.body as any);
+      this.router.navigate(['/home']);
+    },
+    error => {});  
+  }
+
   login() {
+    
     this.auth.authenticate(this.creds)
     .subscribe(response =>{
       this.auth.successfulLogin(response.body as any);
       this.router.navigate(['/home']);
     })
 
+  }
+
+  signup() {
+      this.router.navigate(['/signup']);
   }
 
   ionViewDidLeave() {

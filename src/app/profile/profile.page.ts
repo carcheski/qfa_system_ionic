@@ -3,6 +3,7 @@ import { API_CONFIG } from 'src/config/api.config';
 import { UsuarioDTO } from 'src/models/usuario.dto';
 import { StorageService } from 'src/services/storage.service';
 import { UsuarioService } from 'src/services/domain/usuario.service';
+import { ClienteDTO } from 'src/models/cliente.dto';
 
 @Component({
   selector: 'app-profile',
@@ -14,10 +15,8 @@ export class ProfilePage implements OnInit {
   login: string = "";
   usuario: UsuarioDTO = {
     id: "",
-    login: "",
-    password: "",
+    nome:"",
     email: "",
-    role: "",
     imageUrl:""
   };
 

@@ -1,8 +1,6 @@
 export interface UsuarioDTO {
-	id: string;
-	login: string;
-	password: string;
-	email: string;
-	role: string;
+	id : string;
+    nome? : string;
+    email? : string;
     imageUrl? : string;
 }
