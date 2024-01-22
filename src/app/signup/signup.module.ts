@@ -9,6 +9,7 @@ import { SignupPageRoutingModule } from './signup-routing.module';
 import { SignupPage } from './signup.page';
 import { CidadeService } from 'src/services/domain/cidade.service';
 import { EstadoService } from 'src/services/domain/estado.service';
+import { ClienteService } from 'src/services/domain/cliente.service';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { EstadoService } from 'src/services/domain/estado.service';
   ],
   providers: [
     CidadeService,
-    EstadoService
+    EstadoService,
+    ClienteService
   ],
   declarations: [SignupPage]
 })

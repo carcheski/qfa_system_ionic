@@ -23,35 +23,38 @@ export class FolderPage implements OnInit {
     public auth: AuthService
     ) {}
 
-  ngOnInit() {
-    this.folder = this.activatedRoute.snapshot.paramMap.get('id') as string;
-    this.menu.enable(false);
-  }
+    ngOnInit() {
+      //this.parametro = this.route.snapshot.paramMap.get('id');
+      this.menu.enable(false);
+    }
+  
+    ionViewDidLeave() {
+      this.menu.enable(true);
+    }
+  
+    ionViewDidEnter() {
+      this.auth.refreshToken()
+      .subscribe(response => {
+        this.auth.successfulLogin(response.body as any);
+        this.router.navigate(['/home']);
+      },
+        error => {});
+    }
 
-  ionViewDidEnter() {
-    this.auth.refreshToken()
-    .subscribe(response => {
-      this.auth.successfulLogin(response.body as any);
-      this.router.navigate(['/home']);
-    },
-    error => {});  
-  }
+    login(){
+      console.log(this.creds);
+      this.auth.authenticate(this.creds)
+      .subscribe(response => {        
+        this.auth.successfulLogin(response.body as any);
+        this.router.navigate(['/home']);
+      },
+        error => {});
+    }
+  
+    signup(){
+      this.router.navigate(['/signup'])
+    }
+  
 
-  login() {
-    
-    this.auth.authenticate(this.creds)
-    .subscribe(response =>{
-      this.auth.successfulLogin(response.body as any);
-      this.router.navigate(['/home']);
-    })
 
-  }
-
-  signup() {
-      this.router.navigate(['/signup']);
-  }
-
-  ionViewDidLeave() {
-    this.menu.enable(true);
-  }
 }

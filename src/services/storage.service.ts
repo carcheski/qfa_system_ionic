@@ -9,7 +9,6 @@ export class StorageService {
 
     getLocalUser() : LocalUser {
         let usr = localStorage.getItem(STORAGE_KEYS.localUser);
-        console.log("LocalUser = " +usr);
         if (usr == null) {
             return null as any;
         }
@@ -19,7 +18,6 @@ export class StorageService {
     }
 
     setLocalUser(obj : LocalUser) {
-        console.log("LocalUser Setado = " +obj);
         if (obj == null) {
             localStorage.removeItem(STORAGE_KEYS.localUser);
         }

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertController, NavController } from '@ionic/angular';
 import { CidadeDTO } from 'src/models/cidade.dto';
 import { EstadoDTO } from 'src/models/estado.dto';
 import { CidadeService } from 'src/services/domain/cidade.service';
+import { ClienteService } from 'src/services/domain/cliente.service';
 import { EstadoService } from 'src/services/domain/estado.service';
 
 @Component({
@@ -21,7 +23,9 @@ export class SignupPage implements OnInit {
     public router: Router,
     public formBuilder: FormBuilder,
     public cidadeService: CidadeService,
-    public estadoService: EstadoService
+    public estadoService: EstadoService,
+    public clienteService: ClienteService,
+    public alertCtrl: AlertController
   ) {
     this.formGroup = this.formBuilder.group({
       nome: ['Joaquim', [Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
@@ -55,6 +59,7 @@ export class SignupPage implements OnInit {
 
   updateCidades() {
     let estado_id = this.formGroup.value.estadoId;
+    console.log("EstadoID = " + this.formGroup.value.estadoId);
     this.cidadeService.findAll(estado_id)
       .subscribe(response => {
         this.cidades = response;
@@ -64,7 +69,28 @@ export class SignupPage implements OnInit {
   }
 
   signupUser() {
-    console.log("enviou o form");
+    this.clienteService.insert(this.formGroup.value)
+    .subscribe(response => {
+      this.showInsertOk();
+    },
+    error => {});
+  }
+
+  async showInsertOk() {
+    let alert = await this.alertCtrl.create({
+      header : 'Sucesso!',
+      message : 'Cadastro efetuado com sucesso',
+      backdropDismiss : false,
+      buttons : [
+        {
+          text : 'Ok',
+
+        }
+      ]
+    });
+    alert.present();
+    this.formGroup.reset();
+    this.router.navigateByUrl('/', { replaceUrl: true });
   }
 
 }
