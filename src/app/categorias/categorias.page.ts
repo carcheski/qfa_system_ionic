@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { API_CONFIG } from 'src/config/api.config';
 import { CategoriaDTO } from 'src/models/categoria.dto';
 import { CategoriaService } from 'src/services/domain/categoria.service';
@@ -15,7 +16,8 @@ export class CategoriasPage implements OnInit {
   items: CategoriaDTO[] = [];
 
   constructor(
-    public categoriaService: CategoriaService
+    public categoriaService: CategoriaService,
+    public router: Router
   ) { }
 
   ngOnInit() {
@@ -31,6 +33,8 @@ export class CategoriasPage implements OnInit {
     );
   }
 
-
+  showProdutos() {
+    this.router.navigate(['/produtos']);    
+  }
 
 }
