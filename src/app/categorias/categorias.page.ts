@@ -33,8 +33,8 @@ export class CategoriasPage implements OnInit {
     );
   }
 
-  showProdutos() {
-    this.router.navigate(['/produtos']);    
+  showProdutos(categoria_id : string) {
+    this.router.navigate(['/produtos'], { queryParams: {categoria_id: categoria_id}});    
   }
 
 }

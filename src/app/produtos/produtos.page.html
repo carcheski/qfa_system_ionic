@@ -6,7 +6,7 @@
 
 <ion-content class="ion-padding">
   <ion-list [inset]="true">
-    <ion-item *ngFor="let item of items" [button]="true">
+    <ion-item *ngFor="let item of items[0]" [button]="true">
         <ion-thumbnail item-start>
           <img [src]="item.imageUrl || 'assets/imgs/prod.png'">
         </ion-thumbnail>
