@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavParams } from '@ionic/angular';
 import { take } from 'rxjs';
+import { API_CONFIG } from 'src/config/api.config';
 import { ProdutoDTO } from 'src/models/produto.dto';
 import { ProdutoService } from 'src/services/domain/produto.service';
 
@@ -34,9 +35,8 @@ export class ProdutosPage implements OnInit {
           this.produtoService.findByCategoria(categoria_id)
           .subscribe (response =>{
             const res = ((response));
-            const values = Object.values(res);
-            console.log(values);
-            this.items = values;
+            this.items = Object.values(res);
+            this.loadImageUrls();
           },
             error => this.onError(error)
           );
@@ -44,6 +44,17 @@ export class ProdutosPage implements OnInit {
       }
     );
   }
+
+  loadImageUrls() {
+    for (var i=0; i<this.items.length; i++) {
+      let item = this.items[i];
+      this.produtoService.getSmallImageFromBucket(item.id)
+        .subscribe(response => {
+          item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${item.id}-small.jpg`;
+        },
+        error => {});
+    }
+  }  
 
   onSucess(response: ProdutoDTO[]) {
     console.log("aqui " + response);
