@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavParams } from '@ionic/angular';
 import { take } from 'rxjs';
 import { API_CONFIG } from 'src/config/api.config';
@@ -19,7 +19,8 @@ export class ProdutosPage implements OnInit {
   constructor(
     public navParams: NavParams,
     public produtoService: ProdutoService,
-    public route : ActivatedRoute) { 
+    public route: ActivatedRoute,
+    public router: Router) { 
       
      }
 
@@ -36,7 +37,9 @@ export class ProdutosPage implements OnInit {
           .subscribe (response =>{
             const res = ((response));
             this.items = Object.values(res);
-            this.loadImageUrls();
+            let start = this.items.length;
+            let end = this.items.length - 1;
+            this.loadImageUrls(start, end);
           },
             error => this.onError(error)
           );
@@ -45,15 +48,18 @@ export class ProdutosPage implements OnInit {
     );
   }
 
-  loadImageUrls() {
-    for (var i=0; i<this.items.length; i++) {
-      let item = this.items[i];
-      this.produtoService.getSmallImageFromBucket(item.id)
+  loadImageUrls(start: number, end: number) {
+    console.log("total " + start + " e fim " + end)
+      let produto = Object.values(this.items[0]);
+      produto.map((item) => {
+        let prod = item.id;
+        console.log(prod);
+        this.produtoService.getSmallImageFromBucket(prod)
         .subscribe(response => {
-          item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${item.id}-small.jpg`;
+          item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${prod}-small.jpg`;
         },
         error => {});
-    }
+      })
   }  
 
   onSucess(response: ProdutoDTO[]) {
@@ -63,7 +69,11 @@ export class ProdutosPage implements OnInit {
   }
 
   onError(error: any) {
-    console.log('Erro ao carregar os filmes');
+    console.log('Erro ao carregar os Produtos');
+  }
+
+  showDetail() {
+    this.router.navigate(['/produto-detail']);
   }
 
 }
