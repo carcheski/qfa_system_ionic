@@ -72,8 +72,8 @@ export class ProdutosPage implements OnInit {
     console.log('Erro ao carregar os Produtos');
   }
 
-  showDetail() {
-    this.router.navigate(['/produto-detail']);
+  showDetail(produto_id : string) {
+    this.router.navigate(['/produto-detail'], { queryParams: {produto_id: produto_id}});
   }
 
 }
