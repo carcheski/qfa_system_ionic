@@ -15,6 +15,7 @@ import { UsuarioService } from 'src/services/domain/usuario.service';
 import { AuthInterceptorProvider } from 'src/interceptors/auth.interceptor';
 import { ClienteService } from 'src/services/domain/cliente.service';
 import { ProdutoService } from 'src/services/domain/produto.service';
+import { CartService } from 'src/services/domain/cart.service';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { ProdutoService } from 'src/services/domain/produto.service';
     StorageService,
     UsuarioService,
     ClienteService,
-    ProdutoService
+    ProdutoService,
+    CartService
   ],
   bootstrap: [AppComponent],
 })

@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Cart</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list [inset]="true">
+    <ion-item *ngFor="let item of items">
+      <ion-thumbnail slot="start">
+        <img [src]="item.produto.imageUrl || 'assets/imgs/prod.jpg'">
+      </ion-thumbnail>
+      <ion-card-content >
+        <ion-card-title style="font-weight: bold; font-size: 25px;">
+          {{item?.produto.nome}}
+        </ion-card-title>
+        <h1>
+          Vlr: {{item.produto.preco | currency}}
+        </h1>
+        <h1>
+          Qtd: {{item.quantidade}}
+        </h1>
+      </ion-card-content>
+    </ion-item>
+  </ion-list>   
+</ion-content>
