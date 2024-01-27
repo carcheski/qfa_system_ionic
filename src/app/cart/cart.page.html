@@ -17,10 +17,21 @@
         <h1>
           Vlr: {{item.produto.preco | currency}}
         </h1>
-        <h1>
-          Qtd: {{item.quantidade}}
-        </h1>
+        <ion-label style="font-size: 25px;"> Qtd: {{item.quantidade}}
+          <ion-icon size="large" name="remove-circle" color="primary"  (click)="decreaseQuantity(item.produto)"></ion-icon>
+          <ion-icon size="large" name="add-circle" color="primary" (click)="increaseQuantity(item.produto)"></ion-icon>
+          <ion-icon size="large" name="trash" item-end  color="danger" (click)="removeItem(item.produto)"></ion-icon>
+        </ion-label>
       </ion-card-content>
     </ion-item>
-  </ion-list>   
+    <ion-item *ngIf="total() > 0">
+      <ion-label style="font-size: 25px;"> Total:  {{total()}}</ion-label>
+    </ion-item>
+    <ion-item *ngIf="total() <= 0">
+      <h1>Seu carrinho está vazio</h1>
+    </ion-item>
+  </ion-list>
+  <ion-button expand="block" color="primary"  id="btnLogar" (click)="goOn()">Continuar comprando
+    <ion-icon slot="end" name="open"></ion-icon>
+  </ion-button>   
 </ion-content>
