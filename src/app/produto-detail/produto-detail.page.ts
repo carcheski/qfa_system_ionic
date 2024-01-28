@@ -49,4 +49,8 @@ export class ProdutoDetailPage implements OnInit {
     this.router.navigate(['/cart']);
   }
 
+  showCarrinho() {
+    this.router.navigate(['/cart']);
+  }
+
 }

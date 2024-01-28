@@ -9,6 +9,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-fab top right edge>
+    <ion-fab-button (click)="showCarrinho()" ion-fab mini><ion-icon name="cart"></ion-icon></ion-fab-button>
+  </ion-fab>
   <ion-list>
     <ion-item *ngFor="let item of items" [button]="true" (click)="showProdutos(item.id)">
       <ion-thumbnail item-start>

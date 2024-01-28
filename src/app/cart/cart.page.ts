@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NavParams } from '@ionic/angular';
+import { NavController, NavParams } from '@ionic/angular';
 import { API_CONFIG } from 'src/config/api.config';
 import { CartItem } from 'src/models/cart-item';
 import { ProdutoDTO } from 'src/models/produto.dto';
@@ -15,12 +15,16 @@ import { ProdutoService } from 'src/services/domain/produto.service';
 export class CartPage implements OnInit {
 
   items: CartItem[];
+  vlrTotal: number;
 
   constructor(
     public produtoService: ProdutoService,
     public cartService: CartService,
     public route: ActivatedRoute,
-    public router: Router) { }
+    public router: Router,
+    public navCtrl: NavController ) {
+      this.vlrTotal;
+     }
 
   ngOnInit() {
     let cart = this.cartService.getCart();
@@ -54,10 +58,15 @@ export class CartPage implements OnInit {
 
   total() : number {
     return this.cartService.total();
-  }  
+  }
+
+  mascaraValorTotal() : string {
+    this.vlrTotal = this.cartService.total();
+    return this.cartService.total().toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+  }
 
   goOn() {
-    this.router.navigate(['/categorias']);
+    this.navCtrl.navigateRoot(['/categorias']);
   }
 
 }

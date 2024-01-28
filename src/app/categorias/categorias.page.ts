@@ -37,4 +37,8 @@ export class CategoriasPage implements OnInit {
     this.router.navigate(['/produtos'], { queryParams: {categoria_id: categoria_id}});    
   }
 
+  showCarrinho() {
+    this.router.navigate(['/cart']);
+  }
+
 }

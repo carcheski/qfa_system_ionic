@@ -1,10 +1,16 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/categorias"></ion-back-button>
+    </ion-buttons>
     <ion-title>Produtos</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+  <ion-fab top right edge>
+    <ion-fab-button shape="round" (click)="showCarrinho()" ion-fab mini><ion-icon name="cart"></ion-icon></ion-fab-button>
+  </ion-fab>
   <ion-list [inset]="true">
     <ion-item *ngFor="let item of items[0]" [button]="true"  (click)="showDetail(item.id)">
         <ion-thumbnail item-start>

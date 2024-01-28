@@ -5,6 +5,7 @@ import { take } from 'rxjs';
 import { API_CONFIG } from 'src/config/api.config';
 import { ProdutoDTO } from 'src/models/produto.dto';
 import { ProdutoService } from 'src/services/domain/produto.service';
+import { CartPage } from '../cart/cart.page';
 
 @Component({
   selector: 'app-produtos',
@@ -15,6 +16,7 @@ import { ProdutoService } from 'src/services/domain/produto.service';
 export class ProdutosPage implements OnInit {
 
   items : ProdutoDTO[] = [];
+  carrinho = CartPage;
 
   constructor(
     public navParams: NavParams,
@@ -74,6 +76,10 @@ export class ProdutosPage implements OnInit {
 
   showDetail(produto_id : string) {
     this.router.navigate(['/produto-detail'], { queryParams: {produto_id: produto_id}});
+  }
+
+  showCarrinho() {
+    this.router.navigate(['/cart']);
   }
 
 }

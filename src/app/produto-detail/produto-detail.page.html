@@ -1,10 +1,16 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/produtos"></ion-back-button>
+    </ion-buttons>
     <ion-title>ProdutoDetail</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-fab top right edge>
+    <ion-fab-button shape="round" (click)="showCarrinho()" ion-fab mini><ion-icon name="cart"></ion-icon></ion-fab-button>
+  </ion-fab>
   <ion-card>
     <img [src]="item?.imageUrl || 'assets/imgs/prod.png'"/>
     <ion-card-content>

@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Cart</ion-title>
+    <ion-title style="text-align: center; font-size: 30px; font-weight: bold;">Vendas</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -25,13 +25,12 @@
       </ion-card-content>
     </ion-item>
     <ion-item *ngIf="total() > 0">
-      <ion-label style="font-size: 25px;"> Total:  {{total()}}</ion-label>
+      <ion-label style="font-size: 25px;"> Total:  {{mascaraValorTotal()}}</ion-label>
     </ion-item>
     <ion-item *ngIf="total() <= 0">
       <h1>Seu carrinho está vazio</h1>
     </ion-item>
   </ion-list>
-  <ion-button expand="block" color="primary"  id="btnLogar" (click)="goOn()">Continuar comprando
-    <ion-icon slot="end" name="open"></ion-icon>
-  </ion-button>   
+  <ion-button expand="block" (click)="goOn()">Continuar comprando</ion-button>
+   
 </ion-content>
