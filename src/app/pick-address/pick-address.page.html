@@ -12,7 +12,7 @@
     <ion-fab-button shape="round" (click)="showCarrinho()" ion-fab mini><ion-icon name="cart"></ion-icon></ion-fab-button>
   </ion-fab>
   <ion-list>
-    <ion-item *ngFor="let item of items" [button]="true">
+    <ion-item *ngFor="let item of items" [button]="true"  (click)="nextPage(item)">
       <ion-label>
         <h1>{{item.logradouro}}, {{item.numero}}</h1>
         <p>{{item.complemento}} {{item.bairro}} CEP {{item.cep}}</p>
