@@ -15,8 +15,12 @@ export class ClienteService {
         ) 
         {  }
 
-    findByEmail(email: string) : Observable<ClienteDTO> {
-        return this.http.get<ClienteDTO>(`${API_CONFIG.baseUrl}/clientes/email?value=${email}`);
+        findAll() : Observable<ClienteDTO[]>  {
+            return this.http.get<ClienteDTO[]>(`${API_CONFIG.baseUrl}/clientes`);
+        }
+
+    find(id_cliente: string) : Observable<ClienteDTO> {
+        return this.http.get<ClienteDTO>(`${API_CONFIG.baseUrl}/clientes/${id_cliente}`);
     }
 
     getImageFromBucket(id : string) : Observable<any> {

@@ -46,6 +46,10 @@ const routes: Routes = [
   {
     path: 'pick-address',
     loadChildren: () => import('./pick-address/pick-address.module').then( m => m.PickAddressPageModule)
+  },
+  {
+    path: 'clientes',
+    loadChildren: () => import('./clientes/clientes.module').then( m => m.ClientesPageModule)
   }
 ];
 

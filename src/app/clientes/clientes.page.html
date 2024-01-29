@@ -1,0 +1,22 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/cart"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Clientes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-fab slot="fixed" vertical="top" horizontal="end">
+    <ion-fab-button (click)="showCarrinho()" ><ion-icon name="cart"></ion-icon></ion-fab-button>
+  </ion-fab>
+  <ion-list>
+    <ion-item *ngFor="let item of items" [button]="true" (click)="showEnderecos(item.id)">
+      <ion-thumbnail item-start>
+        <img class="circle" [src]="usuario?.imageUrl || 'assets/imgs/avatar-blank.png'">
+      </ion-thumbnail>
+      <h2> {{ item.nome }}</h2>
+    </ion-item>
+  </ion-list>
+</ion-content>

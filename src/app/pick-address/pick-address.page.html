@@ -1,10 +1,16 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/clientes"></ion-back-button>
+    </ion-buttons>
     <ion-title>Selecione um endereço</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-fab slot="fixed" vertical="top" horizontal="end">
+    <ion-fab-button shape="round" (click)="showCarrinho()" ion-fab mini><ion-icon name="cart"></ion-icon></ion-fab-button>
+  </ion-fab>
   <ion-list>
     <ion-item *ngFor="let item of items" [button]="true">
       <ion-label>

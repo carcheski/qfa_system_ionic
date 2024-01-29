@@ -70,7 +70,7 @@ export class CartPage implements OnInit {
   }
 
   checkout() {
-    this.router.navigate(['/pick-address']);
+    this.router.navigate(['/clientes']);
   }
 
 }

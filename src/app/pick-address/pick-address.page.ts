@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NavParams } from '@ionic/angular';
 import { EnderecoDTO } from 'src/models/endereco.dto';
+import { ClienteService } from 'src/services/domain/cliente.service';
+import { StorageService } from 'src/services/storage.service';
 
 @Component({
   selector: 'app-pick-address',
@@ -10,43 +14,43 @@ export class PickAddressPage implements OnInit {
 
   items: EnderecoDTO[];
 
-  constructor() { }
+  constructor(
+    public storage: StorageService,
+    public clienteService: ClienteService,
+    public route: ActivatedRoute,
+    public router: Router
+  ) { }
 
   ngOnInit() {
-    this.items = [
-      {
-        id: "1",
-        logradouro: "Rua Quinze de Novembro",
-        numero: "300",
-        complemento: "Apto 200",
-        bairro: "Santa Mônica",
-        cep: "48293822",
-        cidade: {
-          id: "1",
-          nome: "Uberlândia",
-          estado: {
-            id: "1",
-            nome: "Minas Gerais"
-          }
-        }
-      },
-      {
-        id: "2",
-        logradouro: "Rua Alexandre Toledo da Silva",
-        numero: "405",
-        complemento: null as any,
-        bairro: "Centro",
-        cep: "88933822",
-        cidade: {
-          id: "3",
-          nome: "São Paulo",
-          estado: {
-            id: "2",
-            nome: "São Paulo"
-          }
+
+    this.carregaEnderecos();
+  }
+
+  carregaEnderecos() {
+    this.route.queryParams
+      .subscribe(params => {
+        let cliente_id = params.cliente_id;
+        console.log(cliente_id);
+        if(cliente_id != null){
+          this.clienteService.find(cliente_id)
+            .subscribe(response => {
+              const res = ((response));
+              console.log(res.enderecos);
+              this.items = Object.values(res.enderecos);
+            },
+            error => this.onError(error)
+          );
         }
       }
-    ];
+    );
+  }
+
+  onError(error: any) {
+    console.log('Erro ao carregar os Endereços');
+  }
+
+  showCarrinho() {
+    this.router.navigate(['/cart']);
   }
 
 }
