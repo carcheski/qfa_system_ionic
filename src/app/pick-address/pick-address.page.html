@@ -1,0 +1,17 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Selecione um endereço</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item *ngFor="let item of items" [button]="true">
+      <ion-label>
+        <h1>{{item.logradouro}}, {{item.numero}}</h1>
+        <p>{{item.complemento}} {{item.bairro}} CEP {{item.cep}}</p>
+        <p>{{item.cidade.nome}}, {{item.cidade.estado.nome}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

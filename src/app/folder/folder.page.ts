@@ -52,7 +52,7 @@ export class FolderPage implements OnInit {
     }
   
     signup(){
-      this.router.navigate(['/signup'])
+      this.router.navigate(['/signup']);
     }
   
 
