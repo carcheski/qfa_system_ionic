@@ -4,7 +4,10 @@ import { Observable } from "rxjs";
 import { API_CONFIG } from "src/config/api.config";
 import { CidadeDTO } from "src/models/cidade.dto";
 
-@Injectable()
+
+@Injectable({
+    providedIn: 'root'
+  })
 export class CidadeService {
 
     constructor(public http: HttpClient) {

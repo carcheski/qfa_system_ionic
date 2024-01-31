@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NavParams } from '@ionic/angular';
 import { EnderecoDTO } from 'src/models/endereco.dto';
 import { PedidoDTO } from 'src/models/pedido.dto';
 import { CartService } from 'src/services/domain/cart.service';
 import { ClienteService } from 'src/services/domain/cliente.service';
+import { PedidoService } from 'src/services/domain/pedido.service';
 import { StorageService } from 'src/services/storage.service';
 
 @Component({
@@ -35,7 +36,7 @@ export class PickAddressPage implements OnInit {
       .subscribe(params => {
         let cliente_id = params.cliente_id;
         if(cliente_id != null){
-          this.clienteService.find(cliente_id)
+          this.clienteService.findById(cliente_id)
             .subscribe(response => {
               const res = ((response));
               this.items = Object.values(res.enderecos);
@@ -67,7 +68,10 @@ export class PickAddressPage implements OnInit {
 
   nextPage(item: EnderecoDTO) {
     this.pedido.enderecoDeEntrega = {id: item.id};
-    this.router.navigate(['/payment'], { queryParams: {pedido: this.pedido}});
+    const params : NavigationExtras = {
+      state: this.pedido
+    };
+    this.router.navigate(['/payment'], params);
   }
 
 }

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -16,16 +16,27 @@ import { AuthInterceptorProvider } from 'src/interceptors/auth.interceptor';
 import { ClienteService } from 'src/services/domain/cliente.service';
 import { ProdutoService } from 'src/services/domain/produto.service';
 import { CartService } from 'src/services/domain/cart.service';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
 
 
+registerLocaleData(localePt);
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [{ 
-    provide: 
+    provide:
       RouteReuseStrategy, 
       useClass: 
-      IonicRouteStrategy 
+      IonicRouteStrategy
+    },
+    {
+      provide:
+        LOCALE_ID, useValue: 'pt-BR'
+    },
+    {
+      provide: DEFAULT_CURRENCY_CODE,
+      useValue: 'BRL',
     },
     CategoriaService,
     AuthInterceptorProvider,

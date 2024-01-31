@@ -4,7 +4,10 @@ import { Observable } from "rxjs";
 import { API_CONFIG } from "src/config/api.config";
 import { EstadoDTO } from "src/models/estado.dto";
 
-@Injectable()
+
+@Injectable({
+    providedIn: 'root'
+  })
 export class EstadoService {
 
     constructor(public http: HttpClient) {

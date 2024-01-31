@@ -60,11 +60,6 @@ export class CartPage implements OnInit {
     return this.cartService.total();
   }
 
-  mascaraValorTotal() : string {
-    this.vlrTotal = this.cartService.total();
-    return this.cartService.total().toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
-  }
-
   goOn() {
     this.navCtrl.navigateRoot(['/categorias']);
   }

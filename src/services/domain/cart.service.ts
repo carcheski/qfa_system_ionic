@@ -3,7 +3,10 @@ import { StorageService } from "../storage.service";
 import { Cart } from "src/models/cart";
 import { ProdutoDTO } from "src/models/produto.dto";
 
-@Injectable()
+
+@Injectable({
+    providedIn: 'root'
+  })
 export class CartService {
 
     constructor(public storage: StorageService) {

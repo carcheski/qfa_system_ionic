@@ -4,7 +4,10 @@ import { Observable } from "rxjs";
 import { API_CONFIG } from "src/config/api.config";
 import { ProdutoDTO } from "src/models/produto.dto";
 
-@Injectable()
+
+@Injectable({
+  providedIn: 'root'
+})
 export class ProdutoService {
 
   constructor(public http: HttpClient) {

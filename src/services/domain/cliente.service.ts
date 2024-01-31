@@ -5,7 +5,10 @@ import { Observable } from "rxjs";
 import { ClienteDTO } from "src/models/cliente.dto";
 import { API_CONFIG } from "src/config/api.config";
 
-@Injectable()
+
+@Injectable({
+    providedIn: 'root'
+  })
 export class ClienteService {
 
     constructor
@@ -15,11 +18,11 @@ export class ClienteService {
         ) 
         {  }
 
-        findAll() : Observable<ClienteDTO[]>  {
-            return this.http.get<ClienteDTO[]>(`${API_CONFIG.baseUrl}/clientes`);
-        }
+    findAll() : Observable<ClienteDTO[]>  {
+        return this.http.get<ClienteDTO[]>(`${API_CONFIG.baseUrl}/clientes`);
+    }
 
-    find(id_cliente: string) : Observable<ClienteDTO> {
+    findById(id_cliente: string) : Observable<ClienteDTO> {
         return this.http.get<ClienteDTO>(`${API_CONFIG.baseUrl}/clientes/${id_cliente}`);
     }
 
