@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { CartItem } from 'src/models/cart-item';
 import { ClienteDTO } from 'src/models/cliente.dto';
 import { EnderecoDTO } from 'src/models/endereco.dto';
@@ -24,7 +25,9 @@ export class OrderConfirmationPage implements OnInit {
     public router: Router, 
     public route: ActivatedRoute,
     public clienteService: ClienteService,
-    public cartService: CartService) {
+    public cartService: CartService,
+    public pedidoService: PedidoService,
+    public navCtrl: NavController) {
       this.pedido = this.router.getCurrentNavigation()?.extras.state as PedidoDTO;
 
   }
@@ -52,6 +55,23 @@ export class OrderConfirmationPage implements OnInit {
 
   total() : number {
     return this.cartService.total();
-  } 
+  }
+
+  back() {
+    this.navCtrl.navigateRoot(['/cart']);
+  }
+
+  checkout() {
+    this.pedidoService.insert(this.pedido)
+      .subscribe(response => {
+        this.cartService.createOrClearCart();
+        console.log(response.headers.get('location'));
+      },
+      error => {
+        if (error.status == 403) {
+          this.navCtrl.navigateRoot(['/home']);
+        }
+      });
+  }
 
 }

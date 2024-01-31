@@ -69,4 +69,13 @@
       <p>Parcelas: {{pedido.pagamento.numeroDeParcelas}}</p>
     </ion-label>
   </ion-card-content>
+
+  <ion-button expand="block" fill="outline" id="finalizar" (click)="checkout()"> Confirmar pedido
+    <ion-icon slot="end" name="open"></ion-icon>
+  </ion-button>
+
+  <ion-button expand="block" fill="outline" id="finalizar" (click)="back()"> Voltar
+    <ion-icon slot="end" name="open"></ion-icon>
+  </ion-button>
+  
 </ion-content>
