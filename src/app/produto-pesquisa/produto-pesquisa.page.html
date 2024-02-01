@@ -1,0 +1,16 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>ProdutoPesquisa</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-searchbar [debounce]="10000" (ionChange)="handleChange($event)"></ion-searchbar>
+
+<ion-list>
+  <ion-item *ngFor="let result of items">
+    <ion-label>{{ result.nome }}</ion-label>
+  </ion-item>
+</ion-list>
+
+</ion-content>

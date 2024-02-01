@@ -16,6 +16,7 @@ import { CartPage } from '../cart/cart.page';
 export class ProdutosPage implements OnInit {
 
   items : ProdutoDTO[] = [];
+  page : number = 0;
   carrinho = CartPage;
 
   constructor(
@@ -37,15 +38,16 @@ export class ProdutosPage implements OnInit {
         let loader = this.presentLoading();
         let categoria_id = params.categoria_id;
         if(categoria_id != null){
-          this.produtoService.findByCategoria(categoria_id)
+          this.produtoService.findByCategoria(categoria_id, this.page, 10)
           .subscribe (response =>{
             const res = ((response));
             this.items = Object.values(res);
             let start = this.items.length;
             let end = this.items.length - 1;
+            loader.finally();
             this.loadImageUrls(start, end);
           },
-            error => this.onError(error)
+            error => loader.finally()
           );
         }
       }
@@ -64,7 +66,24 @@ export class ProdutosPage implements OnInit {
         },
         error => {});
       })
-  }  
+  } 
+  
+  doRefresh(refresher: any) {
+    this.page = 0;
+    this.items = [];
+    this.carregaProdutos();
+    setTimeout(() => {
+      refresher.complete();
+    }, 1000);
+  }
+
+  doInfinite(infiniteScroll : any) {
+    this.page++;
+    this.carregaProdutos();
+    setTimeout(() => {
+      infiniteScroll.complete();
+    }, 1000);
+  }
 
   onSucess(response: ProdutoDTO[]) {
     console.log("aqui " + response);

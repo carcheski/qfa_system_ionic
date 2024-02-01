@@ -17,9 +17,16 @@ export class ProdutoService {
     return this.http.get<ProdutoDTO>(`${API_CONFIG.baseUrl}/produtos/${produto_id}`);
   }
 
-  findByCategoria(categoria_id : string) : Observable<ProdutoDTO[]>{
-    console.log(categoria_id);
-    return this.http.get<ProdutoDTO[]>(`${API_CONFIG.baseUrl}/produtos?categorias=${categoria_id}`);
+  findAll() : Observable<ProdutoDTO[]>  {
+    return this.http.get<ProdutoDTO[]>(`${API_CONFIG.baseUrl}/produtos/`);
+}
+
+  findByNome(nome : string) : Observable<ProdutoDTO[]>{
+    return this.http.get<ProdutoDTO[]>(`${API_CONFIG.baseUrl}/produtos?nome=${nome}`);
+  }
+
+  findByCategoria(categoria_id : string, page : number = 0, linesPerPage : number = 24) : Observable<ProdutoDTO[]>{
+    return this.http.get<ProdutoDTO[]>(`${API_CONFIG.baseUrl}/produtos?categorias=${categoria_id}&page=${page}&linesPerPage=${linesPerPage}`);
   }
 
   getSmallImageFromBucket(id : string) : Observable<any> {

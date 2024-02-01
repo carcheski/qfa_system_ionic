@@ -58,6 +58,14 @@ const routes: Routes = [
   {
     path: 'order-confirmation',
     loadChildren: () => import('./order-confirmation/order-confirmation.module').then( m => m.OrderConfirmationPageModule)
+  },
+  {
+    path: 'produto-cadastro',
+    loadChildren: () => import('./produto-cadastro/produto-cadastro.module').then( m => m.ProdutoCadastroPageModule)
+  },
+  {
+    path: 'produto-pesquisa',
+    loadChildren: () => import('./produto-pesquisa/produto-pesquisa.module').then( m => m.ProdutoPesquisaPageModule)
   }
 ];
 
