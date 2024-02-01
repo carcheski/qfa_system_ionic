@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NavParams } from '@ionic/angular';
+import { LoadingController, NavParams } from '@ionic/angular';
 import { take } from 'rxjs';
 import { API_CONFIG } from 'src/config/api.config';
 import { ProdutoDTO } from 'src/models/produto.dto';
@@ -22,7 +22,8 @@ export class ProdutosPage implements OnInit {
     public navParams: NavParams,
     public produtoService: ProdutoService,
     public route: ActivatedRoute,
-    public router: Router) { 
+    public router: Router,
+    public loadingCtrl: LoadingController) { 
       
      }
 
@@ -33,6 +34,7 @@ export class ProdutosPage implements OnInit {
     carregaProdutos() {
       this.route.queryParams
       .subscribe(params => {
+        let loader = this.presentLoading();
         let categoria_id = params.categoria_id;
         if(categoria_id != null){
           this.produtoService.findByCategoria(categoria_id)
@@ -80,6 +82,15 @@ export class ProdutosPage implements OnInit {
 
   showCarrinho() {
     this.router.navigate(['/cart']);
+  }
+
+  async presentLoading() {
+    let loader = await this.loadingCtrl.create({
+      message: "Aguarde...",
+      duration: 1000,
+    });
+    loader.present();
+    return loader;
   }
 
 }
