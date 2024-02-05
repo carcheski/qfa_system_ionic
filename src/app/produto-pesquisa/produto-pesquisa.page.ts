@@ -32,6 +32,13 @@ export class ProdutoPesquisaPage implements OnInit {
     this.carregarProdutoEdicao(prodId);
   }
 
+  newProd : ProdutoDTO = {
+    id : "",
+    nome : "",
+    preco : null as any,
+    imageUrl : "" 
+  };
+
   prod : ProdutoDTO = {
     id : "",
     nome : "",
@@ -147,9 +154,12 @@ export class ProdutoPesquisaPage implements OnInit {
   }
 
   cadastrar() {
-    this.produtoService.insert(this.prod)
+    this.produtoService.insert(this.newProd)
     .subscribe(response => {
       this.carregaProdutos();
+      this.newProd.id = ""
+      this.newProd.nome = ""
+      this.newProd.preco = null as any;
     },
     error => {
     });

@@ -34,20 +34,17 @@
   <form [formGroup]="formProduto" id="formProduto">
     <ion-item>
       <ion-label position="stacked" style="font: 20px bold;">Nome</ion-label>
-      <ion-input [(ngModel)]="prod.nome" name="nome" type="text" [clearInput]="true"></ion-input>
+      <ion-input [(ngModel)]="newProd.nome" name="nome" type="text" [clearInput]="true"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="stacked" style="font: 20px bold;">Preço</ion-label>
-      <ion-input [(ngModel)]="prod.preco" name="preco" type="number" placeholder="R$ 00,00" [clearInput]="true"></ion-input>
+      <ion-input [(ngModel)]="newProd.preco" name="preco" type="number" placeholder="R$ 00,00" [clearInput]="true"></ion-input>
     </ion-item>
 
-    <ion-button *ngIf="prod.id === ''" expand="block" color="primary"  id="btnLogar" (click)="cadastrar()">Cadastrar
+    <ion-button expand="block" color="primary"  id="btnLogar" (click)="cadastrar()">Cadastrar
       <ion-icon slot="end" name="open"></ion-icon>
     </ion-button>
 
-    <ion-button *ngIf="prod.id != ''" expand="block" color="warning"  id="btnLogar" (click)="salvar()">Salvar
-      <ion-icon slot="end" name="open"></ion-icon>
-    </ion-button>
   </form>
 </ion-content>
 
