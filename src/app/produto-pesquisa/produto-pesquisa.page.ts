@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { LoadingController, NavParams } from '@ionic/angular';
+import { isEmpty } from 'rxjs';
 import { API_CONFIG } from 'src/config/api.config';
 import { ProdutoDTO } from 'src/models/produto.dto';
 import { ProdutoService } from 'src/services/domain/produto.service';
@@ -11,6 +13,24 @@ import { ProdutoService } from 'src/services/domain/produto.service';
   styleUrls: ['./produto-pesquisa.page.scss'],
 })
 export class ProdutoPesquisaPage implements OnInit {
+
+  tipoTela: number = 1;
+
+  formProduto: FormGroup;
+
+  cadastro()
+  {
+    this.tipoTela = 2;
+    this.formProduto.reset();
+  }
+
+  edicao(produto_id: string)
+  {
+    let prodId = produto_id;
+    console.log(produto_id)
+    this.tipoTela = 3;
+    this.carregarProdutoEdicao(prodId);
+  }
 
   prod : ProdutoDTO = {
     id : "",
@@ -27,14 +47,29 @@ export class ProdutoPesquisaPage implements OnInit {
     public produtoService: ProdutoService,
     public route: ActivatedRoute,
     public router: Router,
+    public formBuilder: FormBuilder,
     public loadingCtrl: LoadingController
-  ) { }
+  ) {
+    let idPedido = this.router.getCurrentNavigation()?.extras.fragment as String;
+    console.log("Aqui 0")
+    if(idPedido != null) {
+      console.log("aqui")
+      this.carregaProdutos();
+    }
+   }
 
   ngOnInit() {
     this.carregaProdutos();
+    this.formProduto = this.formBuilder.group
+      (
+        {
+          name: ['', [Validators.required]]
+        }
+      )
     }
 
     carregaProdutos() {
+      this.tipoTela = 1;
         let loader = this.presentLoading();
           this.produtoService.findAll()
           .subscribe (response =>{
@@ -50,23 +85,43 @@ export class ProdutoPesquisaPage implements OnInit {
   }
 
   loadImageUrls(start: number, end: number) {
-      this.items.map((item) => {
-        let prod = item.id;
-        this.produtoService.getSmallImageFromBucket(prod)
-        .subscribe(response => {
-          item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${prod}-small.jpg`;
-        },
-        error => {});
-      })
-  } 
+    this.items.map((item) => {
+      let prod = item.id;
+      this.produtoService.getSmallImageFromBucket(prod)
+      .subscribe(response => {
+        item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${prod}-small.jpg`;
+      },
+      error => {});
+    })
+} 
+
+  carregarProdutoEdicao(produto_id : String) {
+    console.log("aqui" + produto_id);
+        if(produto_id != null){
+          this.produtoService.findById(produto_id)
+            .subscribe(response => {
+              this.prod = response;
+              this.getImageUrlIfExists();
+            },
+            error => {});
+        };
+  }
+
+  getImageUrlIfExists() {
+    this.produtoService.getImageFromBucket(this.prod.id)
+      .subscribe(response => {
+        this.prod.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${this.prod.id}.jpg`;
+      },
+      error => {});
+  }
 
   handleChange(event: any) {
-    console.log(event)
     const query = event.target.value.toLowerCase();
     this.items = this.items.filter((d) => d.nome.toLowerCase().indexOf(query) > -1);
-    console.log(query);
-    if(query){
-      this.carregaProdutos;
+    console.log(event.target.value);
+    if(event.detail.value == "" || this.items == null){
+      console.log("aqui")
+      this.ngOnInit();
     }
   }
 
@@ -82,5 +137,35 @@ export class ProdutoPesquisaPage implements OnInit {
     loader.present();
     return loader;
   }
+
+  showDetail(produto_id : string) {
+    this.router.navigate(['/produto-cadastro'], { queryParams: {produto_id: produto_id}});
+  }
+
+  addNewProduto() {
+    this.router.navigate(['/produto-cadastro']);
+  }
+
+  cadastrar() {
+    this.produtoService.insert(this.prod)
+    .subscribe(response => {
+      this.carregaProdutos();
+    },
+    error => {
+    });
+  }
+
+
+  salvar() {
+    this.produtoService.salvar(this.prod)
+    .subscribe(response => {
+      this.carregaProdutos();
+    },
+    error => {
+      if (error.status == 403) {
+      }
+    });
+  }
+
 
 }

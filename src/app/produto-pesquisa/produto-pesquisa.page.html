@@ -1,16 +1,74 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>ProdutoPesquisa</ion-title>
+    <ion-title>Pesquisa de Produto</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-searchbar [debounce]="10000" (ionChange)="handleChange($event)"></ion-searchbar>
+<ion-content [fullscreen]="true" *ngIf="tipoTela == 1">
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button shape="round" (click)="cadastro()" ion-fab mini><ion-icon name="add"></ion-icon></ion-fab-button>
+  </ion-fab>
+<ion-searchbar [debounce]="10000" (ionChange)="handleChange($event)" clear-icon="trash-bin"
+               placeholder="Nome"></ion-searchbar>
 
-<ion-list>
-  <ion-item *ngFor="let result of items">
-    <ion-label>{{ result.nome }}</ion-label>
-  </ion-item>
+
+  <ion-list [inset]="true">
+    <ion-item *ngFor="let result of items" [button]="true" (click)="edicao(result.id)">
+        <ion-thumbnail item-start>
+          <img [src]="result.imageUrl || 'assets/imgs/prod.png'">
+        </ion-thumbnail>
+        <ion-card-content>
+          <ion-card-title>
+            {{result?.nome}}
+          </ion-card-title>
+          <p>
+            {{result.preco | currency}}
+          </p>
+        </ion-card-content>
+    </ion-item>
 </ion-list>
 
+</ion-content>
+
+<ion-content [fullscreen]="true" *ngIf="tipoTela == 2">
+  <form [formGroup]="formProduto" id="formProduto">
+    <ion-item>
+      <ion-label position="stacked" style="font: 20px bold;">Nome</ion-label>
+      <ion-input [(ngModel)]="prod.nome" name="nome" type="text" [clearInput]="true"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked" style="font: 20px bold;">Preço</ion-label>
+      <ion-input [(ngModel)]="prod.preco" name="preco" type="number" placeholder="R$ 00,00" [clearInput]="true"></ion-input>
+    </ion-item>
+
+    <ion-button *ngIf="prod.id === ''" expand="block" color="primary"  id="btnLogar" (click)="cadastrar()">Cadastrar
+      <ion-icon slot="end" name="open"></ion-icon>
+    </ion-button>
+
+    <ion-button *ngIf="prod.id != ''" expand="block" color="warning"  id="btnLogar" (click)="salvar()">Salvar
+      <ion-icon slot="end" name="open"></ion-icon>
+    </ion-button>
+  </form>
+</ion-content>
+
+
+<ion-content [fullscreen]="true" *ngIf="tipoTela == 3">
+  <form id="formProduto">
+    <ion-item>
+      <ion-label position="stacked" style="font: 20px bold;">Nome</ion-label>
+      <ion-input [(ngModel)]="prod.nome" name="login" type="text" [clearInput]="true"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked" style="font: 20px bold;">Preço</ion-label>
+      <ion-input [(ngModel)]="prod.preco" name="password" type="number" placeholder="R$ 00,00" [clearInput]="true"></ion-input>
+    </ion-item>
+
+    <ion-button *ngIf="prod.id === ''" expand="block" color="primary"  id="btnLogar" (click)="cadastrar()">Cadastrar
+      <ion-icon slot="end" name="open"></ion-icon>
+    </ion-button>
+
+    <ion-button *ngIf="prod.id != ''" expand="block" color="warning"  id="btnLogar" (click)="salvar()">Salvar
+      <ion-icon slot="end" name="open"></ion-icon>
+    </ion-button>
+  </form>
 </ion-content>

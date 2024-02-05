@@ -10,10 +10,38 @@ import { ProdutoDTO } from "src/models/produto.dto";
 })
 export class ProdutoService {
 
-  constructor(public http: HttpClient) {
+  private produto: ProdutoDTO;
+    constructor(
+        public http: HttpClient
+    ) {
+
+    }
+
+    insert(obj: ProdutoDTO) {
+      console.log(obj)
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/produtos`,
+            obj,
+            {
+                observe: 'response',
+                responseType: 'text'
+            }
+        );
+    }
+
+    salvar(obj: ProdutoDTO) {
+      console.log(obj)
+      return this.http.put(
+          `${API_CONFIG.baseUrl}/produtos/${obj.id}`,
+          obj,
+          {
+              observe: 'response',
+              responseType: 'text'
+          }
+      );
   }
 
-  findById(produto_id : string) {
+  findById(produto_id : String) {
     return this.http.get<ProdutoDTO>(`${API_CONFIG.baseUrl}/produtos/${produto_id}`);
   }
 
@@ -21,8 +49,8 @@ export class ProdutoService {
     return this.http.get<ProdutoDTO[]>(`${API_CONFIG.baseUrl}/produtos/`);
 }
 
-  findByNome(nome : string) : Observable<ProdutoDTO[]>{
-    return this.http.get<ProdutoDTO[]>(`${API_CONFIG.baseUrl}/produtos?nome=${nome}`);
+  findByNome(nome : string) : Observable<ProdutoDTO>{
+    return this.http.get<ProdutoDTO>(`${API_CONFIG.baseUrl}/produtos?nome=${nome}`);
   }
 
   findByCategoria(categoria_id : string, page : number = 0, linesPerPage : number = 24) : Observable<ProdutoDTO[]>{

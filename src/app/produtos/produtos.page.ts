@@ -67,23 +67,7 @@ export class ProdutosPage implements OnInit {
         error => {});
       })
   } 
-  
-  doRefresh(refresher: any) {
-    this.page = 0;
-    this.items = [];
-    this.carregaProdutos();
-    setTimeout(() => {
-      refresher.complete();
-    }, 1000);
-  }
-
-  doInfinite(infiniteScroll : any) {
-    this.page++;
-    this.carregaProdutos();
-    setTimeout(() => {
-      infiniteScroll.complete();
-    }, 1000);
-  }
+ 
 
   onSucess(response: ProdutoDTO[]) {
     console.log("aqui " + response);
