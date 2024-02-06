@@ -4,6 +4,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { LoadingController, NavParams } from '@ionic/angular';
 import { isEmpty } from 'rxjs';
 import { API_CONFIG } from 'src/config/api.config';
+import { CategoriaDTO } from 'src/models/categoria.dto';
 import { ProdutoDTO } from 'src/models/produto.dto';
 import { ProdutoService } from 'src/services/domain/produto.service';
 
@@ -17,6 +18,7 @@ export class ProdutoPesquisaPage implements OnInit {
   tipoTela: number = 1;
 
   formProduto: FormGroup;
+  categorias: CategoriaDTO [] = [];
 
   cadastro()
   {
@@ -36,14 +38,16 @@ export class ProdutoPesquisaPage implements OnInit {
     id : "",
     nome : "",
     preco : null as any,
-    imageUrl : "" 
+    imageUrl : "",
+    categorias : this.categorias
   };
 
   prod : ProdutoDTO = {
     id : "",
     nome : "",
     preco : null as any,
-    imageUrl : "" 
+    imageUrl : "",
+    categorias : this.categorias
   };
 
   items : ProdutoDTO[] = [];
@@ -57,12 +61,7 @@ export class ProdutoPesquisaPage implements OnInit {
     public formBuilder: FormBuilder,
     public loadingCtrl: LoadingController
   ) {
-    let idPedido = this.router.getCurrentNavigation()?.extras.fragment as String;
-    console.log("Aqui 0")
-    if(idPedido != null) {
-      console.log("aqui")
-      this.carregaProdutos();
-    }
+
    }
 
   ngOnInit() {
@@ -75,19 +74,19 @@ export class ProdutoPesquisaPage implements OnInit {
       )
     }
 
-    carregaProdutos() {
-      this.tipoTela = 1;
-        let loader = this.presentLoading();
-          this.produtoService.findAll()
-          .subscribe (response =>{
-            const res = ((response));
-            this.items = Object.values(res);
-            console.log(this.items);
-            let start = this.items.length;
-            let end = this.items.length - 1;
-            loader.finally();
-            this.loadImageUrls(start, end);
-          }
+  carregaProdutos() {
+    this.tipoTela = 1;
+      let loader = this.presentLoading();
+        this.produtoService.findAll()
+        .subscribe (response =>{
+          const res = ((response));
+          this.items = Object.values(res);
+          console.log(this.items);
+          let start = this.items.length;
+          let end = this.items.length - 1;
+          loader.finally();
+          this.loadImageUrls(start, end);
+        }
     );
   }
 

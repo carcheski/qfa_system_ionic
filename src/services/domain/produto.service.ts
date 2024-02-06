@@ -17,22 +17,10 @@ export class ProdutoService {
 
     }
 
-    insert(obj: ProdutoDTO) {
-      console.log(obj)
-        return this.http.post(
-            `${API_CONFIG.baseUrl}/produtos`,
-            obj,
-            {
-                observe: 'response',
-                responseType: 'text'
-            }
-        );
-    }
-
-    salvar(obj: ProdutoDTO) {
-      console.log(obj)
-      return this.http.put(
-          `${API_CONFIG.baseUrl}/produtos/${obj.id}`,
+  insert(obj: ProdutoDTO) {
+    console.log(obj)
+      return this.http.post(
+          `${API_CONFIG.baseUrl}/produtos`,
           obj,
           {
               observe: 'response',
@@ -41,13 +29,25 @@ export class ProdutoService {
       );
   }
 
+  salvar(obj: ProdutoDTO) {
+    console.log(obj)
+    return this.http.put(
+        `${API_CONFIG.baseUrl}/produtos/${obj.id}`,
+        obj,
+        {
+            observe: 'response',
+            responseType: 'text'
+        }
+    );
+  }
+
   findById(produto_id : String) {
     return this.http.get<ProdutoDTO>(`${API_CONFIG.baseUrl}/produtos/${produto_id}`);
   }
 
   findAll() : Observable<ProdutoDTO[]>  {
     return this.http.get<ProdutoDTO[]>(`${API_CONFIG.baseUrl}/produtos/`);
-}
+  }
 
   findByNome(nome : string) : Observable<ProdutoDTO>{
     return this.http.get<ProdutoDTO>(`${API_CONFIG.baseUrl}/produtos?nome=${nome}`);

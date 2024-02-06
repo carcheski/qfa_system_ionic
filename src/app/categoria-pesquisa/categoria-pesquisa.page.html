@@ -1,0 +1,64 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>CategoriaPesquisa</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" *ngIf="tipoTela == 1">
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button shape="round" (click)="cadastro()" ion-fab mini><ion-icon name="add"></ion-icon></ion-fab-button>
+  </ion-fab>
+<ion-searchbar [debounce]="10000" (ionChange)="handleChange($event)" clear-icon="trash-bin"
+               placeholder="Nome"></ion-searchbar>
+  <ion-list>
+    <ion-item *ngFor="let item of items" [button]="true" (click)="edicao(item.id)">
+      <ion-thumbnail item-start>
+        <img src="{{bucketUrl}}/cat{{item.id}}.jpg">
+      </ion-thumbnail>
+      <h2> {{ item.nome }}</h2>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-content [fullscreen]="true" *ngIf="tipoTela == 2">
+  <form [formGroup]="formCategoria" id="formCategoria">
+    <ion-item>
+      <ion-label position="stacked" style="font: 20px bold;">Nome</ion-label>
+      <ion-input [(ngModel)]="newCat.nome" name="nome" type="text" [clearInput]="true"></ion-input>
+    </ion-item>
+
+    <ion-item >
+      <ion-select label="Default label" placeholder="Produto"  [multiple]="true">
+        <ion-select-option *ngFor="let item of produtos">{{ item.nome }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button expand="block" color="primary"  id="btnLogar" (click)="cadastrar()">Cadastrar
+      <ion-icon slot="end" name="open"></ion-icon>
+    </ion-button>
+
+  </form>
+</ion-content>
+
+
+<ion-content [fullscreen]="true" *ngIf="tipoTela == 3">
+  <form id="formCategoria">
+    <ion-item>
+      <ion-label position="stacked" style="font: 20px bold;">Nome</ion-label>
+      <ion-input [(ngModel)]="cat.nome" name="login" type="text" [clearInput]="true"></ion-input>
+    </ion-item>
+
+      <ion-select multiple="true" (ionChange)="handleChange($event)">
+        <div *ngFor="let item of produtos">
+            <ion-select-option value="{{item.id}}">{{item.nome}}</ion-select-option>
+        </div>
+     </ion-select>
+
+
+    <ion-button expand="block" color="warning"  id="btnLogar" (click)="salvar()">Salvar
+      <ion-icon slot="end" name="open"></ion-icon>
+    </ion-button>
+  </form>
+</ion-content>
+
+

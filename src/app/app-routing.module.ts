@@ -62,6 +62,10 @@ const routes: Routes = [
   {
     path: 'produto-pesquisa',
     loadChildren: () => import('./produto-pesquisa/produto-pesquisa.module').then( m => m.ProdutoPesquisaPageModule)
+  },
+  {
+    path: 'categoria-pesquisa',
+    loadChildren: () => import('./categoria-pesquisa/categoria-pesquisa.module').then( m => m.CategoriaPesquisaPageModule)
   }
 ];
 

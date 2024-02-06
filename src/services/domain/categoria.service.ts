@@ -15,6 +15,32 @@ export class CategoriaService {
 
     }
 
+    insert(obj: CategoriaDTO) {
+          return this.http.post(
+              `${API_CONFIG.baseUrl}/categorias`,
+              obj,
+              {
+                  observe: 'response',
+                  responseType: 'text'
+              }
+          );
+      }
+    
+      salvar(obj: CategoriaDTO) {
+        return this.http.put(
+            `${API_CONFIG.baseUrl}/categorias/${obj.id}`,
+            obj,
+            {
+                observe: 'response',
+                responseType: 'text'
+            }
+        );
+      }
+    
+      findById(categoria_id : String) {
+        return this.http.get<CategoriaDTO>(`${API_CONFIG.baseUrl}/categorias/${categoria_id}`);
+      }
+
     findAll() : Observable<CategoriaDTO[]> {
         return this.http.get<CategoriaDTO[]>(`${API_CONFIG.baseUrl}/categorias`);
     }
