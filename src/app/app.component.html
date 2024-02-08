@@ -7,7 +7,7 @@
           <ion-note>QFA Sistemas</ion-note>
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" >
               <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
@@ -19,11 +19,23 @@
             <ion-label style="font-weight: bold;">Cadastros</ion-label>
           </ion-list-header>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPagesCadastro; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" >
               <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
+        </ion-list>
+
+        <ion-list id="labels-list">
+          <ion-list-header>
+            <ion-label style="font-weight: bold;">Configurações</ion-label>
+          </ion-list-header>
+            <ion-menu-toggle auto-hide="false" *ngFor="let p of configuracao; let i = index">
+              <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" >
+                <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+                <ion-label>{{ p.title }}</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
           
           <ion-item lines="none" style="text-align: center;">
             <ion-label style="margin-top: 80px; margin-bottom: 0%; font-weight: bold; font-style: italic;">Help-Desk (67) 9 9120-1543</ion-label>

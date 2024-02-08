@@ -65,6 +65,7 @@ export class ProdutoPesquisaPage implements OnInit {
    }
 
   ngOnInit() {
+    this.reloadComponent();
     this.carregaProdutos();
     this.formProduto = this.formBuilder.group
       (
@@ -72,6 +73,15 @@ export class ProdutoPesquisaPage implements OnInit {
           name: ['', [Validators.required]]
         }
       )
+    }
+
+    reloadComponent() {
+      let currentUrl = this.router.url;
+      console.log(currentUrl);
+      
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+          this.router.navigate([currentUrl]);
     }
 
   carregaProdutos() {

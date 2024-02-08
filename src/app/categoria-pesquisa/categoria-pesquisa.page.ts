@@ -23,7 +23,6 @@ export class CategoriaPesquisaPage implements OnInit {
   cadastro()
   {
     this.tipoTela = 2;
-    this.formProduto.reset();
   }
 
   edicao(cat_id: string)
@@ -67,9 +66,19 @@ export class CategoriaPesquisaPage implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.reloadComponent();
     this.carregarCategorias();
     this.carregaProdutos();
   }
+
+  reloadComponent() {
+    let currentUrl = this.router.url;
+    console.log(currentUrl);
+    
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([currentUrl]);
+    }
 
   carregarCategorias() {
     this.categoriaService.findAll()
@@ -92,8 +101,6 @@ export class CategoriaPesquisaPage implements OnInit {
   }
 
   carregaProdutos() {
-    
-    console.log("carregando lista de produtos");
     this.tipoTela = 1;
         this.produtoService.findAll()
         .subscribe (response =>{
@@ -106,6 +113,15 @@ export class CategoriaPesquisaPage implements OnInit {
     );
 
     console.log(this.produtos);
+  }
+
+  handleChangeCategoria(e: any) {
+    const query = e.target.value.toLowerCase();
+    this.items = this.items.filter((d) => d.nome.toLowerCase().indexOf(query) > -1);
+    console.log(e.target.value);
+    if(e.detail.value == "" || this.items == null){
+      this.ngOnInit();
+    }
   }
 
   handleChange(e: any) {
@@ -128,12 +144,13 @@ export class CategoriaPesquisaPage implements OnInit {
   cadastrar() {
     this.categoriaService.insert(this.newCat)
     .subscribe(response => {
-      this.carregaProdutos();
       this.newCat.id = ""
       this.newCat.nome = ""
     },
     error => {
     });
+    this.tipoTela = 1;
+    this.ngOnInit();
   }
 
 
@@ -153,5 +170,11 @@ export class CategoriaPesquisaPage implements OnInit {
     
   }
 
+  doRefresh(event: any) {
+    console.log("refresh")
+    setTimeout(() => {
+      event.target.complete();
+    }, 1000);
+  }
 
 }

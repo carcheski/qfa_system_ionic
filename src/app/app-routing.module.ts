@@ -66,6 +66,14 @@ const routes: Routes = [
   {
     path: 'categoria-pesquisa',
     loadChildren: () => import('./categoria-pesquisa/categoria-pesquisa.module').then( m => m.CategoriaPesquisaPageModule)
+  },
+  {
+    path: 'cliente-pesquisa',
+    loadChildren: () => import('./cliente-pesquisa/cliente-pesquisa.module').then( m => m.ClientePesquisaPageModule)
+  },
+  {
+    path: 'enderecos',
+    loadChildren: () => import('./enderecos/enderecos.module').then( m => m.EnderecosPageModule)
   }
 ];
 

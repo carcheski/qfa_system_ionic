@@ -37,9 +37,9 @@ export class CategoriaService {
         );
       }
     
-      findById(categoria_id : String) {
-        return this.http.get<CategoriaDTO>(`${API_CONFIG.baseUrl}/categorias/${categoria_id}`);
-      }
+    findById(categoria_id : String) {
+    return this.http.get<CategoriaDTO>(`${API_CONFIG.baseUrl}/categorias/${categoria_id}`);
+    }
 
     findAll() : Observable<CategoriaDTO[]> {
         return this.http.get<CategoriaDTO[]>(`${API_CONFIG.baseUrl}/categorias`);

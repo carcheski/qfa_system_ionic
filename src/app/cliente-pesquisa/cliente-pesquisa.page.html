@@ -3,38 +3,28 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>Pesquisa de Produtos</ion-title>
+    <ion-title>Pesquisa de Clientes</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" *ngIf="tipoTela == 1">
+<ion-content [fullscreen]="true"  *ngIf="tipoTela == 1">
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button shape="round" (click)="cadastro()" ion-fab mini><ion-icon name="add"></ion-icon></ion-fab-button>
   </ion-fab>
-<ion-searchbar [debounce]="10000" (ionChange)="handleChange($event)" clear-icon="trash-bin"
+<ion-searchbar [debounce]="10000" (ionChange)="handleChangeCliente($event)" clear-icon="trash-bin"
                placeholder="Nome"></ion-searchbar>
-
-
-  <ion-list [inset]="true">
-    <ion-item *ngFor="let result of items" [button]="true" (click)="edicao(result.id)">
-        <ion-thumbnail item-start>
-          <img [src]="result.imageUrl || 'assets/imgs/prod.png'">
-        </ion-thumbnail>
-        <ion-card-content>
-          <ion-card-title>
-            {{result?.nome}}
-          </ion-card-title>
-          <p>
-            {{result.preco | currency}}
-          </p>
-        </ion-card-content>
+  <ion-list>
+    <ion-item *ngFor="let item of items" [button]="true" (click)="edicao(item.id)">
+      <ion-thumbnail item-start>
+        <img class="circle" [src]="usuario?.imageUrl || 'assets/imgs/avatar-blank.png'">
+      </ion-thumbnail>
+      <h2> {{ item.nome }}</h2>
     </ion-item>
-</ion-list>
-
+  </ion-list>
 </ion-content>
 
 <ion-content [fullscreen]="true" *ngIf="tipoTela == 2">
-  <form [formGroup]="formProduto" id="formProduto">
+  <form [formGroup]="formCliente" id="formCliente">
     <ion-item>
       <ion-label position="stacked" style="font: 20px bold;">Nome</ion-label>
       <ion-input [(ngModel)]="newProd.nome" name="nome" type="text" [clearInput]="true"></ion-input>
@@ -44,6 +34,12 @@
       <ion-input [(ngModel)]="newProd.preco" name="preco" type="number" placeholder="R$ 00,00" [clearInput]="true"></ion-input>
     </ion-item>
 
+    <ion-select multiple="true" (ionChange)="handleChange($event)">
+      <div *ngFor="let item of enderecos">
+          <ion-select-option value="{{item.id}}">{{item.nome}}</ion-select-option>
+      </div>
+   </ion-select>
+
     <ion-button expand="block" color="primary"  id="btnLogar" (click)="cadastrar()">Cadastrar
       <ion-icon slot="end" name="open"></ion-icon>
     </ion-button>
@@ -51,19 +47,26 @@
   </form>
 </ion-content>
 
-
 <ion-content [fullscreen]="true" *ngIf="tipoTela == 3">
-  <form id="formProduto">
+  <form id="formCliente">
     <ion-item>
       <ion-label position="stacked" style="font: 20px bold;">Nome</ion-label>
-      <ion-input [(ngModel)]="prod.nome" name="login" type="text" [clearInput]="true"></ion-input>
+      <ion-input [(ngModel)]="cli.nome" name="nome" type="text" [clearInput]="true"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="stacked" style="font: 20px bold;">Preço</ion-label>
-      <ion-input [(ngModel)]="prod.preco" name="password" type="number" placeholder="R$ 00,00" [clearInput]="true"></ion-input>
+      <ion-label position="stacked" style="font: 20px bold;">E-mail</ion-label>
+      <ion-input [(ngModel)]="cli.email" name="preco" type="email" [clearInput]="true"></ion-input>
     </ion-item>
-    <ion-button *ngIf="prod.id != ''" expand="block" color="warning"  id="btnLogar" (click)="salvar()">Salvar
+
+    <ion-select multiple="true" (ionChange)="handleChange($event)">
+      <div *ngFor="let item of enderecos">
+          <ion-select-option value="{{item.id}}">{{item.nome}}</ion-select-option>
+      </div>
+   </ion-select>
+
+    <ion-button expand="block" color="warning"  id="btnSalvar" (click)="salvar()">Salvar
       <ion-icon slot="end" name="open"></ion-icon>
     </ion-button>
+
   </form>
 </ion-content>

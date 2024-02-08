@@ -22,7 +22,7 @@ export class ClienteService {
         return this.http.get<ClienteDTO[]>(`${API_CONFIG.baseUrl}/clientes`);
     }
 
-    findById(id_cliente: string) : Observable<ClienteDTO> {
+    findById(id_cliente: String) : Observable<ClienteDTO> {
         return this.http.get<ClienteDTO>(`${API_CONFIG.baseUrl}/clientes/${id_cliente}`);
     }
 
@@ -32,7 +32,7 @@ export class ClienteService {
     }
 
     insert(obj : ClienteDTO) {
-        console.log(obj);
+
         return this.http.post(
             `${API_CONFIG.baseUrl}/clientes`, 
             obj,
@@ -42,4 +42,16 @@ export class ClienteService {
             }
         ); 
     }
+
+    salvar(obj: ClienteDTO) {
+        console.log(obj)
+        return this.http.put(
+            `${API_CONFIG.baseUrl}/clientes/${obj.id}`,
+            obj,
+            {
+                observe: 'response',
+                responseType: 'text'
+            }
+        );
+      }
 }

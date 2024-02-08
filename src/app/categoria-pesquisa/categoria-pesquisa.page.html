@@ -1,6 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>CategoriaPesquisa</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Pesquisa de Categorias</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -8,7 +11,7 @@
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button shape="round" (click)="cadastro()" ion-fab mini><ion-icon name="add"></ion-icon></ion-fab-button>
   </ion-fab>
-<ion-searchbar [debounce]="10000" (ionChange)="handleChange($event)" clear-icon="trash-bin"
+<ion-searchbar [debounce]="10000" (ionChange)="handleChangeCategoria($event)" clear-icon="trash-bin"
                placeholder="Nome"></ion-searchbar>
   <ion-list>
     <ion-item *ngFor="let item of items" [button]="true" (click)="edicao(item.id)">
@@ -27,11 +30,11 @@
       <ion-input [(ngModel)]="newCat.nome" name="nome" type="text" [clearInput]="true"></ion-input>
     </ion-item>
 
-    <ion-item >
-      <ion-select label="Default label" placeholder="Produto"  [multiple]="true">
-        <ion-select-option *ngFor="let item of produtos">{{ item.nome }}</ion-select-option>
-      </ion-select>
-    </ion-item>
+    <ion-select multiple="true" (ionChange)="handleChange($event)">
+      <div *ngFor="let item of produtos">
+          <ion-select-option value="{{item.id}}">{{item.nome}}</ion-select-option>
+      </div>
+   </ion-select>
 
     <ion-button expand="block" color="primary"  id="btnLogar" (click)="cadastrar()">Cadastrar
       <ion-icon slot="end" name="open"></ion-icon>
