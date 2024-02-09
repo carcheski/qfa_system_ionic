@@ -56,6 +56,8 @@ export class ClientePesquisaPage implements OnInit {
   newCli : ClienteDTO = {
     id : "",
     nome : "",
+    tipo : "",
+    cpfOuCnpj : "",
     email : "",
     enderecos : this.enderecosIniciais,
   };
@@ -63,6 +65,8 @@ export class ClientePesquisaPage implements OnInit {
   cli : ClienteDTO = {
     id : "",
     nome : "",
+    tipo : "",
+    cpfOuCnpj : "",
     email : "",
     enderecos : this.enderecosIniciais,
   };
@@ -106,6 +110,15 @@ export class ClientePesquisaPage implements OnInit {
     },
     error => {}
     );
+  }
+
+  handleChangeTipoCliente(e: any) {
+    console.log(e.target.value);
+    if(e.detail.value != ""){
+      this.newCli.tipo = e.target.value;
+      console.log(this.newCli.tipo);
+    }
+    
   }
 
   showEnderecos(cliente_id : ClienteDTO) {
@@ -191,6 +204,18 @@ export class ClientePesquisaPage implements OnInit {
     this.clienteService.salvar(this.cli)
     .subscribe(response => {
       this.carregarClientes();
+    },
+    error => {
+      if (error.status == 403) {
+      }
+    });
+  }
+
+  inserir() {
+    console.log(this.newCli)
+    this.clienteService.insert(this.newCli)
+    .subscribe(response => {
+      this.ngOnInit();
     },
     error => {
       if (error.status == 403) {

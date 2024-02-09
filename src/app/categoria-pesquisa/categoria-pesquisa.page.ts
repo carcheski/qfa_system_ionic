@@ -78,7 +78,7 @@ export class CategoriaPesquisaPage implements OnInit {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = 'reload';
         this.router.navigate([currentUrl]);
-    }
+  }
 
   carregarCategorias() {
     this.categoriaService.findAll()

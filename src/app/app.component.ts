@@ -8,7 +8,7 @@ export class AppComponent {
   public appPages = [
     { title: 'Inicio', url: '/home', icon: 'home' },
     { title: 'Categorias', url: '/categorias', icon: 'albums' },
-    { title: 'Pedido', url: '/cart', icon: 'cart'},
+    { title: 'Pedido', url: '/pedido', icon: 'cart'},
     
   ];
   public appPagesCadastro = [

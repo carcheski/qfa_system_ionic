@@ -31,30 +31,41 @@
     </ion-item>
     <ion-item>
       <ion-label position="stacked" style="font: 20px bold;">E-mail</ion-label>
-      <ion-input [(ngModel)]="newCli.email" name="preco" type="email" [clearInput]="true"></ion-input>
+      <ion-input [(ngModel)]="newCli.email" name="email" type="email" [clearInput]="true"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-select label="Tipo Cliente" placeholder="Selecione" (ionChange)="handleChangeTipoCliente($event);">
+        <ion-select-option value="1">Pessoa Física</ion-select-option>
+        <ion-select-option value="2">Pessoa Jurídica</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked" style="font: 20px bold;" *ngIf="newCli.tipo != 2">CPF</ion-label>
+      <ion-label position="stacked" style="font: 20px bold;" *ngIf="newCli.tipo == 2">CNPJ</ion-label>
+      <ion-input [(ngModel)]="newCli.cpfOuCnpj" name="cpfOuCnpj" type="text" [clearInput]="true"></ion-input>
     </ion-item>
 
     <ion-card color="light">
       <ion-card-title style="font-weight: bold; color: #747474;">Endereço</ion-card-title>
       <ion-item>
         <ion-label position="stacked" style="font: 20px bold;">Logradouro</ion-label>
-        <ion-input [(ngModel)]="endereco.logradouro" name="nome" type="text" [clearInput]="true"></ion-input>
+        <ion-input [(ngModel)]="endereco.logradouro" name="logradouro" type="text" [clearInput]="true"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="stacked" style="font: 20px bold;">Bairro</ion-label>
-        <ion-input [(ngModel)]="endereco.bairro" name="preco" type="email" [clearInput]="true"></ion-input>
+        <ion-input [(ngModel)]="endereco.bairro" name="bairro" type="text" [clearInput]="true"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="stacked" style="font: 20px bold;">Número</ion-label>
-        <ion-input [(ngModel)]="endereco.numero" name="nome" type="text" [clearInput]="true"></ion-input>
+        <ion-input [(ngModel)]="endereco.numero" name="numero" type="text" [clearInput]="true"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="stacked" style="font: 20px bold;">Complemento</ion-label>
-        <ion-input [(ngModel)]="endereco.complemento" name="preco" type="email" [clearInput]="true"></ion-input>
+        <ion-input [(ngModel)]="endereco.complemento" name="complemento" type="text" [clearInput]="true"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="stacked" style="font: 20px bold;">Cep</ion-label>
-        <ion-input [(ngModel)]="endereco.cep" name="preco" type="email" [clearInput]="true"></ion-input>
+        <ion-input [(ngModel)]="endereco.cep" name="cep" type="text" [clearInput]="true"></ion-input>
       </ion-item>
       <ion-item>
           <ion-select label="Estado" placeholder="Selecione"  (ionChange)="handleChangeEstados($event)">
@@ -69,7 +80,7 @@
         </ion-select>
       </ion-item>
 
-      <ion-button expand="block" color="warning"  id="btnSalvar" (click)="salvar()">Salvar
+      <ion-button expand="block" color="primary"  id="btnSalvar" (click)="inserir()">Cadastrar
         <ion-icon slot="end" name="open"></ion-icon>
       </ion-button>
 
