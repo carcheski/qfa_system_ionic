@@ -13,7 +13,11 @@ export class CidadeService {
     constructor(public http: HttpClient) {
     }
 
-    findAll(estado_id : string) : Observable<CidadeDTO[]>  {
+    findCidades(estado_id : string) : Observable<CidadeDTO[]>  {
         return this.http.get<CidadeDTO[]>(`${API_CONFIG.baseUrl}/estados/${estado_id}/cidades`);
+    }
+
+    findById(id_cidade : string){
+        return this.http.get<CidadeDTO>(`${API_CONFIG.baseUrl}/cidades/${id_cidade}`);
     }
 }

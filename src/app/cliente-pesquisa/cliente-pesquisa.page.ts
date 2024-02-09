@@ -5,7 +5,9 @@ import { CidadeDTO } from 'src/models/cidade.dto';
 import { ClienteDTO } from 'src/models/cliente.dto';
 import { EnderecoDTO } from 'src/models/endereco.dto';
 import { EstadoDTO } from 'src/models/estado.dto';
+import { CidadeService } from 'src/services/domain/cidade.service';
 import { ClienteService } from 'src/services/domain/cliente.service';
+import { EstadoService } from 'src/services/domain/estado.service';
 
 @Component({
   selector: 'app-cliente-pesquisa',
@@ -21,7 +23,7 @@ export class ClientePesquisaPage implements OnInit {
   cadastro()
   {
     this.tipoTela = 2;
-    this.formCliente.reset();
+    this.carregarDadosEstado();
   }
 
   edicao(cli_id: string)
@@ -36,15 +38,19 @@ export class ClientePesquisaPage implements OnInit {
   enderecosIniciais : EnderecoDTO[] = [];
   enderecos : EnderecoDTO[] = [];
 
+  cidades : CidadeDTO[] = [];
+  estados : EstadoDTO[] = [];
+
   estado : EstadoDTO = {
     id : "",
-    nome : ""
+    nome : "",
+    uf : "",
   }
 
   cidade : CidadeDTO = {
     id : "",
     nome : "",
-    estado : this.estado
+    estado_id : ""
   };
 
   newCli : ClienteDTO = {
@@ -73,12 +79,25 @@ export class ClientePesquisaPage implements OnInit {
 
   constructor(
     public router: Router,
-    public clienteService: ClienteService
+    public clienteService: ClienteService,
+    public cidadeService: CidadeService,
+    public estadoService: EstadoService
     ) { }
 
   ngOnInit() {
+    this.reloadComponent();
     this.carregarClientes();
   }
+
+  reloadComponent() {
+    let currentUrl = this.router.url;
+    console.log(currentUrl);
+    
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([currentUrl]);
+  }
+
 
   carregarClientes() {
     this.clienteService.findAll()
@@ -104,9 +123,47 @@ export class ClientePesquisaPage implements OnInit {
     }
   }
 
-  handleChange(e: any) {
+  handleChangeEndereco(e: any) {
+    const query = e.target.value;
+    this.enderecos = this.enderecos.filter((d) => d.logradouro.toLowerCase().indexOf(query) > -1);
+    console.log(e.target.value);
+    if(e.detail.value == "" || this.items == null){
+      console.log("aqui")
+      this.ngOnInit();
+    }
     
+  }
+
+  handleChangeCidades(e: any) {
+    console.log(e.target.value);
+    if(e.detail.value == "" || this.items == null){
+      console.log("aqui")
+      this.ngOnInit();
+    }
     
+  }
+
+  handleChangeEstados(e: any) {
+    this.estadoService.findById(e.target.value)
+    .subscribe(response =>{
+      this.estado = response;
+      console.log("aqui")
+      console.log(this.estado)
+    })
+    this.carregarDadosCidade(e.target.value);
+    if(e.detail.value == "" || this.items == null){
+      this.ngOnInit();
+    }
+    
+  }
+
+  carregarDadosCidade(id_estado : string){
+    console.log(id_estado);
+    this.cidadeService.findCidades(id_estado)
+    .subscribe(response =>{
+      console.log(response);
+      this.cidades = response;
+    })
   }
 
   carregarClienteEdicao(cliente_id : String) {
@@ -119,6 +176,15 @@ export class ClientePesquisaPage implements OnInit {
             },
             error => {});
         };
+  }
+
+  carregarDadosEstado() {
+    this.estadoService.findAll()
+    .subscribe(response =>{
+      this.estados = response;
+      console.log(this.estados);
+    })
+
   }
 
   salvar() {

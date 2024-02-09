@@ -23,27 +23,58 @@
   </ion-list>
 </ion-content>
 
-<ion-content [fullscreen]="true" *ngIf="tipoTela == 2">
-  <form [formGroup]="formCliente" id="formCliente">
+<ion-content [fullscreen]="true" *ngIf="tipoTela == 2" class="endereco">
+  <form id="formCliente">
     <ion-item>
       <ion-label position="stacked" style="font: 20px bold;">Nome</ion-label>
-      <ion-input [(ngModel)]="newProd.nome" name="nome" type="text" [clearInput]="true"></ion-input>
+      <ion-input [(ngModel)]="newCli.nome" name="nome" type="text" [clearInput]="true"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="stacked" style="font: 20px bold;">Preço</ion-label>
-      <ion-input [(ngModel)]="newProd.preco" name="preco" type="number" placeholder="R$ 00,00" [clearInput]="true"></ion-input>
+      <ion-label position="stacked" style="font: 20px bold;">E-mail</ion-label>
+      <ion-input [(ngModel)]="newCli.email" name="preco" type="email" [clearInput]="true"></ion-input>
     </ion-item>
 
-    <ion-select multiple="true" (ionChange)="handleChange($event)">
-      <div *ngFor="let item of enderecos">
-          <ion-select-option value="{{item.id}}">{{item.nome}}</ion-select-option>
-      </div>
-   </ion-select>
+    <ion-card color="light">
+      <ion-card-title style="font-weight: bold; color: #747474;">Endereço</ion-card-title>
+      <ion-item>
+        <ion-label position="stacked" style="font: 20px bold;">Logradouro</ion-label>
+        <ion-input [(ngModel)]="endereco.logradouro" name="nome" type="text" [clearInput]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked" style="font: 20px bold;">Bairro</ion-label>
+        <ion-input [(ngModel)]="endereco.bairro" name="preco" type="email" [clearInput]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked" style="font: 20px bold;">Número</ion-label>
+        <ion-input [(ngModel)]="endereco.numero" name="nome" type="text" [clearInput]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked" style="font: 20px bold;">Complemento</ion-label>
+        <ion-input [(ngModel)]="endereco.complemento" name="preco" type="email" [clearInput]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked" style="font: 20px bold;">Cep</ion-label>
+        <ion-input [(ngModel)]="endereco.cep" name="preco" type="email" [clearInput]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-select label="Estado" placeholder="Selecione"  (ionChange)="handleChangeEstados($event)">
+              <ion-select-option *ngFor="let item of estados" value="{{item.id}}">{{item.uf}}</ion-select-option>
+          </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-select label="Cidade" placeholder="Selecione" (ionChange)="handleChangeCidades($event)">
+          <div *ngFor="let item of cidades">
+              <ion-select-option value="{{item.id}}">{{item.nome}}</ion-select-option>
+          </div>
+        </ion-select>
+      </ion-item>
 
-    <ion-button expand="block" color="primary"  id="btnLogar" (click)="cadastrar()">Cadastrar
-      <ion-icon slot="end" name="open"></ion-icon>
-    </ion-button>
+      <ion-button expand="block" color="warning"  id="btnSalvar" (click)="salvar()">Salvar
+        <ion-icon slot="end" name="open"></ion-icon>
+      </ion-button>
 
+    </ion-card>
+    
   </form>
 </ion-content>
 
@@ -58,7 +89,7 @@
       <ion-input [(ngModel)]="cli.email" name="preco" type="email" [clearInput]="true"></ion-input>
     </ion-item>
 
-    <ion-select multiple="true" (ionChange)="handleChange($event)">
+    <ion-select multiple="true" (ionChange)="handleChangeEndereco($event)">
       <div *ngFor="let item of enderecos">
           <ion-select-option value="{{item.id}}">{{item.nome}}</ion-select-option>
       </div>

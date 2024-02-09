@@ -74,6 +74,10 @@ const routes: Routes = [
   {
     path: 'enderecos',
     loadChildren: () => import('./enderecos/enderecos.module').then( m => m.EnderecosPageModule)
+  },
+  {
+    path: 'pedido',
+    loadChildren: () => import('./pedido/pedido.module').then( m => m.PedidoPageModule)
   }
 ];
 

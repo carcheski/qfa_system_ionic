@@ -16,4 +16,8 @@ export class EstadoService {
     findAll() : Observable<EstadoDTO[]>  {
         return this.http.get<EstadoDTO[]>(`${API_CONFIG.baseUrl}/estados`);
     }
+
+    findById(id_estado : string) : Observable<EstadoDTO>{
+        return this.http.get<EstadoDTO>(`${API_CONFIG.baseUrl}/estados/${id_estado}`);
+    }
 }
