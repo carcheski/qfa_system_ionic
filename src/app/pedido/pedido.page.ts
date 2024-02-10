@@ -11,6 +11,7 @@ import { ProdutoDTO } from 'src/models/produto.dto';
 import { CartService } from 'src/services/domain/cart.service';
 import { CategoriaService } from 'src/services/domain/categoria.service';
 import { ClienteService } from 'src/services/domain/cliente.service';
+import { EnderecoService } from 'src/services/domain/endereco.service';
 import { PedidoService } from 'src/services/domain/pedido.service';
 import { ProdutoService } from 'src/services/domain/produto.service';
 
@@ -38,10 +39,12 @@ export class PedidoPage implements OnInit {
 
   //Tela de Clientes
   clientes: ClienteDTO[] = [];
+  clienteSelecionado: ClienteDTO;
 
   //Tela de Enderecos
   enderecos : EnderecoDTO[] = [];
   pedido: PedidoDTO;
+  enderecoSelecionado: EnderecoDTO;
 
   //Tela de Pagamento
   parcelas: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -63,7 +66,8 @@ export class PedidoPage implements OnInit {
     public clienteService: ClienteService,
     public formBuilder: FormBuilder,
     public pedidoService: PedidoService,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    public enderecoService: EnderecoService,
   ) { }
 
   ngOnInit() {
@@ -71,6 +75,7 @@ export class PedidoPage implements OnInit {
   }
 
   carregarCategorias() {
+    this.tipoTela = 1;
     this.categoriaService.findAll()
     .subscribe(response => {
       this.categorias = response;
@@ -129,6 +134,7 @@ export class PedidoPage implements OnInit {
   carregarPedido() {
     let cart = this.cartService.getCart();
     this.carrinho = cart.items;
+    this.cartItems = cart.items;
     this.loadImageCarrinho();
   }
 
@@ -173,6 +179,7 @@ export class PedidoPage implements OnInit {
     this.clienteService.findAll()
     .subscribe(response => {
       this.clientes = response;
+      console.log(this.clientes)
     },
     error => {}
     );
@@ -180,7 +187,8 @@ export class PedidoPage implements OnInit {
 
   showEnderecos(cliente_id : string) {
     this.tipoTela = 5;
-    this.carregaEnderecos(cliente_id); 
+    console.log(cliente_id)
+    this.carregaEnderecos(cliente_id);
   }
 
   carregaEnderecos(cliente_id : string) {
@@ -189,6 +197,7 @@ export class PedidoPage implements OnInit {
       this.clienteService.findById(cliente_id)
         .subscribe(response => {
           const res = ((response));
+          this.clienteSelecionado = res;
           this.enderecos = Object.values(res.enderecos);
 
           let cart = this.cartService.getCart();
@@ -211,6 +220,10 @@ export class PedidoPage implements OnInit {
   }
 
   nextPage(item: EnderecoDTO) {
+    this.enderecoService.findById(item.id)
+    .subscribe(resource =>{
+      this.enderecoSelecionado = resource;
+    });
     this.pedido.enderecoDeEntrega = {id: item.id};
     this.tipoTela = 6;
     this.carregarTelaPagamento();
@@ -219,11 +232,15 @@ export class PedidoPage implements OnInit {
   carregarTelaPagamento() {
       this.formPagamento = this.formBuilder.group({
         numeroDeParcelas: [1, Validators.required],
-        "@type": ["pagamentoComCartao", Validators.required]
+        "@type": ["pagamentoComDebito", Validators.required]
       });
   }
 
   confirmarPedido() {
+    //console.log(this.cartItems); ok
+    //console.log(this.clienteSelecionado); ok
+    //console.log(this.enderecoSelecionado); ok
+    //console.log(this.formPagamento.value); ok
     this.pedido.pagamento = this.formPagamento.value;
     this.tipoTela = 7;
   }
@@ -242,6 +259,9 @@ export class PedidoPage implements OnInit {
   }
 
   fecharPedido() {
+    this.pedido.itens = this.cartItems;
+    this.pedido.cliente = this.clienteSelecionado;
+    this.pedido.enderecoDeEntrega = this.enderecoSelecionado;
     this.pedidoService.insert(this.pedido)
       .subscribe(response => {
         this.cartService.createOrClearCart();

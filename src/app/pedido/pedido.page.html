@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" *ngIf="tipoTela == 1">
   <ion-toolbar>
     <ion-title>Categoria do Pedido</ion-title>
   </ion-toolbar>
@@ -17,6 +17,16 @@
   </ion-list>
 </ion-content>
 
+<ion-header [translucent]="true" *ngIf="tipoTela == 2">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" type="button" (click)="ngOnInit()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Produtos</ion-title>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content [fullscreen]="true" *ngIf="tipoTela == 2">
   <ion-list [inset]="true">
@@ -36,7 +46,11 @@
   </ion-list>
 </ion-content>
 
-
+<ion-header [translucent]="true" *ngIf="tipoTela == 3">
+  <ion-toolbar>
+    <ion-title>Lista do Pedido</ion-title>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content [fullscreen]="true" *ngIf="tipoTela == 3">
   <ion-list [inset]="true">
@@ -67,8 +81,13 @@
   </ion-list>
   <ion-button expand="block" (click)="goOn()">Continuar comprando</ion-button>
   <ion-button *ngIf="total() > 0" color="success" expand="block" (click)="checkout()">Finalizar pedido</ion-button>
-   
 </ion-content>
+
+<ion-header [translucent]="true" *ngIf="tipoTela == 4">
+  <ion-toolbar>
+    <ion-title>Clientes</ion-title>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content [fullscreen]="true" *ngIf="tipoTela == 4">
   <ion-list>
@@ -81,7 +100,13 @@
   </ion-list>
 </ion-content>
 
-<ion-content [fullscreen]="true" *ngIf="tipoTela == 4">
+<ion-header [translucent]="true" *ngIf="tipoTela == 5">
+  <ion-toolbar>
+    <ion-title>Endereços do Cliente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" *ngIf="tipoTela == 5">
   <ion-list>
     <ion-item *ngFor="let item of enderecos" [button]="true"  (click)="nextPage(item)">
       <ion-label>
@@ -93,31 +118,46 @@
   </ion-list>
 </ion-content>
 
-<ion-content [fullscreen]="true" *ngIf="tipoTela == 5">
-  <form [formGroup]="formGroup" (ngSubmit)="nextPage(); $event.preventDefault()">
+<ion-header [translucent]="true" *ngIf="tipoTela == 6">
+  <ion-toolbar>
+    <ion-title>Formas de Pagamento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" *ngIf="tipoTela == 6">
+  <form [formGroup]="formPagamento" (ngSubmit)="confirmarPedido(); $event.preventDefault()">
     <ion-radio-group formControlName="@type">
       <ion-item>
-        <ion-label>Pagamento com cartão</ion-label>
-        <ion-radio checked="true" value="debito"></ion-radio>
-        <ion-radio checked="true" value="credito"></ion-radio>
+        <ion-label>Débito</ion-label>
+        <ion-radio checked="true" value="pagamentoComDebito"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Crédito</ion-label>
+        <ion-radio checked="true" value="pagamentoComCredito"></ion-radio>
       </ion-item>
       <ion-item>
         <ion-label>Marcar na Conta</ion-label>
-        <ion-radio value="conta"></ion-radio>
+        <ion-radio checked="true" value="marcarConta"></ion-radio>
       </ion-item>
     </ion-radio-group>
 
-    <ion-item *ngIf="formGroup.value['@type'] == 'credito'">
+    <ion-item *ngIf="formPagamento.value['@type'] == 'pagamentoComCredito'">
       <ion-label stacked>Parcelas no boleto</ion-label>
       <ion-select formControlName="numeroDeParcelas">
         <ion-select-option *ngFor="let n of parcelas; first as f" [value]="n" [selected]="f">{{n}}</ion-select-option>
       </ion-select>
     </ion-item>
-    <ion-button expand="block" type="submit" [disabled]="formGroup.invalid">Próximo</ion-button>
+    <ion-button expand="block" type="submit" [disabled]="formPagamento.invalid">Próximo</ion-button>
   </form>
 </ion-content>
 
-<ion-content [fullscreen]="true" *ngIf="tipoTela == 6">
+<ion-header [translucent]="true" *ngIf="tipoTela == 7">
+  <ion-toolbar>
+    <ion-title>Pedido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" *ngIf="tipoTela == 7 && !cod_pedido">
   <div *ngIf="!codpedido">
     <ion-card>
       <ion-card-header style="text-align: center; font-weight: bold;font-size: 20px;">
@@ -151,8 +191,8 @@
         <ion-card-title>
           Cliente
         </ion-card-title>
-          <h1>{{cliente?.nome}}</h1>
-          <ion-label>{{cliente?.email}}</ion-label>
+          <h1>{{clienteSelecionado?.nome}}</h1>
+          <ion-label>{{clienteSelecionado?.email}}</ion-label>
     </ion-card-content>
 
     <ion-card-content>
@@ -161,9 +201,9 @@
       </ion-card-title>
 
       <ion-label>
-        <h1>{{endereco?.logradouro}}, {{endereco?.numero}}</h1>
-        <p>{{endereco?.complemento}} {{endereco?.bairro}} CEP {{endereco?.cep}}</p>
-        <p>{{endereco?.cidade.nome}}, {{endereco?.cidade.estado.nome}}</p>
+        <h1>{{enderecoSelecionado?.logradouro}}, {{enderecoSelecionado?.numero}}</h1>
+        <p>{{enderecoSelecionado?.complemento}} {{enderecoSelecionado?.bairro}} CEP {{enderecoSelecionado?.cep}}</p>
+        <p>{{enderecoSelecionado?.cidade.nome}}, {{enderecoSelecionado?.cidade.estado.nome}}</p>
       </ion-label>
     </ion-card-content>
 
@@ -172,16 +212,19 @@
         Forma de pagamento
       </ion-card-title>
 
-      <ion-label *ngIf="pedido.pagamento['@type']==='pagamentoComCartao'">
-        <h1>Pagamento com cartão</h1>
+      <ion-label *ngIf="pedido.pagamento['@type']==='pagamentoComDebito'">
+        <h1>Débito</h1>
       </ion-label>
-      <ion-label *ngIf="pedido.pagamento['@type']==='pagamentoComBoleto'">
-        <h1>Pagamento com boleto</h1>
+      <ion-label *ngIf="pedido.pagamento['@type']==='pagamentoComCredito'">
+        <h1>Crédito</h1>
         <p>Parcelas: {{pedido.pagamento.numeroDeParcelas}}</p>
+      </ion-label>
+      <ion-label *ngIf="pedido.pagamento['@type']==='conta'">
+        <h1>Na conta</h1>
       </ion-label>
     </ion-card-content>
 
-    <ion-button color="success" expand="block"  id="finalizar" (click)="checkout()"> Confirmar pedido
+    <ion-button color="success" expand="block"  id="finalizar" (click)="fecharPedido()"> Confirmar pedido
       <ion-icon slot="end" name="open"></ion-icon>
     </ion-button>
 
@@ -191,13 +234,13 @@
 
   </div>
 
-  <div *ngIf="codpedido">
+  <div *ngIf="cod_pedido">
     <ion-card>
         <ion-card-header>
           Seu pedido foi registrado!
         </ion-card-header>
         <ion-item>
-          <h2>Código do pedido: {{codpedido}}</h2>
+          <h2>Código do pedido: {{cod_pedido}}</h2>
         </ion-item>
     </ion-card>
 

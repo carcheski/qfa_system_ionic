@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CidadeDTO } from 'src/models/cidade.dto';
 import { ClienteDTO } from 'src/models/cliente.dto';
@@ -7,6 +7,7 @@ import { EnderecoDTO } from 'src/models/endereco.dto';
 import { EstadoDTO } from 'src/models/estado.dto';
 import { CidadeService } from 'src/services/domain/cidade.service';
 import { ClienteService } from 'src/services/domain/cliente.service';
+import { EnderecoService } from 'src/services/domain/endereco.service';
 import { EstadoService } from 'src/services/domain/estado.service';
 
 @Component({
@@ -17,8 +18,8 @@ import { EstadoService } from 'src/services/domain/estado.service';
 export class ClientePesquisaPage implements OnInit {
 
   tipoTela: number = 1;
-
   formCliente: FormGroup;
+  formEdit: FormGroup;
 
   cadastro()
   {
@@ -50,7 +51,8 @@ export class ClientePesquisaPage implements OnInit {
   cidade : CidadeDTO = {
     id : "",
     nome : "",
-    estado_id : ""
+    estado_id : "",
+    estado : this.estado,
   };
 
   newCli : ClienteDTO = {
@@ -85,7 +87,9 @@ export class ClientePesquisaPage implements OnInit {
     public router: Router,
     public clienteService: ClienteService,
     public cidadeService: CidadeService,
-    public estadoService: EstadoService
+    public estadoService: EstadoService,
+    public enderecoService: EnderecoService,
+    public formBuilder: FormBuilder
     ) { }
 
   ngOnInit() {
@@ -104,6 +108,7 @@ export class ClientePesquisaPage implements OnInit {
 
 
   carregarClientes() {
+    this.tipoTela = 1;
     this.clienteService.findAll()
     .subscribe(response => {
       this.items = response;
@@ -137,17 +142,43 @@ export class ClientePesquisaPage implements OnInit {
   }
 
   handleChangeEndereco(e: any) {
-    const query = e.target.value;
-    this.enderecos = this.enderecos.filter((d) => d.logradouro.toLowerCase().indexOf(query) > -1);
-    console.log(e.target.value);
-    if(e.detail.value == "" || this.items == null){
-      console.log("aqui")
-      this.ngOnInit();
-    }
-    
+    this.enderecoService.findById(e.target.value)
+    .subscribe(response =>{
+      this.endereco = response;
+      this.carregarComboEdicaoCidade();
+    })
+  }
+
+  carregarComboEdicaoCidade(){
+    this.cidadeService.findById(this.endereco.cidade.id)
+    .subscribe(response =>{
+      this.cidade = response;
+      this.carregarComboEdicaoEstado();
+    })
+  }
+
+  carregarComboEdicaoEstado(){
+    this.estadoService.findById(this.cidade.estado.id)
+    .subscribe(res =>{
+      this.estado = res;
+    })
+      let idCidade = this.endereco.cidade.id;
+      let id = this.cidade.estado.id;
+      console.log(this.cidade.estado.id);
+      this.formEdit = this.formBuilder.group({
+        estadoIdEditado: [id, Validators.required],
+        cidadeIdEditado: [idCidade, Validators.required],
+      });
+      this.carregarDadosCidade(this.cidade.estado.id);
   }
 
   handleChangeCidades(e: any) {
+    this.cidadeService.findById(e.target.value)
+    .subscribe(response =>{
+      this.endereco.cidade = response;
+      this.newCli.enderecos.push(this.endereco);
+      console.log(this.newCli);
+    });
     console.log(e.target.value);
     if(e.detail.value == "" || this.items == null){
       console.log("aqui")
@@ -160,14 +191,45 @@ export class ClientePesquisaPage implements OnInit {
     this.estadoService.findById(e.target.value)
     .subscribe(response =>{
       this.estado = response;
-      console.log("aqui")
-      console.log(this.estado)
     })
     this.carregarDadosCidade(e.target.value);
     if(e.detail.value == "" || this.items == null){
       this.ngOnInit();
     }
     
+  }
+
+  carregarClienteEdicao(cliente_id : String) {
+    console.log("aqui" + cliente_id);
+        if(cliente_id != null){
+          this.clienteService.findById(cliente_id)
+            .subscribe(response => {
+              this.cli = response;
+              this.carregarEnderecos();
+              console.log(this.endereco.id);
+            },
+            error => {});
+        };
+  }
+
+  carregarEnderecos(){
+    if(this.cli.id != null){
+      this.clienteService.findById(this.cli.id)
+        .subscribe(response => {
+          const res = ((response));
+          this.enderecos = Object.values(res.enderecos);
+
+        },
+        error => this.onError(error)
+      );
+    }
+    if(this.enderecos = []){
+      this.carregarDadosEstado();
+    }
+  }
+
+  onError(error: any) {
+    console.log('Erro ao carregar os Endereços');
   }
 
   carregarDadosCidade(id_estado : string){
@@ -177,18 +239,6 @@ export class ClientePesquisaPage implements OnInit {
       console.log(response);
       this.cidades = response;
     })
-  }
-
-  carregarClienteEdicao(cliente_id : String) {
-    console.log("aqui" + cliente_id);
-        if(cliente_id != null){
-          this.clienteService.findById(cliente_id)
-            .subscribe(response => {
-              this.cli = response;
-              //this.getImageUrlIfExists();
-            },
-            error => {});
-        };
   }
 
   carregarDadosEstado() {
@@ -215,6 +265,7 @@ export class ClientePesquisaPage implements OnInit {
     console.log(this.newCli)
     this.clienteService.insert(this.newCli)
     .subscribe(response => {
+      this.tipoTela = 1;
       this.ngOnInit();
     },
     error => {

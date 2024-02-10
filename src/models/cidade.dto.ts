@@ -4,4 +4,5 @@ export interface CidadeDTO {
     id : string;
     nome : string;
     estado_id : string;
+    estado : EstadoDTO;
 }

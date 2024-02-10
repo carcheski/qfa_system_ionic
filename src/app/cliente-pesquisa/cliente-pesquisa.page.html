@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" *ngIf="tipoTela == 1">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
@@ -11,8 +11,8 @@
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button shape="round" (click)="cadastro()" ion-fab mini><ion-icon name="add"></ion-icon></ion-fab-button>
   </ion-fab>
-<ion-searchbar [debounce]="10000" (ionChange)="handleChangeCliente($event)" clear-icon="trash-bin"
-               placeholder="Nome"></ion-searchbar>
+  <ion-searchbar [debounce]="10000" (ionChange)="handleChangeCliente($event)" clear-icon="trash-bin"
+                placeholder="Nome"></ion-searchbar>
   <ion-list>
     <ion-item *ngFor="let item of items" [button]="true" (click)="edicao(item.id)">
       <ion-thumbnail item-start>
@@ -23,15 +23,24 @@
   </ion-list>
 </ion-content>
 
+<ion-header [translucent]="true" *ngIf="tipoTela == 2">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" type="button" (click)="ngOnInit()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Cadastro de Cliente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [fullscreen]="true" *ngIf="tipoTela == 2" class="endereco">
   <form id="formCliente">
     <ion-item>
-      <ion-label position="stacked" style="font: 20px bold;">Nome</ion-label>
-      <ion-input [(ngModel)]="newCli.nome" name="nome" type="text" [clearInput]="true"></ion-input>
+      <ion-input label="Nome" [(ngModel)]="newCli.nome" name="nome" type="text" [clearInput]="true"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="stacked" style="font: 20px bold;">E-mail</ion-label>
-      <ion-input [(ngModel)]="newCli.email" name="email" type="email" [clearInput]="true"></ion-input>
+      <ion-input label="E-mail" [(ngModel)]="newCli.email" name="email" type="email" [clearInput]="true"></ion-input>
     </ion-item>
     <ion-item>
       <ion-select label="Tipo Cliente" placeholder="Selecione" (ionChange)="handleChangeTipoCliente($event);">
@@ -48,24 +57,19 @@
     <ion-card color="light">
       <ion-card-title style="font-weight: bold; color: #747474;">Endereço</ion-card-title>
       <ion-item>
-        <ion-label position="stacked" style="font: 20px bold;">Logradouro</ion-label>
-        <ion-input [(ngModel)]="endereco.logradouro" name="logradouro" type="text" [clearInput]="true"></ion-input>
+        <ion-input label="Logradouro" [(ngModel)]="endereco.logradouro" name="logradouro" type="text" [clearInput]="true"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked" style="font: 20px bold;">Bairro</ion-label>
-        <ion-input [(ngModel)]="endereco.bairro" name="bairro" type="text" [clearInput]="true"></ion-input>
+        <ion-input label="Bairro" [(ngModel)]="endereco.bairro" name="bairro" type="text" [clearInput]="true"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked" style="font: 20px bold;">Número</ion-label>
-        <ion-input [(ngModel)]="endereco.numero" name="numero" type="text" [clearInput]="true"></ion-input>
+        <ion-input label="Número" [(ngModel)]="endereco.numero" name="numero" type="text" [clearInput]="true"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked" style="font: 20px bold;">Complemento</ion-label>
-        <ion-input [(ngModel)]="endereco.complemento" name="complemento" type="text" [clearInput]="true"></ion-input>
+        <ion-input label="Complemento" [(ngModel)]="endereco.complemento" name="complemento" type="text" [clearInput]="true"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked" style="font: 20px bold;">Cep</ion-label>
-        <ion-input [(ngModel)]="endereco.cep" name="cep" type="text" [clearInput]="true"></ion-input>
+        <ion-input label="Cep" [(ngModel)]="endereco.cep" name="cep" type="text" [clearInput]="true"></ion-input>
       </ion-item>
       <ion-item>
           <ion-select label="Estado" placeholder="Selecione"  (ionChange)="handleChangeEstados($event)">
@@ -89,22 +93,65 @@
   </form>
 </ion-content>
 
+<ion-header [translucent]="true" *ngIf="tipoTela == 3">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" type="button" (click)="ngOnInit()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Alteração de Cliente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [fullscreen]="true" *ngIf="tipoTela == 3">
-  <form id="formCliente">
+  <form>
     <ion-item>
-      <ion-label position="stacked" style="font: 20px bold;">Nome</ion-label>
-      <ion-input [(ngModel)]="cli.nome" name="nome" type="text" [clearInput]="true"></ion-input>
+      <ion-input label="Nome" [(ngModel)]="cli.nome" name="nome" type="text" [clearInput]="true"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="stacked" style="font: 20px bold;">E-mail</ion-label>
-      <ion-input [(ngModel)]="cli.email" name="preco" type="email" [clearInput]="true"></ion-input>
+      <ion-input label="E-mail" [(ngModel)]="cli.email" name="email" type="email" [clearInput]="true"></ion-input>
     </ion-item>
 
-    <ion-select multiple="true" (ionChange)="handleChangeEndereco($event)">
-      <div *ngFor="let item of enderecos">
-          <ion-select-option value="{{item.id}}">{{item.nome}}</ion-select-option>
-      </div>
-   </ion-select>
+    <ion-item  *ngIf="enderecos != []">
+      <ion-select label="Endereços" placeholder="Selecione"  (ionChange)="handleChangeEndereco($event)">
+          <ion-select-option *ngFor="let item of enderecos" value="{{item.id}}">{{item.logradouro}}</ion-select-option>
+      </ion-select>
+  </ion-item>
+
+   <ion-card color="light" *ngIf="enderecos == [] || endereco.id != ''">
+    <ion-card-title style="font-weight: bold; color: #747474;">Endereço</ion-card-title>
+    <ion-item>
+      <ion-input label="Logradouro" [(ngModel)]="endereco.logradouro" name="logradouro" type="text" [clearInput]="true"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Bairro" [(ngModel)]="endereco.bairro" name="bairro" type="text" [clearInput]="true"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Número" [(ngModel)]="endereco.numero" name="numero" type="text" [clearInput]="true"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Complemento" [(ngModel)]="endereco.complemento" name="complemento" type="text" [clearInput]="true"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Cep" [(ngModel)]="endereco.cep" name="cep" type="text" [clearInput]="true"></ion-input>
+    </ion-item>
+    <div [formGroup]="formEdit" *ngIf="formEdit" >
+      <ion-item>
+        <ion-select formControlName="estadoIdEditado" label="Estado" placeholder="Selecione" (ionChange)="handleChangeEstados($event)">
+            <ion-select-option *ngFor="let estado of estados" [value]="estado.id">{{estado.uf}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-select formControlName="cidadeIdEditado" label="Cidade" placeholder="Selecione" (ionChange)="handleChangeCidades($event)">
+          <div *ngFor="let item of cidades">
+              <ion-select-option [value]="item.id">{{item.nome}}</ion-select-option>
+          </div>
+        </ion-select>
+      </ion-item>
+    </div>
+
+  </ion-card>
 
     <ion-button expand="block" color="warning"  id="btnSalvar" (click)="salvar()">Salvar
       <ion-icon slot="end" name="open"></ion-icon>
