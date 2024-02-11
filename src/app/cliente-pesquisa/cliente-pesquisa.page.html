@@ -7,21 +7,46 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true"  *ngIf="tipoTela == 1">
+<ion-content [fullscreen]="true"  *ngIf="tipoTela == 1" class="ion-page">
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button shape="round" (click)="cadastro()" ion-fab mini><ion-icon name="add"></ion-icon></ion-fab-button>
   </ion-fab>
   <ion-searchbar [debounce]="10000" (ionChange)="handleChangeCliente($event)" clear-icon="trash-bin"
                 placeholder="Nome"></ion-searchbar>
   <ion-list>
-    <ion-item *ngFor="let item of items" [button]="true" (click)="edicao(item.id)">
+    <ion-item *ngFor="let item of items" [button]="true" (click)="edicao(item.id)" >
       <ion-thumbnail item-start>
-        <img class="circle" [src]="usuario?.imageUrl || 'assets/imgs/avatar-blank.png'">
+        <img *ngIf="item.tipo == 'PESSOAFISICA' || item.tipo == 'PESSOAJURIDICA'" class="circle" [src]="usuario?.imageUrl || 'assets/imgs/avatar-blank.png'">
+        <img *ngIf="item.tipo == 'MESA'" class="circle" [src]="'assets/imgs/mesa.jpg'">
       </ion-thumbnail>
       <h2> {{ item.nome }}</h2>
     </ion-item>
   </ion-list>
 </ion-content>
+
+<ion-modal [isOpen]="isModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Modal</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="setOpen(false)">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <p class="ion-padding-horizontal">You must accept the terms and conditions to close this modal.</p>
+      <ion-item>
+        <ion-checkbox id="terms" (ionChange)="checkPessoa($event)" [checked]="canDismiss">
+          <div class="ion-text-wrap">Pessoa</div>
+        </ion-checkbox>
+        <ion-checkbox id="terms" (ionChange)="checkMesa($event)" [checked]="canDismiss">
+          <div class="ion-text-wrap">Mesa</div>
+        </ion-checkbox>
+      </ion-item>
+    </ion-content>
+  </ng-template>
+</ion-modal>
 
 <ion-header [translucent]="true" *ngIf="tipoTela == 2">
   <ion-toolbar>
@@ -39,22 +64,22 @@
     <ion-item>
       <ion-input label="Nome" [(ngModel)]="newCli.nome" name="nome" type="text" [clearInput]="true"></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="pessoa">
       <ion-input label="E-mail" [(ngModel)]="newCli.email" name="email" type="email" [clearInput]="true"></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="pessoa">
       <ion-select label="Tipo Cliente" placeholder="Selecione" (ionChange)="handleChangeTipoCliente($event);">
         <ion-select-option value="1">Pessoa Física</ion-select-option>
         <ion-select-option value="2">Pessoa Jurídica</ion-select-option>
       </ion-select>
     </ion-item>
-    <ion-item>
+    <ion-item  *ngIf="pessoa">
       <ion-label position="stacked" style="font: 20px bold;" *ngIf="newCli.tipo != 2">CPF</ion-label>
       <ion-label position="stacked" style="font: 20px bold;" *ngIf="newCli.tipo == 2">CNPJ</ion-label>
       <ion-input [(ngModel)]="newCli.cpfOuCnpj" name="cpfOuCnpj" type="text" [clearInput]="true"></ion-input>
     </ion-item>
 
-    <ion-card color="light">
+    <ion-card color="light"  *ngIf="pessoa">
       <ion-card-title style="font-weight: bold; color: #747474;">Endereço</ion-card-title>
       <ion-item>
         <ion-input label="Logradouro" [(ngModel)]="endereco.logradouro" name="logradouro" type="text" [clearInput]="true"></ion-input>
@@ -84,11 +109,10 @@
         </ion-select>
       </ion-item>
 
-      <ion-button expand="block" color="primary"  id="btnSalvar" (click)="inserir()">Cadastrar
-        <ion-icon slot="end" name="open"></ion-icon>
-      </ion-button>
-
     </ion-card>
+    <ion-button expand="block" color="primary"  id="btnSalvar" (click)="inserir()">Cadastrar
+      <ion-icon slot="end" name="open"></ion-icon>
+    </ion-button>
     
   </form>
 </ion-content>
@@ -109,17 +133,17 @@
     <ion-item>
       <ion-input label="Nome" [(ngModel)]="cli.nome" name="nome" type="text" [clearInput]="true"></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item  *ngIf="pessoa">
       <ion-input label="E-mail" [(ngModel)]="cli.email" name="email" type="email" [clearInput]="true"></ion-input>
     </ion-item>
 
-    <ion-item  *ngIf="enderecos != []">
+    <ion-item  *ngIf="enderecos != [] && pessoa">
       <ion-select label="Endereços" placeholder="Selecione"  (ionChange)="handleChangeEndereco($event)">
           <ion-select-option *ngFor="let item of enderecos" value="{{item.id}}">{{item.logradouro}}</ion-select-option>
       </ion-select>
   </ion-item>
 
-   <ion-card color="light" *ngIf="enderecos == [] || endereco.id != ''">
+   <ion-card color="light" *ngIf="enderecos == [] || endereco.id != '' && pessoa">
     <ion-card-title style="font-weight: bold; color: #747474;">Endereço</ion-card-title>
     <ion-item>
       <ion-input label="Logradouro" [(ngModel)]="endereco.logradouro" name="logradouro" type="text" [clearInput]="true"></ion-input>

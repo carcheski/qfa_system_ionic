@@ -7,8 +7,8 @@ import { Component } from '@angular/core';
 export class AppComponent {
   public appPages = [
     { title: 'Inicio', url: '/home', icon: 'home' },
-    { title: 'Categorias', url: '/categorias', icon: 'albums' },
     { title: 'Pedido', url: '/pedido', icon: 'cart'},
+    { title: 'Estoque', url: '/estoque', icon: 'albums' },
     
   ];
   public appPagesCadastro = [

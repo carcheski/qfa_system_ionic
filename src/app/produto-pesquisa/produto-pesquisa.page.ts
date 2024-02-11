@@ -38,6 +38,8 @@ export class ProdutoPesquisaPage implements OnInit {
     id : "",
     nome : "",
     preco : null as any,
+    quantidade : null as any,
+    vlrCompra : null as any,
     imageUrl : "",
     categorias : this.categorias
   };
@@ -46,6 +48,8 @@ export class ProdutoPesquisaPage implements OnInit {
     id : "",
     nome : "",
     preco : null as any,
+    quantidade : null as any,
+    vlrCompra : null as any,
     imageUrl : "",
     categorias : this.categorias
   };

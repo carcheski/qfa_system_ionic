@@ -52,6 +52,8 @@ export class CategoriaPesquisaPage implements OnInit {
     id : "",
     nome : "",
     preco : null as any,
+    quantidade : null as any,
+    vlrCompra : null as any,
     imageUrl : "",
     categorias : this.categorias
   };

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CheckboxCustomEvent } from '@ionic/angular';
 import { CidadeDTO } from 'src/models/cidade.dto';
 import { ClienteDTO } from 'src/models/cliente.dto';
 import { EnderecoDTO } from 'src/models/endereco.dto';
@@ -23,12 +24,14 @@ export class ClientePesquisaPage implements OnInit {
 
   cadastro()
   {
+    this.setOpen(true);
     this.tipoTela = 2;
     this.carregarDadosEstado();
   }
 
   edicao(cli_id: string)
   {
+    this.setOpen(true);
     let cliId = cli_id;
     this.tipoTela = 3;
     this.carregarClienteEdicao(cliId);
@@ -83,6 +86,11 @@ export class ClientePesquisaPage implements OnInit {
     cidade : this.cidade
   };
 
+  // modal tipo cliente
+  isModalOpen = false;
+  pessoa = false;
+  mesa = false;
+
   constructor(
     public router: Router,
     public clienteService: ClienteService,
@@ -112,9 +120,28 @@ export class ClientePesquisaPage implements OnInit {
     this.clienteService.findAll()
     .subscribe(response => {
       this.items = response;
+      console.log(this.items)
     },
     error => {}
     );
+  }
+
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
+
+  checkPessoa(event: Event) {
+    const ev = event as CheckboxCustomEvent;
+    this.mesa = false;
+    this.pessoa = ev.detail.checked;
+    this.setOpen(false);
+  }
+
+  checkMesa(event: Event) {
+    const ev = event as CheckboxCustomEvent;
+    this.pessoa = false;
+    this.mesa = ev.detail.checked;
+    this.setOpen(false);
   }
 
   handleChangeTipoCliente(e: any) {
@@ -251,6 +278,8 @@ export class ClientePesquisaPage implements OnInit {
   }
 
   salvar() {
+    if(this.mesa)
+      this.newCli.tipo = 'MESA';
     this.clienteService.salvar(this.cli)
     .subscribe(response => {
       this.carregarClientes();
@@ -262,6 +291,8 @@ export class ClientePesquisaPage implements OnInit {
   }
 
   inserir() {
+    if(this.mesa)
+      this.newCli.tipo = 'MESA';
     console.log(this.newCli)
     this.clienteService.insert(this.newCli)
     .subscribe(response => {
