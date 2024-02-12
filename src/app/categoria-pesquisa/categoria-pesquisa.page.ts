@@ -75,7 +75,6 @@ export class CategoriaPesquisaPage implements OnInit {
 
   reloadComponent() {
     let currentUrl = this.router.url;
-    console.log(currentUrl);
     
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = 'reload';
@@ -85,7 +84,6 @@ export class CategoriaPesquisaPage implements OnInit {
   carregarCategorias() {
     this.categoriaService.findAll()
     .subscribe(response => {
-      console.log(response);
       this.items = response;
     },
     error => {}
@@ -108,7 +106,6 @@ export class CategoriaPesquisaPage implements OnInit {
         .subscribe (response =>{
           const res = ((response));
           this.produtos = Object.values(res);
-          console.log(this.items);
           let start = this.items.length;
           let end = this.items.length - 1;
         }
@@ -120,7 +117,6 @@ export class CategoriaPesquisaPage implements OnInit {
   handleChangeCategoria(e: any) {
     const query = e.target.value.toLowerCase();
     this.items = this.items.filter((d) => d.nome.toLowerCase().indexOf(query) > -1);
-    console.log(e.target.value);
     if(e.detail.value == "" || this.items == null){
       this.ngOnInit();
     }
@@ -167,13 +163,10 @@ export class CategoriaPesquisaPage implements OnInit {
 
     this.categorias.push(this.cat);
     this.carregarCategorias();
-
-    console.log(this.produtosSelecionados);
     
   }
 
   doRefresh(event: any) {
-    console.log("refresh")
     setTimeout(() => {
       event.target.complete();
     }, 1000);

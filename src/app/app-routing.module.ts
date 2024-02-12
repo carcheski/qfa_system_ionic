@@ -82,6 +82,14 @@ const routes: Routes = [
   {
     path: 'estoque',
     loadChildren: () => import('./estoque/estoque.module').then( m => m.EstoquePageModule)
+  },
+  {
+    path: 'pedido-novo-mesa',
+    loadChildren: () => import('./pedido-novo-mesa/pedido-novo-mesa.module').then( m => m.PedidoNovoMesaPageModule)
+  },
+  {
+    path: 'pedido-pendente-mesa',
+    loadChildren: () => import('./pedido-pendente-mesa/pedido-pendente-mesa.module').then( m => m.PedidoPendenteMesaPageModule)
   }
 ];
 

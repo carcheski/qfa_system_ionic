@@ -65,6 +65,7 @@ export class ClientePesquisaPage implements OnInit {
     cpfOuCnpj : "",
     email : "",
     enderecos : this.enderecosIniciais,
+    livre : "",
   };
 
   cli : ClienteDTO = {
@@ -74,6 +75,7 @@ export class ClientePesquisaPage implements OnInit {
     cpfOuCnpj : "",
     email : "",
     enderecos : this.enderecosIniciais,
+    livre: "",
   };
 
   endereco : EnderecoDTO = {
@@ -191,7 +193,6 @@ export class ClientePesquisaPage implements OnInit {
     })
       let idCidade = this.endereco.cidade.id;
       let id = this.cidade.estado.id;
-      console.log(this.cidade.estado.id);
       this.formEdit = this.formBuilder.group({
         estadoIdEditado: [id, Validators.required],
         cidadeIdEditado: [idCidade, Validators.required],
@@ -204,9 +205,7 @@ export class ClientePesquisaPage implements OnInit {
     .subscribe(response =>{
       this.endereco.cidade = response;
       this.newCli.enderecos.push(this.endereco);
-      console.log(this.newCli);
     });
-    console.log(e.target.value);
     if(e.detail.value == "" || this.items == null){
       console.log("aqui")
       this.ngOnInit();
@@ -227,7 +226,6 @@ export class ClientePesquisaPage implements OnInit {
   }
 
   carregarClienteEdicao(cliente_id : String) {
-    console.log("aqui" + cliente_id);
         if(cliente_id != null){
           this.clienteService.findById(cliente_id)
             .subscribe(response => {
@@ -260,10 +258,8 @@ export class ClientePesquisaPage implements OnInit {
   }
 
   carregarDadosCidade(id_estado : string){
-    console.log(id_estado);
     this.cidadeService.findCidades(id_estado)
     .subscribe(response =>{
-      console.log(response);
       this.cidades = response;
     })
   }
@@ -272,7 +268,6 @@ export class ClientePesquisaPage implements OnInit {
     this.estadoService.findAll()
     .subscribe(response =>{
       this.estados = response;
-      console.log(this.estados);
     })
 
   }

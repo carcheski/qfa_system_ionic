@@ -8,4 +8,5 @@ export interface ClienteDTO {
     email : string;
     imageUrl? : string;
     enderecos : EnderecoDTO[];
+    livre : string;
 }

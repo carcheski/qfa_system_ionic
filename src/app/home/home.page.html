@@ -7,118 +7,17 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" *ngIf="tela == 'home'">
   <ion-grid>
-    <ion-row>
-      <ion-col style="text-align: center;">
-       <ion-item [button]="true" lines="none" style="text-align: center;">
-        <ion-label> Mesa 1
-          <img src="assets/imgs/mesa.jpg" alt="logo">
-        </ion-label>
-       </ion-item>
-      </ion-col>
-      <ion-col style="text-align: center;">
-        <ion-item [button]="true" lines="none" style="text-align: center;">
-          <ion-label>Mesa 2
-            <img src="assets/imgs/mesa.jpg" alt="logo">
-          </ion-label>
+    <ion-row style="text-align: center; width: 100%;">
+        <ion-item *ngFor="let item of clientes" [button]="true" lines="none" (click)="pedidoMesa(item.id)">
+          <ion-col style="text-align: center; width: 230px;">
+            <ion-label> {{ item.nome }}
+              <img *ngIf="item.livre != 'S'" src="assets/imgs/mesa_verde.png" alt="logo">
+              <img *ngIf="item.livre == 'S'" src="assets/imgs/mesa_vermelha.png" alt="logo">
+            </ion-label>
+          </ion-col>
         </ion-item>
-      </ion-col>
-      <ion-col style="text-align: center;">
-        <ion-item [button]="true" lines="none" style="text-align: center;">
-          <ion-label>Mesa 3
-            <img src="assets/imgs/mesa.jpg" alt="logo">
-          </ion-label>
-        </ion-item>
-      </ion-col>
-      <ion-col style="text-align: center;">
-        <ion-item [button]="true" lines="none" style="text-align: center;">
-          <ion-label>Mesa 4
-            <img src="assets/imgs/mesa.jpg" alt="logo">
-          </ion-label>
-        </ion-item>
-      </ion-col>
-      <ion-col style="text-align: center;">
-        <ion-item [button]="true" lines="none" style="text-align: center;">
-          <ion-label>Mesa 5
-            <img src="assets/imgs/mesa.jpg" alt="logo">
-          </ion-label>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col style="text-align: center;">
-        <ion-item [button]="true" lines="none" style="text-align: center;">
-          <ion-label>Mesa 6
-            <img src="assets/imgs/mesa.jpg" alt="logo">
-          </ion-label>
-        </ion-item>
-      </ion-col>
-      <ion-col style="text-align: center;">
-        <ion-item [button]="true" lines="none" style="text-align: center;">
-          <ion-label>Mesa 7
-            <img src="assets/imgs/mesa.jpg" alt="logo">
-          </ion-label>
-        </ion-item>
-      </ion-col>
-      <ion-col style="text-align: center;">
-        <ion-item [button]="true" lines="none" style="text-align: center;">
-          <ion-label>Mesa 8
-            <img src="assets/imgs/mesa.jpg" alt="logo">
-          </ion-label>
-        </ion-item>
-      </ion-col>
-      <ion-col style="text-align: center;">
-        <ion-item [button]="true" lines="none" style="text-align: center;">
-          <ion-label>Mesa 9
-            <img src="assets/imgs/mesa.jpg" alt="logo">
-          </ion-label>
-        </ion-item>
-      </ion-col>
-      <ion-col style="text-align: center;">
-        <ion-item [button]="true" lines="none" style="text-align: center;">
-          <ion-label>Mesa 10
-            <img src="assets/imgs/mesa.jpg" alt="logo">
-          </ion-label>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col style="text-align: center;">
-        <ion-item [button]="true" lines="none" style="text-align: center;">
-          <ion-label>Mesa 11
-            <img src="assets/imgs/mesa.jpg" alt="logo">
-          </ion-label>
-        </ion-item>
-      </ion-col>
-      <ion-col style="text-align: center;">
-        <ion-item [button]="true" lines="none" style="text-align: center;">
-          <ion-label>Mesa 12
-            <img src="assets/imgs/mesa.jpg" alt="logo">
-          </ion-label>
-        </ion-item>
-      </ion-col>
-      <ion-col style="text-align: center;">
-        <ion-item [button]="true" lines="none" style="text-align: center;">
-          <ion-label>Mesa 13
-            <img src="assets/imgs/mesa.jpg" alt="logo">
-          </ion-label>
-        </ion-item>
-      </ion-col>
-      <ion-col style="text-align: center;">
-        <ion-item [button]="true" lines="none" style="text-align: center;">
-          <ion-label>Mesa 14
-            <img src="assets/imgs/mesa.jpg" alt="logo">
-          </ion-label>
-        </ion-item>
-      </ion-col>
-      <ion-col style="text-align: center;">
-        <ion-item [button]="true" lines="none" style="text-align: center;">
-          <ion-label>Mesa 15
-            <img src="assets/imgs/mesa.jpg" alt="logo">
-          </ion-label>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+      </ion-row>
+    </ion-grid>
 </ion-content>

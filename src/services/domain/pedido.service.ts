@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 import { API_CONFIG } from "src/config/api.config";
 import { PedidoDTO } from "src/models/pedido.dto";
 
@@ -25,5 +26,12 @@ export class PedidoService {
         );
     }
 
+    findByTipoCliente(tipo : String) : Observable<PedidoDTO[]> {
+        return this.http.get<PedidoDTO[]>(`${API_CONFIG.baseUrl}/pedidos/cliente/tipo/${tipo}`);
+    }
+
+    findByIdCliente(id_cliente : String) {
+        return this.http.get<PedidoDTO>(`${API_CONFIG.baseUrl}/pedidos/cliente/${id_cliente}`);
+    }
 
 }
