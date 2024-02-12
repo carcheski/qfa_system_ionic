@@ -234,7 +234,10 @@
 
   </div>
 
-  <div *ngIf="cod_pedido">
+</ion-content>
+
+<ion-content *ngIf="tipoTela == 8">
+  <div >
     <ion-card>
         <ion-card-header>
           Seu pedido foi registrado!
@@ -248,5 +251,4 @@
       <ion-icon slot="end" name="open"></ion-icon>
     </ion-button>
   </div>
-
 </ion-content>

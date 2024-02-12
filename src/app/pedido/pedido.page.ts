@@ -40,6 +40,7 @@ export class PedidoPage implements OnInit {
   //Tela de Clientes
   clientes: ClienteDTO[] = [];
   clienteSelecionado: ClienteDTO;
+  tipoClienteMesa = false;
 
   //Tela de Enderecos
   enderecos : EnderecoDTO[] = [];
@@ -185,10 +186,30 @@ export class PedidoPage implements OnInit {
     );
   }
 
-  showEnderecos(cliente_id : string) {
-    this.tipoTela = 5;
-    console.log(cliente_id)
-    this.carregaEnderecos(cliente_id);
+  showEnderecos(cliente_id : string){
+    if(cliente_id != null){
+      this.clienteService.findById(cliente_id)
+        .subscribe(response => {
+            this.clienteSelecionado = response
+            if(response.tipo == "MESA")
+              this.tipoClienteMesa = true;
+            if(!this.tipoClienteMesa){
+              this.tipoTela = 5;
+              this.carregaEnderecos(cliente_id);
+            }else{
+              this.tipoTela = 6;
+              let cart = this.cartService.getCart();
+
+              this.pedido = {
+                cliente: {id: response['id']},
+                enderecoDeEntrega: null as any,
+                pagamento: null as any,
+                itens : cart.items.map(x => {return {quantidade: x.quantidade, produto: {id: x.produto.id}}})
+              }
+              this.carregarTelaPagamento();
+            }
+        });
+    }
   }
 
   carregaEnderecos(cliente_id : string) {
@@ -240,7 +261,7 @@ export class PedidoPage implements OnInit {
     //console.log(this.cartItems); ok
     //console.log(this.clienteSelecionado); ok
     //console.log(this.enderecoSelecionado); ok
-    //console.log(this.formPagamento.value); ok
+    //console.log(this.formPagamento.value);
     this.pedido.pagamento = this.formPagamento.value;
     this.tipoTela = 7;
   }
@@ -254,8 +275,7 @@ export class PedidoPage implements OnInit {
   }
 
   home() {
-   this.tipoTela = 1
-   this.ngOnInit();
+    this.navCtrl.navigateRoot(['/home']);
   }
 
   fecharPedido() {
@@ -276,6 +296,7 @@ export class PedidoPage implements OnInit {
   }
 
   private extractId(location : string) : string {
+    this.tipoTela = 8;
     let position = location.lastIndexOf('/');
     return location.substring(position + 1, location.length);
   }
