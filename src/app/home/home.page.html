@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" *ngIf="tela == 'home'">
+<ion-content [fullscreen]="true" >
   <ion-grid>
     <ion-row style="text-align: center; width: 100%;">
         <ion-item *ngFor="let item of clientes" [button]="true" lines="none" (click)="pedidoMesa(item.id)">

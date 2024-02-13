@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MenuController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteDTO } from 'src/models/cliente.dto';
 import { EnderecoDTO } from 'src/models/endereco.dto';
 import { PedidoDTO } from 'src/models/pedido.dto';
-import { ProdutoDTO } from 'src/models/produto.dto';
 import { ClienteService } from 'src/services/domain/cliente.service';
 import { PedidoService } from 'src/services/domain/pedido.service';
 
@@ -15,13 +14,16 @@ import { PedidoService } from 'src/services/domain/pedido.service';
 })
 export class HomePage implements OnInit {
 
-  tela = "";
   pedidos : PedidoDTO[] = [];
+  pedido : PedidoDTO;
 
   formCliente: FormGroup;
   cliente : ClienteDTO;
   enderecos : EnderecoDTO[] = []
   clientes : ClienteDTO[] = [];
+
+  atualizar : string;
+  contador = 0;
 
   cli : ClienteDTO = {
     id: "",
@@ -37,15 +39,27 @@ export class HomePage implements OnInit {
   constructor(
     public pedidoService: PedidoService,
     public formBuilder: FormBuilder,
-    public clienteService: ClienteService
-  ) {
-   }
+    public clienteService: ClienteService,
+    public router: Router,
+    public route: ActivatedRoute,
+  ) { }
 
   ngOnInit() {
-    this.tela = "home"
+    this.verificarAtualizacao();
     this.carregarMesas();
-    //this.verificarMesas();
+    //this.reloadComponent();
   }
+
+  verificarAtualizacao(){
+    this.route.queryParams
+    .subscribe(params => {
+      if(params.cliente != null){
+        this.clientes = [];
+        this.carregarMesas();
+      }
+    });
+  }
+
 
   carregarMesas(){
     this,this.clienteService.findByTipo('3')
@@ -58,12 +72,18 @@ export class HomePage implements OnInit {
   pedidoMesa(cliente_id: string){
     this.pedidoService.findByIdCliente(cliente_id)
     .subscribe(response =>{
-      if(response.pagamento.estado == 'PENDENTE'){
-        this.tela = "pedido_pendente";
+      if(response != null && response.pagamento.estado == 'PENDENTE'){
+        this.router.navigate(['/pedido-pendente-mesa'], { queryParams: {cliente_id: cliente_id}});
+        this.ngOnDestroy()
       }else{
-        this.tela = "novo_pedido";
+        this.router.navigate(['/pedido-novo-mesa'], { queryParams: {cliente_id: cliente_id}});
+        
       }
     })
+  }
+
+  ngOnDestroy(){
+    console.log("fui")
   }
 
   verificarPedidos(){
@@ -85,8 +105,6 @@ export class HomePage implements OnInit {
       if(mesa.id == idCliente){
         mesa.livre = "S";
       }
-      
     }
   }
-
 }

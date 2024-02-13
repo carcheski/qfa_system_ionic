@@ -1,13 +1,220 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" *ngIf="tipoTela == 1">
   <ion-toolbar>
-    <ion-title>PedidoNovoMesa</ion-title>
+    <ion-title>Categoria do Pedido</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">PedidoNovoMesa</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" *ngIf="tipoTela == 1">
+<ion-searchbar [debounce]="10000" (ionChange)="handleChangeCategoria($event)" clear-icon="trash-bin"
+               placeholder="Nome"></ion-searchbar>
+  <ion-list>
+    <ion-item *ngFor="let item of categorias" [button]="true" (click)="showProdutos(item.id)">
+      <ion-thumbnail item-start>
+        <img src="{{bucketUrl}}/cat{{item.id}}.jpg">
+      </ion-thumbnail>
+      <h2> {{ item.nome }}</h2>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-header [translucent]="true" *ngIf="tipoTela == 2">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" type="button" (click)="ngOnInit()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Produtos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" *ngIf="tipoTela == 2">
+  <ion-list [inset]="true">
+    <ion-item *ngFor="let item of produtos[0]" [button]="true"  (click)="addToCart(item)">
+        <ion-thumbnail item-start>
+          <img [src]="item.imageUrl || 'assets/imgs/prod.png'">
+        </ion-thumbnail>
+        <ion-card-content>
+          <ion-card-title>
+            {{item?.nome}}
+          </ion-card-title>
+          <p>
+            {{item.preco | currency}}
+          </p>
+        </ion-card-content>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-header [translucent]="true" *ngIf="tipoTela == 3">
+  <ion-toolbar>
+    <ion-title>Lista do Pedido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" *ngIf="tipoTela == 3">
+  <ion-list [inset]="true">
+    <ion-item *ngFor="let item of carrinho">
+      <ion-thumbnail slot="start">
+        <img [src]="item.produto.imageUrl || 'assets/imgs/prod.jpg'">
+      </ion-thumbnail>
+      <ion-card-content >
+        <ion-card-title style="font-weight: bold; font-size: 25px;">
+          {{item?.produto.nome}}
+        </ion-card-title>
+        <h1>
+          Vlr: {{item.produto.preco | currency}}
+        </h1>
+        <ion-label style="font-size: 25px;"> Qtd: {{item.quantidade}}
+          <ion-icon size="large" name="remove-circle" color="primary"  (click)="decreaseQuantity(item.produto)"></ion-icon>
+          <ion-icon size="large" name="add-circle" color="primary" (click)="increaseQuantity(item.produto)"></ion-icon>
+          <ion-icon size="large" name="trash" item-end  color="danger" (click)="removeItem(item.produto)"></ion-icon>
+        </ion-label>
+      </ion-card-content>
+    </ion-item>
+    <ion-item *ngIf="total() > 0">
+      <ion-label style="font-size: 25px;"> Total:  {{total() | currency}}</ion-label>
+    </ion-item>
+    <ion-item *ngIf="total() <= 0">
+      <h1>Seu carrinho está vazio</h1>
+    </ion-item>
+  </ion-list>
+  <ion-button expand="block" (click)="goOn()"> <ion-icon name="add-circle-sharp"></ion-icon> Adicionar Item</ion-button>
+  <ion-button *ngIf="total() > 0" color="warning" expand="block" (click)="voltarHome()"><ion-icon name="timer-sharp"></ion-icon>Aguardar Pagamento</ion-button>
+  <ion-button *ngIf="total() > 0" color="success" expand="block" (click)="checkout()"> <ion-icon name="checkmark-circle-sharp"></ion-icon>Finalizar pedido</ion-button>
+</ion-content>
+
+<ion-header [translucent]="true" *ngIf="tipoTela == 6">
+  <ion-toolbar>
+    <ion-title>Formas de Pagamento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" *ngIf="tipoTela == 6">
+  <form [formGroup]="formPagamento" (ngSubmit)="confirmarPedido(); $event.preventDefault()">
+    <ion-radio-group formControlName="@type">
+      <ion-item>
+        <ion-label>Débito</ion-label>
+        <ion-radio checked="true" value="pagamentoComDebito"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Crédito</ion-label>
+        <ion-radio checked="true" value="pagamentoComCredito"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Marcar na Conta</ion-label>
+        <ion-radio checked="true" value="marcarConta"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-item *ngIf="formPagamento.value['@type'] == 'pagamentoComCredito'">
+      <ion-label stacked>Parcelas no boleto</ion-label>
+      <ion-select formControlName="numeroDeParcelas">
+        <ion-select-option *ngFor="let n of parcelas; first as f" [value]="n" [selected]="f">{{n}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-button expand="block" type="submit" [disabled]="formPagamento.invalid">Próximo</ion-button>
+  </form>
+</ion-content>
+
+<ion-header [translucent]="true" *ngIf="tipoTela == 7">
+  <ion-toolbar>
+    <ion-title>Pedido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" *ngIf="tipoTela == 7 && !cod_pedido">
+  <div *ngIf="!codpedido">
+    <ion-card>
+      <ion-card-header style="text-align: center; font-weight: bold;font-size: 20px;">
+        Itens do pedido
+      </ion-card-header>
+
+      <ion-list>
+        <ion-item *ngFor="let item of cartItems">
+          <ion-thumbnail slot="start">
+            <img [src]="item.produto.imageUrl || 'assets/imgs/prod.jpg'">
+          </ion-thumbnail>
+          <ion-card-content >
+            <ion-card-title style="font-weight: bold; font-size: 25px;">
+              {{item?.produto.nome}}
+            </ion-card-title>
+            <h1>
+              Vlr: {{item.produto.preco | currency}}
+            </h1>
+            <ion-label style="font-size: 25px;"> Qtd: {{item.quantidade}}
+            </ion-label>
+          </ion-card-content>
+        </ion-item>
+
+        <ion-item>
+          <ion-label style="font-size: 25px;"> Total:  {{total()  | currency}}</ion-label>
+        </ion-item>
+      </ion-list> 
+    </ion-card>
+
+    <ion-card-content>
+        <ion-card-title>
+          Cliente
+        </ion-card-title>
+          <h1>{{clienteSelecionado?.nome}}</h1>
+          <ion-label>{{clienteSelecionado?.email}}</ion-label>
+    </ion-card-content>
+
+    <ion-card-content>
+      <ion-card-title>
+        Endereço cliente
+      </ion-card-title>
+
+      <ion-label>
+        <h1>{{enderecoSelecionado?.logradouro}}, {{enderecoSelecionado?.numero}}</h1>
+        <p>{{enderecoSelecionado?.complemento}} {{enderecoSelecionado?.bairro}} CEP {{enderecoSelecionado?.cep}}</p>
+        <p>{{enderecoSelecionado?.cidade.nome}}, {{enderecoSelecionado?.cidade.estado.nome}}</p>
+      </ion-label>
+    </ion-card-content>
+
+    <ion-card-content>
+      <ion-card-title>
+        Forma de pagamento
+      </ion-card-title>
+
+      <ion-label *ngIf="pedido.pagamento['@type']==='pagamentoComDebito'">
+        <h1>Débito</h1>
+      </ion-label>
+      <ion-label *ngIf="pedido.pagamento['@type']==='pagamentoComCredito'">
+        <h1>Crédito</h1>
+        <p>Parcelas: {{pedido.pagamento.numeroDeParcelas}}</p>
+      </ion-label>
+      <ion-label *ngIf="pedido.pagamento['@type']==='conta'">
+        <h1>Na conta</h1>
+      </ion-label>
+    </ion-card-content>
+
+    <ion-button color="success" expand="block"  id="finalizar" (click)="fecharPedido()"> Confirmar pedido
+      <ion-icon slot="end" name="open"></ion-icon>
+    </ion-button>
+
+    <ion-button expand="block" fill="outline" id="finalizar" (click)="back()"> Voltar
+      <ion-icon slot="end" name="open"></ion-icon>
+    </ion-button>
+
+  </div>
+
+</ion-content>
+
+<ion-content *ngIf="tipoTela == 8">
+  <div >
+    <ion-card>
+        <ion-card-header>
+          Seu pedido foi registrado!
+        </ion-card-header>
+        <ion-item>
+          <h2>Código do pedido: {{cod_pedido}}</h2>
+        </ion-item>
+    </ion-card>
+
+    <ion-button expand="block" fill="outline" id="finalizar" (click)="home()"> Voltar
+      <ion-icon slot="end" name="open"></ion-icon>
+    </ion-button>
+  </div>
 </ion-content>
