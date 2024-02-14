@@ -218,37 +218,11 @@ export class PedidoPendenteMesaPage implements OnInit {
       itens : cart.items.map(x => {return {quantidade: x.quantidade, produto: {id: x.produto.id}}})
     }
     this.pedidoEmAndamento();
-    this.router.navigate(['/home'], { queryParams: {cliente: this.clienteSelecionado.id}});
-    this.homePage.ngOnInit();
+    this.home();
   }
 
   pedidoEmAndamento(){
-    if(this.pedido.pagamento.estado == 'PENDENTE'){
-      this.pedidoService.salvar(this.pedido)
-    }else {
-      if(this.pedido.pagamento == null){
-        let pagamento : PagamentoDTO = {
-          numeroDeParcelas : 0,
-          "@type" : "pagamentoComDebito",
-          estado : "PENDENTE"
-        }
-        this.pedido.pagamento = pagamento;
-      }else{
-        this.pedido.pagamento['@type'] = "pagamentoComDebito";
-        this.pedido.pagamento.estado = 'PENDENTE';
-      }
-      this.pedidoService.insert(this.pedido)
-        .subscribe(response => {
-          this.cartService.createOrClearCart();
-          this.cod_pedido = this.extractId(response.headers.get('location') as any);
-        },
-        error => {
-          if (error.status == 403) {
-            this.router.navigate(['/home']);
-          }
-        });
-    }
-    
+    this.pedidoService.salvar(this.pedido)
   }
 
   checkout() {
@@ -258,7 +232,7 @@ export class PedidoPendenteMesaPage implements OnInit {
       id: this.pedido.id,
       cliente: this.pedido.cliente,
       enderecoDeEntrega: null as any,
-      pagamento: null as any,
+      pagamento: this.pedido.pagamento,
       itens : cart.items.map(x => {return {quantidade: x.quantidade, produto: {id: x.produto.id}}})
     }
     this.carregarTelaPagamento();
@@ -267,8 +241,9 @@ export class PedidoPendenteMesaPage implements OnInit {
   carregarTelaPagamento() {
     console.log("aqui")
       this.formPagamento = this.formBuilder.group({
-        numeroDeParcelas: [1, Validators.required],
-        "@type": ["pagamentoComDebito", Validators.required]
+        id: [this.pedido.pagamento.id],
+        numeroDeParcelas: [this.pedido.pagamento.numeroDeParcelas, Validators.required],
+        "@type": [this.pedido.pagamento['@type'], Validators.required]
       });
   }
 
@@ -290,18 +265,19 @@ export class PedidoPendenteMesaPage implements OnInit {
   }
 
   home() {
-    this.navCtrl.navigateRoot(['/home']);
+    this.router.navigate(['/home'], { queryParams: {cliente: this.clienteSelecionado.id}});
+    this.homePage.ngOnInit();
   }
 
   fecharPedido() {
     this.pedido.itens = this.cartItems;
     this.pedido.cliente = this.clienteSelecionado;
-    this.pedido.pagamento.estado = '2';
-    this.pedidoService.insert(this.pedido)
+    this.pedido.pagamento.estado = 'QUITADO';
+    console.log(this.pedido);
+    this.pedidoService.salvar(this.pedido)
       .subscribe(response => {
         this.cartService.createOrClearCart();
-        console.log(response.headers.get('location'));
-        this.cod_pedido = this.extractId(response.headers.get('location') as any);
+        this.home();
       },
       error => {
         if (error.status == 403) {

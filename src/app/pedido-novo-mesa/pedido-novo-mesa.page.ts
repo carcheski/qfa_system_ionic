@@ -211,6 +211,7 @@ export class PedidoNovoMesaPage implements OnInit {
   pedidoEmAndamento(){
     if(this.pedido.pagamento == null){
       let pagamento : PagamentoDTO = {
+        id: "",
         numeroDeParcelas : 0,
         "@type" : "pagamentoComDebito",
         estado : "PENDENTE"

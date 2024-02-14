@@ -72,6 +72,7 @@ export class HomePage implements OnInit {
   pedidoMesa(cliente_id: string){
     this.pedidoService.findByIdCliente(cliente_id)
     .subscribe(response =>{
+      console.log(response);
       if(response != null && response.pagamento.estado == 'PENDENTE'){
         this.router.navigate(['/pedido-pendente-mesa'], { queryParams: {cliente_id: cliente_id}});
         this.ngOnDestroy()
