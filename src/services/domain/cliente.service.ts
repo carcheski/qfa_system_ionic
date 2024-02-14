@@ -31,7 +31,7 @@ export class ClienteService {
         return this.http.get(url, {responseType : 'blob'});
     }
 
-    findByTipo(tipo : string) : Observable<ClienteDTO[]>  {
+    findByTipo(tipo : string)  {
         return this.http.get<ClienteDTO[]>(`${API_CONFIG.baseUrl}/clientes/tipo/${tipo}`);
     }
 

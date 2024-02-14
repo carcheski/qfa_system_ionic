@@ -195,10 +195,13 @@ export class PedidoNovoMesaPage implements OnInit {
   voltarHome(){
     let cart = this.cartService.getCart();
     this.pedido = {
+      id: null as any,
       cliente: {id: this.clienteSelecionado.id},
       enderecoDeEntrega: null as any,
       pagamento: null as any,
-      itens : cart.items.map(x => {return {quantidade: x.quantidade, produto: {id: x.produto.id}}})
+      itens : cart.items.map(x => 
+        {console.log(x.quantidade);
+          return {quantidade: x.quantidade, produto: {id: x.produto.id}}})
     }
     this.pedidoEmAndamento();
     this.router.navigate(['/home'], { queryParams: {cliente: this.clienteSelecionado.id}});
@@ -206,8 +209,6 @@ export class PedidoNovoMesaPage implements OnInit {
   }
 
   pedidoEmAndamento(){
-    this.pedido.itens = this.cartItems;
-    this.pedido.cliente = this.clienteSelecionado;
     if(this.pedido.pagamento == null){
       let pagamento : PagamentoDTO = {
         numeroDeParcelas : 0,
@@ -235,6 +236,7 @@ export class PedidoNovoMesaPage implements OnInit {
     this.tipoTela = 6;
     let cart = this.cartService.getCart();
     this.pedido = {
+      id: null as any,
       cliente: {id: this.clienteSelecionado.id},
       enderecoDeEntrega: null as any,
       pagamento: null as any,

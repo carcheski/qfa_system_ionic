@@ -26,6 +26,18 @@ export class PedidoService {
         );
     }
 
+    salvar(obj: PedidoDTO) {
+        console.log(obj)
+        return this.http.put(
+            `${API_CONFIG.baseUrl}/pedidos/${obj.id}`,
+            obj,
+            {
+                observe: 'response',
+                responseType: 'text'
+            }
+        );
+      }
+
     findByTipoCliente(tipo : String) : Observable<PedidoDTO[]> {
         return this.http.get<PedidoDTO[]>(`${API_CONFIG.baseUrl}/pedidos/cliente/tipo/${tipo}`);
     }
