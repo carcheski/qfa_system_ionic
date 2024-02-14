@@ -224,6 +224,7 @@ export class PedidoPendenteMesaPage implements OnInit {
   }
 
   pedidoEmAndamento(){
+    this.cartService.createOrClearCart();
     this.pedidoService.salvar(this.pedido)
   }
 
