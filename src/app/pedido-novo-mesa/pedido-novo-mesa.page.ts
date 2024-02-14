@@ -193,6 +193,7 @@ export class PedidoNovoMesaPage implements OnInit {
   }
 
   voltarHome(){
+    this.atualizarEstoque();
     let cart = this.cartService.getCart();
     this.pedido = {
       id: null as any,
@@ -234,6 +235,7 @@ export class PedidoNovoMesaPage implements OnInit {
   }
 
   checkout() {
+    this.atualizarEstoque();
     this.tipoTela = 6;
     let cart = this.cartService.getCart();
     this.pedido = {
@@ -244,6 +246,23 @@ export class PedidoNovoMesaPage implements OnInit {
       itens : cart.items.map(x => {return {quantidade: x.quantidade, produto: {id: x.produto.id}}})
     }
     this.carregarTelaPagamento();
+  }
+
+  atualizarEstoque(){
+    for(let i = 0 ; i < this.pedido.itens.length; i++){ 
+      let prod = this.pedido.itens[i].produto;
+      this.produtoService.findById(prod.id)
+      .subscribe(resp =>{
+        let produtoEstoque = resp
+        if(produtoEstoque.quantidade >= this.pedido.itens.length){
+          produtoEstoque.quantidade = (produtoEstoque.quantidade - this.pedido.itens.length)
+        }
+        this.produtoService.salvar(produtoEstoque)
+        .subscribe(response =>{
+  
+        })
+      });
+    }
   }
 
   carregarTelaPagamento() {

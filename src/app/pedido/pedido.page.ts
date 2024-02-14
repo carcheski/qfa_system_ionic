@@ -172,8 +172,26 @@ export class PedidoPage implements OnInit {
   }
 
   checkout() {
+    this.atualizarEstoque();
     this.tipoTela = 4;
     this.carregarClientes();
+  }
+
+  atualizarEstoque(){
+    for(let i = 0 ; i < this.pedido.itens.length; i++){ 
+      let prod = this.pedido.itens[i].produto;
+      this.produtoService.findById(prod.id)
+      .subscribe(resp =>{
+        let produtoEstoque = resp
+        if(produtoEstoque.quantidade >= this.pedido.itens.length){
+          produtoEstoque.quantidade = (produtoEstoque.quantidade - this.pedido.itens.length)
+        }
+        this.produtoService.salvar(produtoEstoque)
+        .subscribe(response =>{
+  
+        })
+      });
+    }
   }
 
   carregarClientes() {
@@ -287,7 +305,6 @@ export class PedidoPage implements OnInit {
     this.pedidoService.insert(this.pedido)
       .subscribe(response => {
         this.cartService.createOrClearCart();
-        console.log(response.headers.get('location'));
         this.cod_pedido = this.extractId(response.headers.get('location') as any);
       },
       error => {
