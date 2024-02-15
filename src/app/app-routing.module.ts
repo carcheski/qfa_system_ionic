@@ -90,6 +90,10 @@ const routes: Routes = [
   {
     path: 'pedido-pendente-mesa',
     loadChildren: () => import('./pedido-pendente-mesa/pedido-pendente-mesa.module').then( m => m.PedidoPendenteMesaPageModule)
+  },
+  {
+    path: 'baixa-estoque',
+    loadChildren: () => import('./baixa-estoque/baixa-estoque.module').then( m => m.BaixaEstoquePageModule)
   }
 ];
 

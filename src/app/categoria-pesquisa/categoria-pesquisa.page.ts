@@ -68,17 +68,12 @@ export class CategoriaPesquisaPage implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.reloadComponent();
     this.carregarCategorias();
     this.carregaProdutos();
   }
 
   reloadComponent() {
-    let currentUrl = this.router.url;
-    
-        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-        this.router.onSameUrlNavigation = 'reload';
-        this.router.navigate([currentUrl]);
+    window.location.reload();
   }
 
   carregarCategorias() {
@@ -148,7 +143,7 @@ export class CategoriaPesquisaPage implements OnInit {
     error => {
     });
     this.tipoTela = 1;
-    this.ngOnInit();
+    this.reloadComponent();
   }
 
 
@@ -162,7 +157,7 @@ export class CategoriaPesquisaPage implements OnInit {
     });
 
     this.categorias.push(this.cat);
-    this.carregarCategorias();
+    this.reloadComponent();
     
   }
 

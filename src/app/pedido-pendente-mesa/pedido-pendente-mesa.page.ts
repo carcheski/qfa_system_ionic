@@ -273,7 +273,7 @@ export class PedidoPendenteMesaPage implements OnInit {
     //console.log(this.cartItems); ok
     //console.log(this.clienteSelecionado); ok
     //console.log(this.enderecoSelecionado); ok
-    //console.log(this.formPagamento.value);
+    //console.log(this.formPagamento.value); ok
     this.pedido.pagamento = this.formPagamento.value;
     this.tipoTela = 7;
   }

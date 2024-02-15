@@ -128,21 +128,29 @@
   <form [formGroup]="formPagamento" (ngSubmit)="confirmarPedido(); $event.preventDefault()">
     <ion-radio-group formControlName="@type">
       <ion-item>
+        <ion-icon name="card-outline"></ion-icon>
         <ion-label>Débito</ion-label>
         <ion-radio checked="true" value="pagamentoComDebito"></ion-radio>
       </ion-item>
       <ion-item>
+        <ion-icon name="card-outline"></ion-icon>
         <ion-label>Crédito</ion-label>
         <ion-radio checked="true" value="pagamentoComCredito"></ion-radio>
       </ion-item>
       <ion-item>
+        <ion-icon name="cash-outline"></ion-icon>
+        <ion-label>Dinheiro</ion-label>
+        <ion-radio checked="true" value="pagamentoNoDinheiro"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="id-card-outline"></ion-icon>
         <ion-label>Marcar na Conta</ion-label>
         <ion-radio checked="true" value="marcarConta"></ion-radio>
       </ion-item>
     </ion-radio-group>
 
     <ion-item *ngIf="formPagamento.value['@type'] == 'pagamentoComCredito'">
-      <ion-label stacked>Parcelas no boleto</ion-label>
+      <ion-label stacked>Parcelas no Crédito</ion-label>
       <ion-select formControlName="numeroDeParcelas">
         <ion-select-option *ngFor="let n of parcelas; first as f" [value]="n" [selected]="f">{{n}}</ion-select-option>
       </ion-select>

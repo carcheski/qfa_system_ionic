@@ -40,10 +40,17 @@
       <ion-input [(ngModel)]="newProd.nome" name="nome" type="text" [clearInput]="true"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="stacked" style="font: 20px bold;">Preço</ion-label>
-      <ion-input [(ngModel)]="newProd.preco" name="preco" type="number" placeholder="R$ 00,00" [clearInput]="true"></ion-input>
+      <ion-label position="stacked" style="font: 20px bold;">Valor de venda</ion-label>
+      <ion-input [(ngModel)]="newProd.preco" name="preco" type="text" placeholder="R$ 00,00" [clearInput]="true"></ion-input>
     </ion-item>
-
+    <ion-item>
+      <ion-label position="stacked" style="font: 20px bold;">Valor de compra</ion-label>
+      <ion-input [(ngModel)]="newProd.vlrCompra" name="vlrCompra" type="text" placeholder="R$ 00,00" [clearInput]="true"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked" style="font: 20px bold;">Quantidade</ion-label>
+      <ion-input [(ngModel)]="newProd.quantidade" name="quantidade" type="text" [clearInput]="true"></ion-input>
+    </ion-item>
     <ion-button expand="block" color="primary"  id="btnLogar" (click)="cadastrar()">Cadastrar
       <ion-icon slot="end" name="open"></ion-icon>
     </ion-button>
@@ -56,11 +63,19 @@
   <form id="formProduto">
     <ion-item>
       <ion-label position="stacked" style="font: 20px bold;">Nome</ion-label>
-      <ion-input [(ngModel)]="prod.nome" name="login" type="text" [clearInput]="true"></ion-input>
+      <ion-input [(ngModel)]="prod.nome" name="nome" type="text" [clearInput]="true"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="stacked" style="font: 20px bold;">Preço</ion-label>
-      <ion-input [(ngModel)]="prod.preco" name="password" type="number" placeholder="R$ 00,00" [clearInput]="true"></ion-input>
+      <ion-input [(ngModel)]="prod.preco" name="preco" type="text" placeholder="R$ 00,00" [clearInput]="true"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked" style="font: 20px bold;">Valor de compra</ion-label>
+      <ion-input [(ngModel)]="prod.vlrCompra" name="vlrCompra" type="text" placeholder="R$ 00,00" [clearInput]="true"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked" style="font: 20px bold;">Quantidade</ion-label>
+      <ion-input [(ngModel)]="prod.quantidade" name="quantidade" type="text" [clearInput]="true"></ion-input>
     </ion-item>
     <ion-button *ngIf="prod.id != ''" expand="block" color="warning"  id="btnLogar" (click)="salvar()">Salvar
       <ion-icon slot="end" name="open"></ion-icon>

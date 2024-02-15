@@ -207,7 +207,6 @@ export class ClientePesquisaPage implements OnInit {
       this.newCli.enderecos.push(this.endereco);
     });
     if(e.detail.value == "" || this.items == null){
-      console.log("aqui")
       this.ngOnInit();
     }
     

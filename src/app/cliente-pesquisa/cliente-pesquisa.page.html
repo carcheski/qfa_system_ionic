@@ -28,22 +28,26 @@
   <ng-template>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Modal</ion-title>
+        <ion-title>Tipo de Cliente</ion-title>
         <ion-buttons slot="end">
-          <ion-button (click)="setOpen(false)">Close</ion-button>
+          <ion-button (click)="setOpen(false)">Sair</ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content>
-      <p class="ion-padding-horizontal">You must accept the terms and conditions to close this modal.</p>
-      <ion-item>
-        <ion-checkbox id="terms" (ionChange)="checkPessoa($event)" [checked]="canDismiss">
-          <div class="ion-text-wrap">Pessoa</div>
-        </ion-checkbox>
-        <ion-checkbox id="terms" (ionChange)="checkMesa($event)" [checked]="canDismiss">
-          <div class="ion-text-wrap">Mesa</div>
-        </ion-checkbox>
-      </ion-item>
+    <ion-content color="light">
+      <ion-list [inset]="true">
+        <p class="ion-padding-horizontal">Selecione o Tipo do Cliente</p>
+        <ion-item>
+          <ion-checkbox id="terms" aria-label="Toggle task completion" labelPlacement="first" (ionChange)="checkPessoa($event)" [checked]="canDismiss">
+            Pessoa
+          </ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox id="terms" labelPlacement="first" (ionChange)="checkMesa($event)" [checked]="canDismiss">
+            Mesa
+          </ion-checkbox>
+        </ion-item>
+      </ion-list>
     </ion-content>
   </ng-template>
 </ion-modal>

@@ -13,7 +13,7 @@ export class AppComponent {
   ];
   public appPagesCadastro = [
     { title: 'Produto', url: '/produto-pesquisa', icon: 'fast-food' },
-    { title: 'Categoria', url: '/categoria-pesquisa', icon: 'file-tray-stacked' },
+    { title: 'Cardápio', url: '/categoria-pesquisa', icon: 'list' },
     { title: 'Cliente', url: '/cliente-pesquisa', icon: 'people' },
     
     //{ title: 'Clientes', url: '/categorias', icon: 'paper-plane' },
