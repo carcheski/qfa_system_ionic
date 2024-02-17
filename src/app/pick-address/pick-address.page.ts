@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { NavParams } from '@ionic/angular';
 import { EnderecoDTO } from 'src/models/endereco.dto';
 import { PedidoDTO } from 'src/models/pedido.dto';
 import { CartService } from 'src/services/domain/cart.service';
@@ -45,6 +44,7 @@ export class PickAddressPage implements OnInit {
 
               this.pedido = {
                 id: null as any,
+                instante: "",
                 cliente: {id: response['id']},
                 enderecoDeEntrega: null as any,
                 pagamento: null as any,

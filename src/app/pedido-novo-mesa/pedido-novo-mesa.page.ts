@@ -101,7 +101,6 @@ export class PedidoNovoMesaPage implements OnInit {
     this.categoriaService.findAll()
     .subscribe(response => {
       this.categorias = response;
-      console.log(response)
     },
     error => {}
     );
@@ -113,6 +112,7 @@ export class PedidoNovoMesaPage implements OnInit {
       this.produtoService.findByCategoria(categoria_id, this.page, 10)
       .subscribe (response =>{
         const res = ((response));
+        console.log(res)
         this.produtos = Object.values(res);
         let start = this.produtos.length;
         let end = this.produtos.length - 1;
@@ -148,6 +148,7 @@ export class PedidoNovoMesaPage implements OnInit {
   }
 
   addToCart(produto: ProdutoDTO) {
+    console.log(produto);
     this.cartService.addProduto(produto);
     this.tipoTela = 3;
     this.carregarPedido();
@@ -193,10 +194,11 @@ export class PedidoNovoMesaPage implements OnInit {
   }
 
   voltarHome(){
-    this.atualizarEstoque();
+    
     let cart = this.cartService.getCart();
     this.pedido = {
       id: null as any,
+      instante: "",
       cliente: {id: this.clienteSelecionado.id},
       enderecoDeEntrega: null as any,
       pagamento: null as any,
@@ -204,6 +206,7 @@ export class PedidoNovoMesaPage implements OnInit {
         {console.log(x.quantidade);
           return {quantidade: x.quantidade, produto: {id: x.produto.id}}})
     }
+    this.atualizarEstoque();
     this.pedidoEmAndamento();
     this.router.navigate(['/home'], { queryParams: {cliente: this.clienteSelecionado.id}});
     this.homePage.ngOnInit();
@@ -235,16 +238,17 @@ export class PedidoNovoMesaPage implements OnInit {
   }
 
   checkout() {
-    this.atualizarEstoque();
     this.tipoTela = 6;
     let cart = this.cartService.getCart();
     this.pedido = {
       id: null as any,
+      instante: "",
       cliente: {id: this.clienteSelecionado.id},
       enderecoDeEntrega: null as any,
       pagamento: null as any,
       itens : cart.items.map(x => {return {quantidade: x.quantidade, produto: {id: x.produto.id}}})
     }
+    this.atualizarEstoque();
     this.carregarTelaPagamento();
   }
 
@@ -296,7 +300,7 @@ export class PedidoNovoMesaPage implements OnInit {
   fecharPedido() {
     this.pedido.itens = this.cartItems;
     this.pedido.cliente = this.clienteSelecionado;
-    this.pedido.pagamento.estado = '2';
+    this.pedido.pagamento.estado = 'FINALIZAR';
     this.pedidoService.insert(this.pedido)
       .subscribe(response => {
         this.cartService.createOrClearCart();

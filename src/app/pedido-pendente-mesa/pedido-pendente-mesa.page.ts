@@ -214,6 +214,7 @@ export class PedidoPendenteMesaPage implements OnInit {
     let cart = this.cartService.getCart();
     this.pedido = {
       id: this.pedido.id,
+      instante: "",
       cliente: this.pedido.cliente,
       enderecoDeEntrega: null as any,
       pagamento: this.pedido.pagamento,
@@ -234,6 +235,7 @@ export class PedidoPendenteMesaPage implements OnInit {
     let cart = this.cartService.getCart();
     this.pedido = {
       id: this.pedido.id,
+      instante: "",
       cliente: this.pedido.cliente,
       enderecoDeEntrega: null as any,
       pagamento: this.pedido.pagamento,

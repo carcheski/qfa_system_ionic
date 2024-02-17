@@ -94,6 +94,10 @@ const routes: Routes = [
   {
     path: 'baixa-estoque',
     loadChildren: () => import('./baixa-estoque/baixa-estoque.module').then( m => m.BaixaEstoquePageModule)
+  },
+  {
+    path: 'controle-vendas',
+    loadChildren: () => import('./controle-vendas/controle-vendas.module').then( m => m.ControleVendasPageModule)
   }
 ];
 

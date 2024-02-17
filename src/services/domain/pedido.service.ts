@@ -46,4 +46,8 @@ export class PedidoService {
         return this.http.get<PedidoDTO>(`${API_CONFIG.baseUrl}/pedidos/cliente/${id_cliente}`);
     }
 
+    findAll() : Observable<PedidoDTO[]>  {
+        return this.http.get<PedidoDTO[]>(`${API_CONFIG.baseUrl}/pedidos/`);
+      }
+
 }

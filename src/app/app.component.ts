@@ -23,6 +23,7 @@ export class AppComponent {
   public appPagesControle = [
     { title: 'Estoque', url: '/estoque', icon: 'albums' },
     { title: 'Baixa Estoque', url: '/baixa-estoque', icon: 'download' },
+    { title: 'Controle de Vendas', url: '/controle-vendas', icon: 'list' },
 
   ];
   public configuracao = [

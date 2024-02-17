@@ -202,6 +202,7 @@ export class PedidoPage implements OnInit {
 
               this.pedido = {
                 id: null as any,
+                instante: "",
                 cliente: {id: response['id']},
                 enderecoDeEntrega: null as any,
                 pagamento: null as any,
@@ -226,6 +227,7 @@ export class PedidoPage implements OnInit {
 
           this.pedido = {
             id: null as any,
+            instante: "",
             cliente: {id: response['id']},
             enderecoDeEntrega: null as any,
             pagamento: null as any,

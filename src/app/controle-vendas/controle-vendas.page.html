@@ -1,0 +1,55 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Controle de Vendas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button shape="round" id="open-modal" ion-fab mini><ion-icon name="add"></ion-icon></ion-fab-button>
+  </ion-fab>
+  <ion-searchbar [debounce]="10000" (ionChange)="handleChangePedido($event)" clear-icon="trash-bin"
+                placeholder="Nome"></ion-searchbar>
+
+  <ion-list [inset]="true">
+    <ion-item *ngFor="let pedido of pedidos" [button]="true">
+      <ion-grid>
+        <ion-row>
+          <ion-col><p>Nº Pedido</p> {{pedido.id}}</ion-col>
+          <ion-col><p>Data</p> {{pedido.instante}}</ion-col>
+          <ion-col>
+            <p>Produtos da Venda</p> 
+            <ion-select interface="popover" placeholder="Produtos" style="font-weight: bold;">
+              <ion-select-option *ngFor="let pedido of pedido.itens" disabled="true" value="apple" >{{pedido.produto.nome}}</ion-select-option>
+            </ion-select>
+          </ion-col>
+          <ion-col>
+            <p>Valor Total</p> {{pedido.valorTotal | currency}}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+  <ion-modal #modal trigger="open-modal" [canDismiss]="canDismiss" style="padding-left: 70%;padding-right: 0%;">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Modal</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="modal.dismiss()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <p class="ion-padding-horizontal">You must accept the terms and conditions to close this modal.</p>
+        <ion-item>
+          <ion-checkbox id="terms" (ionChange)="onTermsChanged($event)" [checked]="canDismiss">
+            <div class="ion-text-wrap">Do you accept the terms and conditions?</div>
+          </ion-checkbox>
+        </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+  
