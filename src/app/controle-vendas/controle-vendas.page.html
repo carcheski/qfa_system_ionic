@@ -1,55 +1,196 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Controle de Vendas</ion-title>
+    <ion-title>Gestão de Vendas</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button shape="round" id="open-modal" ion-fab mini><ion-icon name="add"></ion-icon></ion-fab-button>
-  </ion-fab>
-  <ion-searchbar [debounce]="10000" (ionChange)="handleChangePedido($event)" clear-icon="trash-bin"
-                placeholder="Nome"></ion-searchbar>
-
-  <ion-list [inset]="true">
-    <ion-item *ngFor="let pedido of pedidos" [button]="true">
-      <ion-grid>
-        <ion-row>
-          <ion-col><p>Nº Pedido</p> {{pedido.id}}</ion-col>
-          <ion-col><p>Data</p> {{pedido.instante}}</ion-col>
-          <ion-col>
-            <p>Produtos da Venda</p> 
-            <ion-select interface="popover" placeholder="Produtos" style="font-weight: bold;">
-              <ion-select-option *ngFor="let pedido of pedido.itens" disabled="true" value="apple" >{{pedido.produto.nome}}</ion-select-option>
-            </ion-select>
-          </ion-col>
-          <ion-col>
-            <p>Valor Total</p> {{pedido.valorTotal | currency}}
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+  <ion-card style="height: 100%;">
+    <ion-item lines="none" style="height: 50%; padding-top: 100px;">
+      <ion-button fill="outline" size="large" style=" width: 400px; height: 100px;" (click)="vendasHoje(true)">Hoje</ion-button>
+      <ion-button fill="outline" size="large" style=" width: 400px; height: 100px;" (click)="vendasOntem(true)">Ontem</ion-button>
+      <ion-button fill="outline" size="large" style=" width: 400px; height: 100px;" (click)="vendasSemanal(true)">Semanal</ion-button>
     </ion-item>
-  </ion-list>
+    <ion-item lines="none" style="height: 50%;">
+      <ion-button fill="outline" size="large" style=" width: 400px; height: 100px;" (click)="vendasMensal(true)">Mensal</ion-button>
+      <ion-button fill="outline" size="large" style=" width: 400px; height: 100px;" (click)="vendasAnual(true)">Anual</ion-button>
+      <ion-button fill="outline" size="large" style=" width: 400px; height: 100px;" (click)="vendasPersonalizado(true)">Personalizado</ion-button>
+    </ion-item>
+  </ion-card>
 
-  <ion-modal #modal trigger="open-modal" [canDismiss]="canDismiss" style="padding-left: 70%;padding-right: 0%;">
+  <ion-modal [isOpen]="isModalHoje">
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Modal</ion-title>
+          <ion-title>Relatório de Vendas</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="modal.dismiss()">Close</ion-button>
+            <ion-button (click)="vendasHoje(false)"><ion-icon name="close-circle-outline" size="large"></ion-icon></ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content>
-        <p class="ion-padding-horizontal">You must accept the terms and conditions to close this modal.</p>
-        <ion-item>
-          <ion-checkbox id="terms" (ionChange)="onTermsChanged($event)" [checked]="canDismiss">
-            <div class="ion-text-wrap">Do you accept the terms and conditions?</div>
-          </ion-checkbox>
-        </ion-item>
+        <h1 style="padding-left: 20px;">Vendas Hoje</h1>
+        <ion-list [inset]="true">
+          <ion-item>
+            <ion-grid>
+              <ion-row>
+                <ion-col><p style="font-weight: bold;">Data</p> {{hoje.dataVenda}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Pedidos</p> {{hoje.qtdVendido}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Custo</p> {{hoje.totVlrCompra | currency}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Venda</p>  {{hoje.totVlrVenda | currency}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Lucro</p>  {{hoje.lucro | currency}} </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [isOpen]="isModalOntem">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Relatório de Vendas</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="vendasOntem(false)"><ion-icon name="close-circle-outline" size="large"></ion-icon></ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <h1 style="padding-left: 20px;">Vendas Ontem</h1>
+        <ion-list [inset]="true">
+          <ion-item>
+            <ion-grid>
+              <ion-row>
+                <ion-col><p style="font-weight: bold;">Data</p> {{ontem.dataVenda}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Pedidos</p> {{ontem.qtdVendido}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Custo</p> {{ontem.totVlrCompra | currency}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Venda</p>  {{ontem.totVlrVenda | currency}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Lucro</p>  {{ontem.lucro | currency}} </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  
+  <ion-modal [isOpen]="isModalSemana">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Relatório de Vendas</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="vendasSemanal(false)"><ion-icon name="close-circle-outline" size="large"></ion-icon></ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <h1 style="padding-left: 20px;">Vendas da Semana</h1>
+        <ion-list [inset]="true">
+          <ion-item>
+            <ion-grid>
+              <ion-row>
+                <ion-col><p style="font-weight: bold;">Data</p> {{semana.dataVenda}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Pedidos</p> {{semana.qtdVendido}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Custo</p> {{semana.totVlrCompra | currency}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Venda</p>  {{semana.totVlrVenda | currency}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Lucro</p>  {{semana.lucro | currency}} </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [isOpen]="isModalMes">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Relatório de Vendas</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="vendasMensal(false)"><ion-icon name="close-circle-outline" size="large"></ion-icon></ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <h1 style="padding-left: 20px;">Vendas do Mês</h1>
+        <ion-list [inset]="true">
+          <ion-item>
+            <ion-grid>
+              <ion-row>
+                <ion-col><p style="font-weight: bold;">Data</p> {{mes.dataVenda}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Pedidos</p> {{mes.qtdVendido}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Custo</p> {{mes.totVlrCompra | currency}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Venda</p>  {{mes.totVlrVenda | currency}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Lucro</p>  {{mes.lucro | currency}} </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [isOpen]="isModalAno">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Relatório de Vendas</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="vendasAnual(false)"><ion-icon name="close-circle-outline" size="large"></ion-icon></ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <h1 style="padding-left: 20px;">Vendas do Ano</h1>
+        <ion-list [inset]="true">
+          <ion-item>
+            <ion-grid>
+              <ion-row>
+                <ion-col><p style="font-weight: bold;">Data</p> {{ano.dataVenda}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Pedidos</p> {{ano.qtdVendido}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Custo</p> {{ano.totVlrCompra | currency}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Venda</p>  {{ano.totVlrVenda | currency}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Lucro</p>  {{ano.lucro | currency}} </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [isOpen]="isModalPersonalizado">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Relatório de Vendas</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="vendasPersonalizado(false)"><ion-icon name="close-circle-outline" size="large"></ion-icon></ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <h1 style="padding-left: 20px;">Vendas Hoje</h1>
+        <ion-list [inset]="true">
+          <ion-item>
+            <ion-grid>
+              <ion-row>
+                <ion-col><p style="font-weight: bold;">Data</p> {{hoje.dataVenda}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Pedidos</p> {{hoje.qtdVendido}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Custo</p> {{hoje.totVlrCompra | currency}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Venda</p>  {{hoje.totVlrVenda | currency}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Lucro</p>  {{hoje.lucro | currency}} </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+        </ion-list>
       </ion-content>
     </ng-template>
   </ion-modal>
 </ion-content>
   
+
