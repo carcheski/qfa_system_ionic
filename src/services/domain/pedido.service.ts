@@ -48,6 +48,10 @@ export class PedidoService {
 
     findAll() : Observable<PedidoDTO[]>  {
         return this.http.get<PedidoDTO[]>(`${API_CONFIG.baseUrl}/pedidos/`);
-      }
+    }
+
+    findAllByDatas(dataInicial : string, dataFinal : string) : Observable<PedidoDTO[]>  {
+        return this.http.get<PedidoDTO[]>(`${API_CONFIG.baseUrl}/pedidos/${dataInicial}/e/${dataFinal}`);
+    }
 
 }

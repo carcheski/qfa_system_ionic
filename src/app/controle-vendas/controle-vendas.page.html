@@ -6,15 +6,19 @@
 
 <ion-content class="ion-padding">
   <ion-card style="height: 100%;">
-    <ion-item lines="none" style="height: 50%; padding-top: 100px;">
+    <ion-item lines="none" style="padding-top: 100px;">
       <ion-button fill="outline" size="large" style=" width: 400px; height: 100px;" (click)="vendasHoje(true)">Hoje</ion-button>
       <ion-button fill="outline" size="large" style=" width: 400px; height: 100px;" (click)="vendasOntem(true)">Ontem</ion-button>
       <ion-button fill="outline" size="large" style=" width: 400px; height: 100px;" (click)="vendasSemanal(true)">Semanal</ion-button>
     </ion-item>
-    <ion-item lines="none" style="height: 50%;">
+    <ion-item lines="none" style="padding-top: 100px;">
       <ion-button fill="outline" size="large" style=" width: 400px; height: 100px;" (click)="vendasMensal(true)">Mensal</ion-button>
       <ion-button fill="outline" size="large" style=" width: 400px; height: 100px;" (click)="vendasAnual(true)">Anual</ion-button>
-      <ion-button fill="outline" size="large" style=" width: 400px; height: 100px;" (click)="vendasPersonalizado(true)">Personalizado</ion-button>
+      <ion-button fill="outline" size="large" style=" width: 400px; height: 100px;" (click)="habilitaDate(true)">Personalizado</ion-button>
+    </ion-item>
+    <ion-item class="datasInput" lines="none" *ngIf="dtPersonalizado">
+      <ion-input type="date" class="dtInicial" [(ngModel)]="dataInicial" fill="outline"></ion-input>
+      <ion-input type="date" class="dtFinal" [(ngModel)]="dataFinal" (ionChange)="vendasPersonalizado(true)" fill="outline"></ion-input>
     </ion-item>
   </ion-card>
 
@@ -30,7 +34,7 @@
       </ion-header>
       <ion-content>
         <h1 style="padding-left: 20px;">Vendas Hoje</h1>
-        <ion-list [inset]="true">
+        <ion-list [inset]="true" *ngFor="let hoje of pedidosHoje">
           <ion-item>
             <ion-grid>
               <ion-row>
@@ -59,7 +63,7 @@
       </ion-header>
       <ion-content>
         <h1 style="padding-left: 20px;">Vendas Ontem</h1>
-        <ion-list [inset]="true">
+        <ion-list [inset]="true" *ngFor="let ontem of pedidosOntem">
           <ion-item>
             <ion-grid>
               <ion-row>
@@ -88,7 +92,7 @@
       </ion-header>
       <ion-content>
         <h1 style="padding-left: 20px;">Vendas da Semana</h1>
-        <ion-list [inset]="true">
+        <ion-list [inset]="true" *ngFor="let semana of pedidosSemana">
           <ion-item>
             <ion-grid>
               <ion-row>
@@ -117,7 +121,7 @@
       </ion-header>
       <ion-content>
         <h1 style="padding-left: 20px;">Vendas do Mês</h1>
-        <ion-list [inset]="true">
+        <ion-list [inset]="true" *ngFor="let mes of pedidosMes">
           <ion-item>
             <ion-grid>
               <ion-row>
@@ -139,14 +143,14 @@
       <ion-header>
         <ion-toolbar>
           <ion-title>Relatório de Vendas</ion-title>
-          <ion-buttons slot="end">
+          <ion-buttons slot="end" >
             <ion-button (click)="vendasAnual(false)"><ion-icon name="close-circle-outline" size="large"></ion-icon></ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content>
         <h1 style="padding-left: 20px;">Vendas do Ano</h1>
-        <ion-list [inset]="true">
+        <ion-list [inset]="true"  *ngFor="let ano of pedidosAno">
           <ion-item>
             <ion-grid>
               <ion-row>
@@ -174,16 +178,16 @@
         </ion-toolbar>
       </ion-header>
       <ion-content>
-        <h1 style="padding-left: 20px;">Vendas Hoje</h1>
-        <ion-list [inset]="true">
+        <h1 style="padding-left: 20px;">Personalizado</h1>
+        <ion-list [inset]="true" *ngFor="let personalizado of pedidosPersonalizados">
           <ion-item>
             <ion-grid>
               <ion-row>
-                <ion-col><p style="font-weight: bold;">Data</p> {{hoje.dataVenda}} </ion-col>
-                <ion-col><p style="font-weight: bold;">Pedidos</p> {{hoje.qtdVendido}} </ion-col>
-                <ion-col><p style="font-weight: bold;">Total Custo</p> {{hoje.totVlrCompra | currency}} </ion-col>
-                <ion-col><p style="font-weight: bold;">Total Venda</p>  {{hoje.totVlrVenda | currency}} </ion-col>
-                <ion-col><p style="font-weight: bold;">Total Lucro</p>  {{hoje.lucro | currency}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Data</p> {{personalizado.dataVenda}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Pedidos</p> {{personalizado.qtdVendido}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Custo</p> {{personalizado.totVlrCompra | currency}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Venda</p>  {{personalizado.totVlrVenda | currency}} </ion-col>
+                <ion-col><p style="font-weight: bold;">Total Lucro</p>  {{personalizado.lucro | currency}} </ion-col>
               </ion-row>
             </ion-grid>
           </ion-item>
