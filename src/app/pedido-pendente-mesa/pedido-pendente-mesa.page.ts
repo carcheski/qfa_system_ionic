@@ -88,6 +88,7 @@ export class PedidoPendenteMesaPage implements OnInit {
         this.clienteService.findById(cliente_id)
         .subscribe (response =>{
           this.clienteSelecionado = response;
+          this.cartService.createOrClearCart();
           this.adicionarAoCarrinho();
         },
           error => {}
@@ -102,12 +103,19 @@ export class PedidoPendenteMesaPage implements OnInit {
       .subscribe(response => {
         let itens = response.itens;
         this.pedido = response;
+        let cart = this.cartService.getCart();
         for (let i = 0 ; i< itens.length ; i++){
           let prod = itens[i].produto
           this.produtoService.findById(prod.id)
             .subscribe(response =>{
-              this.carrinho = this.cartService.increaseQuantity(response).items;
-              this.addToCart(response);
+              let itensCart : CartItem = {
+                produto : response,
+                quantidade : itens[i].quantidade
+              }
+              cart.items.push(itensCart);
+              console.log(cart.items)
+              this.carrinho = cart.items;
+              this.cartService.addProduto(response);
             })
         }
       });
@@ -118,7 +126,6 @@ export class PedidoPendenteMesaPage implements OnInit {
     this.categoriaService.findAll()
     .subscribe(response => {
       this.categorias = response;
-      console.log(response)
     },
     error => {}
     );
@@ -142,11 +149,9 @@ export class PedidoPendenteMesaPage implements OnInit {
   }
 
   loadImageUrls(start: number, end: number) {
-    console.log("total " + start + " e fim " + end)
       let produto = Object.values(this.produtos[0]);
       produto.map((item) => {
         let prod = item.id;
-        console.log(prod);
         this.produtoService.getSmallImageFromBucket(prod)
         .subscribe(response => {
           item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${prod}-small.jpg`;
@@ -164,8 +169,8 @@ export class PedidoPendenteMesaPage implements OnInit {
     return loader;
   }
 
-  addToCart(produto: ProdutoDTO) {
-    this.cartService.addProduto(produto);
+  addToCart() {
+    //console.log(produto)
     this.tipoTela = 3;
     this.carregarPedido();
   }
@@ -206,11 +211,9 @@ export class PedidoPendenteMesaPage implements OnInit {
 
   goOn() {
     this.tipoTela = 1;
-    this.ngOnInit();
   }
 
   voltarHome(){
-    this.atualizarEstoque();
     let cart = this.cartService.getCart();
     this.pedido = {
       id: this.pedido.id,
@@ -220,6 +223,7 @@ export class PedidoPendenteMesaPage implements OnInit {
       pagamento: this.pedido.pagamento,
       itens : cart.items.map(x => {return {quantidade: x.quantidade, produto: {id: x.produto.id}}})
     }
+    this.atualizarEstoque();
     this.pedidoEmAndamento();
     this.home();
   }
@@ -227,10 +231,12 @@ export class PedidoPendenteMesaPage implements OnInit {
   pedidoEmAndamento(){
     this.cartService.createOrClearCart();
     this.pedidoService.salvar(this.pedido)
+    .subscribe(response =>{
+
+    })
   }
 
   checkout() {
-    this.atualizarEstoque();
     this.tipoTela = 6;
     let cart = this.cartService.getCart();
     this.pedido = {
@@ -241,13 +247,13 @@ export class PedidoPendenteMesaPage implements OnInit {
       pagamento: this.pedido.pagamento,
       itens : cart.items.map(x => {return {quantidade: x.quantidade, produto: {id: x.produto.id}}})
     }
+    this.atualizarEstoque();
     this.carregarTelaPagamento();
   }
 
   atualizarEstoque(){
     for(let i = 0 ; i < this.pedido.itens.length; i++){ 
       let prod = this.pedido.itens[i].produto;
-      console.log(this.pedido.itens)
       this.produtoService.findById(prod.id)
       .subscribe(resp =>{
         let produtoEstoque = resp
@@ -263,7 +269,6 @@ export class PedidoPendenteMesaPage implements OnInit {
   }
 
   carregarTelaPagamento() {
-    console.log("aqui")
       this.formPagamento = this.formBuilder.group({
         id: [this.pedido.pagamento.id],
         numeroDeParcelas: [this.pedido.pagamento.numeroDeParcelas, Validators.required],
@@ -297,7 +302,6 @@ export class PedidoPendenteMesaPage implements OnInit {
     this.pedido.itens = this.cartItems;
     this.pedido.cliente = this.clienteSelecionado;
     this.pedido.pagamento.estado = 'QUITADO';
-    console.log(this.pedido);
     this.pedidoService.salvar(this.pedido)
       .subscribe(response => {
         this.cartService.createOrClearCart();

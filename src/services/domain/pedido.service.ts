@@ -27,7 +27,6 @@ export class PedidoService {
     }
 
     salvar(obj: PedidoDTO) {
-        console.log(obj)
         return this.http.put(
             `${API_CONFIG.baseUrl}/pedidos/${obj.id}`,
             obj,
@@ -37,6 +36,10 @@ export class PedidoService {
             }
         );
       }
+    
+    findById(id_pedido : String) {
+    return this.http.get<PedidoDTO>(`${API_CONFIG.baseUrl}/pedidos/${id_pedido}`);
+    }
 
     findByTipoCliente(tipo : String) : Observable<PedidoDTO[]> {
         return this.http.get<PedidoDTO[]>(`${API_CONFIG.baseUrl}/pedidos/cliente/tipo/${tipo}`);
