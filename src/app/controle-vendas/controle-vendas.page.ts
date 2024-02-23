@@ -300,7 +300,7 @@ export class ControleVendasPage implements OnInit {
         let endDate = new Date();
         let startDate : Date = new Date();
         var date = new Date();
-        startDate.setDate(date.getDate() - 7);
+        startDate.setDate(date.getDate() - 6);
         let dtInicial = datepipe.transform(startDate, 'dd-MM-yyyy');
         let dtFinal = datepipe.transform(endDate, 'dd-MM-yyyy');
         console.log("dt Inicial " + dtInicial + "Dt Final" + dtFinal);
@@ -364,7 +364,7 @@ export class ControleVendasPage implements OnInit {
         let endDate = new Date();
         let startDate : Date = new Date();
         var date = new Date();
-        startDate.setDate(date.getDate() -30);
+        startDate.setDate(date.getDate() -31);
         let dtInicial = datepipe.transform(startDate, 'dd-MM-yyyy');
         let dtFinal = datepipe.transform(endDate, 'dd-MM-yyyy');
         console.log("dt Inicial " + dtInicial + "Dt Final" + dtFinal);
