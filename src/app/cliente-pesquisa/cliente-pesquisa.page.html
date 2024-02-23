@@ -73,8 +73,8 @@
     </ion-item>
     <ion-item *ngIf="pessoa">
       <ion-select label="Tipo Cliente" placeholder="Selecione" (ionChange)="handleChangeTipoCliente($event);">
-        <ion-select-option value="1">Pessoa Física</ion-select-option>
-        <ion-select-option value="2">Pessoa Jurídica</ion-select-option>
+        <ion-select-option value="PESSOAFISICA">Pessoa Física</ion-select-option>
+        <ion-select-option value="PESSOAJURIDICA">Pessoa Jurídica</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item  *ngIf="pessoa">
@@ -114,7 +114,7 @@
       </ion-item>
 
     </ion-card>
-    <ion-button expand="block" color="primary"  id="btnSalvar" (click)="inserir()">Cadastrar
+    <ion-button expand="block" color="primary"  id="btnInserir" (click)="inserir()">Cadastrar
       <ion-icon slot="end" name="open"></ion-icon>
     </ion-button>
     

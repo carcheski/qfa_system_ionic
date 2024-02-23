@@ -7,9 +7,6 @@
 <ion-content class="ion-padding">
   <ion-list [inset]="true">
     <ion-item *ngFor="let item of items">
-      <ion-thumbnail slot="start">
-        <img [src]="item.produto.imageUrl || 'assets/imgs/prod.jpg'">
-      </ion-thumbnail>
       <ion-card-content >
         <ion-card-title style="font-weight: bold; font-size: 25px;">
           {{item?.produto.nome}}

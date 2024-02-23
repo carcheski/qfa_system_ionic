@@ -17,9 +17,6 @@
 
   <ion-list [inset]="true">
     <ion-item *ngFor="let result of items" [button]="true" (click)="edicao(result.id)">
-        <ion-thumbnail item-start>
-          <img [src]="result.imageUrl || 'assets/imgs/prod.png'">
-        </ion-thumbnail>
         <ion-card-content>
           <ion-card-title>
             {{result?.nome}}

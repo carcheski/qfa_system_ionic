@@ -285,9 +285,11 @@ export class ClientePesquisaPage implements OnInit {
   }
 
   inserir() {
-    if(this.mesa)
+    if(this.mesa){
+      console.log("aqui")
       this.newCli.tipo = 'MESA';
-    console.log(this.newCli)
+    }
+    console.log(this.newCli);
     this.clienteService.insert(this.newCli)
     .subscribe(response => {
       this.tipoTela = 1;

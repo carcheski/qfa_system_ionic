@@ -13,9 +13,6 @@
   </ion-fab>
   <ion-list [inset]="true">
     <ion-item *ngFor="let item of items[0]" [button]="true"  (click)="showDetail(item.id)">
-        <ion-thumbnail item-start>
-          <img [src]="item.imageUrl || 'assets/imgs/prod.png'">
-        </ion-thumbnail>
         <ion-card-content>
           <ion-card-title>
             {{item?.nome}}

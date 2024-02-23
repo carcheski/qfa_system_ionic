@@ -10,7 +10,7 @@
   <ion-list>
     <ion-item *ngFor="let item of categorias" [button]="true" (click)="showProdutos(item.id)">
       <ion-thumbnail item-start>
-        <img src="{{bucketUrl}}/cat{{item.id}}.jpg">
+        <img src="assets/categorias/cat{{item.id}}.png">
       </ion-thumbnail>
       <h2> {{ item.nome }}</h2>
     </ion-item>
@@ -31,9 +31,6 @@
 <ion-content [fullscreen]="true" *ngIf="tipoTela == 2">
   <ion-list [inset]="true">
     <ion-item *ngFor="let item of produtos[0]" [button]="true"  (click)="addToCart(item)">
-        <ion-thumbnail item-start>
-          <img [src]="item.imageUrl || 'assets/imgs/prod.png'">
-        </ion-thumbnail>
         <ion-card-content>
           <ion-card-title>
             {{item?.nome}}
@@ -55,9 +52,6 @@
 <ion-content [fullscreen]="true" *ngIf="tipoTela == 3">
   <ion-list [inset]="true">
     <ion-item *ngFor="let item of carrinho">
-      <ion-thumbnail slot="start">
-        <img [src]="item.produto.imageUrl || 'assets/imgs/prod.jpg'">
-      </ion-thumbnail>
       <ion-card-content >
         <ion-card-title style="font-weight: bold; font-size: 25px;">
           {{item?.produto.nome}}
@@ -132,9 +126,6 @@
 
       <ion-list>
         <ion-item *ngFor="let item of cartItems">
-          <ion-thumbnail slot="start">
-            <img [src]="item.produto.imageUrl || 'assets/imgs/prod.jpg'">
-          </ion-thumbnail>
           <ion-card-content >
             <ion-card-title style="font-weight: bold; font-size: 25px;">
               {{item?.produto.nome}}

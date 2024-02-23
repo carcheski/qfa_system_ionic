@@ -235,6 +235,7 @@ export class PedidoNovoMesaPage implements OnInit {
           this.router.navigate(['/home']);
         }
       });
+      this.cartService.createOrClearCart();
   }
 
   checkout() {

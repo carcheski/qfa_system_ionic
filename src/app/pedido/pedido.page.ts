@@ -73,6 +73,8 @@ export class PedidoPage implements OnInit {
 
   ngOnInit() {
     this.carregarCategorias();
+    console.log("aqui");
+    this.cartService.createOrClearCart();
   }
 
   carregarCategorias() {
@@ -168,7 +170,7 @@ export class PedidoPage implements OnInit {
 
   goOn() {
     this.tipoTela = 1;
-    this.ngOnInit();
+    this.carregarCategorias();
   }
 
   checkout() {

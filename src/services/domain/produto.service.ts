@@ -45,6 +45,10 @@ export class ProdutoService {
     return this.http.get<ProdutoDTO>(`${API_CONFIG.baseUrl}/produtos/${produto_id}`);
   }
 
+  findByIdProdutoDTO(produto_id : String) {
+    return this.http.get<ProdutoDTO>(`${API_CONFIG.baseUrl}/produtos/id/${produto_id}`);
+  }
+
   findAll() : Observable<ProdutoDTO[]>  {
     return this.http.get<ProdutoDTO[]>(`${API_CONFIG.baseUrl}/produtos/`);
   }
