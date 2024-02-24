@@ -75,6 +75,7 @@
   </ion-list>
   <ion-button expand="block" (click)="goOn()"> <ion-icon name="add-circle-sharp"></ion-icon> Adicionar Item</ion-button>
   <ion-button *ngIf="total() > 0" color="warning" expand="block" (click)="voltarHome()"><ion-icon name="timer-sharp"></ion-icon>Aguardar Pagamento</ion-button>
+  <ion-button *ngIf="total() > 0" color="danger" expand="block" (click)="cancelarPedido()"><ion-icon name="ban-outline"></ion-icon>Cancelar pedido</ion-button>
   <ion-button *ngIf="total() > 0" color="success" expand="block" (click)="checkout()"> <ion-icon name="checkmark-circle-sharp"></ion-icon>Finalizar pedido</ion-button>
 </ion-content>
 

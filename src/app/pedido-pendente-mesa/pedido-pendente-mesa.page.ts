@@ -322,5 +322,19 @@ export class PedidoPendenteMesaPage implements OnInit {
     return location.substring(position + 1, location.length);
   }
 
+  cancelarPedido() {
+    this.pedido.pagamento.estado = "CANCELADO";
+    this.pedidoService.salvar(this.pedido)
+      .subscribe(response => {
+        this.cartService.createOrClearCart();
+        this.home();
+      },
+      error => {
+        if (error.status == 403) {
+          this.navCtrl.navigateRoot(['/home']);
+        }
+      });
+  }
+
 
 }
