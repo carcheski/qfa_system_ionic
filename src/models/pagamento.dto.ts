@@ -1,6 +1,6 @@
 export interface PagamentoDTO {
     id: string;
     numeroDeParcelas : number;
-    "@type" : string;
+    tipo : string;
     estado : string;
 }

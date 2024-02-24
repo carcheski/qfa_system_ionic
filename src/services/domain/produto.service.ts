@@ -41,6 +41,11 @@ export class ProdutoService {
     );
   }
 
+  excluir(produto_id : string) {
+
+    return this.http.delete(`${API_CONFIG.baseUrl}/produtos/${produto_id}`);
+  }
+
   findById(produto_id : String) {
     return this.http.get<ProdutoDTO>(`${API_CONFIG.baseUrl}/produtos/${produto_id}`);
   }

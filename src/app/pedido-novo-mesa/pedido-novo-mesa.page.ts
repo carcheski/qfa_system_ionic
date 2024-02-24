@@ -217,12 +217,12 @@ export class PedidoNovoMesaPage implements OnInit {
       let pagamento : PagamentoDTO = {
         id: "",
         numeroDeParcelas : 0,
-        "@type" : "pagamentoComDebito",
+        tipo : "DINHEIRO",
         estado : "PENDENTE"
       }
       this.pedido.pagamento = pagamento;
     }else{
-      this.pedido.pagamento['@type'] = "pagamentoComDebito";
+      this.pedido.pagamento.tipo = "DINHEIRO";
       this.pedido.pagamento.estado = 'PENDENTE';
     }
     this.pedidoService.insert(this.pedido)

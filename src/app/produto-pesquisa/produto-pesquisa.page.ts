@@ -54,7 +54,15 @@ export class ProdutoPesquisaPage implements OnInit {
     categorias : this.categorias
   };
 
+  page : number = 0;
+  private readonly offset: number = 5;
+
+  pageTotal : number = 0;
+  private readonly offsetTotal: number = 5;
+
   items : ProdutoDTO[] = [];
+  itensPage: ProdutoDTO[] = [];
+  itensPageTotal: ProdutoDTO[];
 
   public results = [...this.items];
 
@@ -95,6 +103,8 @@ export class ProdutoPesquisaPage implements OnInit {
         .subscribe (response =>{
           const res = ((response));
           this.items = Object.values(res);
+          this.itensPage = this.items.slice(this.page, this.offset+this.page);
+          this.page += this.offset;
           console.log(this.items);
           let start = this.items.length;
           let end = this.items.length - 1;
@@ -103,6 +113,22 @@ export class ProdutoPesquisaPage implements OnInit {
         }
     );
   }
+
+  loadData(event: any) {
+    setTimeout(() => {
+      let news = this.items.slice(this.page, this.offset+this.page);
+      this.page += this.offset;
+      for(let i=0; i<news.length; i++) {
+        this.itensPage.push(news[i]);
+      }
+
+      if(this.itensPage.length === this.items.length)
+        event.target.disabled = true;
+
+      event.target.complete();
+    }, 1000);
+  }
+
 
   loadImageUrls(start: number, end: number) {
     this.items.map((item) => {
@@ -178,6 +204,12 @@ export class ProdutoPesquisaPage implements OnInit {
     });
   }
 
+  doRefresh(event: any) {
+
+    setTimeout(() => {
+      event.target.complete();
+    }, 1000);
+  }
 
   salvar() {
     this.produtoService.salvar(this.prod)
@@ -190,5 +222,9 @@ export class ProdutoPesquisaPage implements OnInit {
     });
   }
 
+  excluir(produto_id: string) {
+    let status = "";
+    this.produtoService.excluir(produto_id).subscribe(() => status = 'Exclusão concluída');
+  }
 
 }

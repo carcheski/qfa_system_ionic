@@ -144,7 +144,7 @@
     </ion-radio-group>
 
     <ion-item *ngIf="formPagamento.value['@type'] == 'pagamentoComCredito'">
-      <ion-label stacked>Parcelas no Crédito</ion-label>
+      <ion-label stacked>Parcelas no Cartão de Crédito</ion-label>
       <ion-select formControlName="numeroDeParcelas">
         <ion-select-option *ngFor="let n of parcelas; first as f" [value]="n" [selected]="f">{{n}}</ion-select-option>
       </ion-select>

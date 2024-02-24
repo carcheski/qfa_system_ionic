@@ -58,4 +58,9 @@ export class ClienteService {
             }
         );
       }
+
+    excluir(id : string) {
+
+    return this.http.delete(`${API_CONFIG.baseUrl}/clientes/${id}`);
+    }
 }

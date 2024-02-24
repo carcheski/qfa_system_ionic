@@ -72,7 +72,7 @@ export class PedidoPendenteMesaPage implements OnInit {
     public enderecoService: EnderecoService,
     public router: Router,
     public route: ActivatedRoute,
-    public homePage: HomePage
+    public homePage: HomePage,
   ) { }
 
   ngOnInit() {
@@ -272,7 +272,7 @@ export class PedidoPendenteMesaPage implements OnInit {
       this.formPagamento = this.formBuilder.group({
         id: [this.pedido.pagamento.id],
         numeroDeParcelas: [this.pedido.pagamento.numeroDeParcelas, Validators.required],
-        "@type": [this.pedido.pagamento['@type'], Validators.required]
+        tipo: [this.pedido.pagamento.tipo, Validators.required]
       });
   }
 
@@ -281,7 +281,9 @@ export class PedidoPendenteMesaPage implements OnInit {
     //console.log(this.clienteSelecionado); ok
     //console.log(this.enderecoSelecionado); ok
     //console.log(this.formPagamento.value); ok
+
     this.pedido.pagamento = this.formPagamento.value;
+
     this.tipoTela = 7;
   }
 
