@@ -63,6 +63,7 @@ export class PedidoPage implements OnInit {
    // modal cliente
    isModalNewCliente = false;
    isModalEditCliente = false;
+   isModalNewEndereco = false;
    formCliente: FormGroup;
    formEdit: FormGroup;
    estados: EstadoDTO[] = []
@@ -115,6 +116,17 @@ export class PedidoPage implements OnInit {
     cliente : this.cli
   };
 
+  newEndereco : EnderecoDTO = {
+    id : "",
+    logradouro : "",
+    bairro : "",
+    numero : "",
+    complemento : "",
+    cep : "",
+    cidade : this.cidade,
+    cliente : this.cli
+  };
+
   cadastro()
   {
     this.setOpenNewCliente(true);
@@ -138,6 +150,10 @@ export class PedidoPage implements OnInit {
   setOpenEditCliente(isOpen: boolean) {
     this.isModalEditCliente = isOpen;
     this.checkout();
+  }
+
+  setOpenNewEndereco(isOpen: boolean) {
+    this.isModalNewEndereco = isOpen;
   }
 
   carregarDadosEstado() {
@@ -255,6 +271,39 @@ alterarEnderecoEditado(){
   this.cli.enderecos[index] = this.endereco;
 
   this.salvar();
+}
+
+addNewEndereco(){
+  this.setOpenNewEndereco(true);
+  this.carregarDadosEstado();
+}
+
+handleChangeCidades(e: any) {
+  this.cidadeService.findById(e.target.value)
+  .subscribe(response =>{
+    this.newEndereco.cidade = response;
+    this.endereco = this.newEndereco;
+    this.cli.enderecos.push(this.newEndereco);
+  });
+  if(e.detail.value == "" || this.clientes == null){
+    this.ngOnInit();
+  }
+  
+}
+
+salvarNewEndereco(){
+  this.setOpenNewEndereco(false);
+  this.carregarComboEdicaoCidade();
+  this.newEndereco = {
+    id : "",
+    logradouro : "",
+    bairro : "",
+    numero : "",
+    complemento : "",
+    cep : "",
+    cidade : this.cidade,
+    cliente : this.cli
+  };
 }
 
 fecharModalCliente(){

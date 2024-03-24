@@ -22,6 +22,8 @@ export class ClientePesquisaPage implements OnInit {
   formCliente: FormGroup;
   formEdit: FormGroup;
 
+  isModalNewEndereco = false;
+
   cadastro()
   {
     this.setOpen(true);
@@ -31,7 +33,6 @@ export class ClientePesquisaPage implements OnInit {
 
   edicao(cli_id: string)
   {
-    this.setOpen(true);
     let cliId = cli_id;
     this.tipoTela = 3;
     this.carregarClienteEdicao(cliId);
@@ -81,6 +82,17 @@ export class ClientePesquisaPage implements OnInit {
   };
 
   endereco : EnderecoDTO = {
+    id : "",
+    logradouro : "",
+    bairro : "",
+    numero : "",
+    complemento : "",
+    cep : "",
+    cidade : this.cidade,
+    cliente : this.cli
+  };
+
+  newEndereco : EnderecoDTO = {
     id : "",
     logradouro : "",
     bairro : "",
@@ -205,13 +217,14 @@ export class ClientePesquisaPage implements OnInit {
 
   handleChangeCidades(e: any) {
     this.cidadeService.findById(e.target.value)
-    .subscribe(response =>{
-      this.endereco.cidade = response;
-      this.newCli.enderecos.push(this.endereco);
-    });
-    if(e.detail.value == "" || this.items == null){
-      this.ngOnInit();
-    }
+  .subscribe(response =>{
+    this.newEndereco.cidade = response;
+    this.endereco = this.newEndereco;
+    this.cli.enderecos.push(this.newEndereco);
+  });
+  if(e.detail.value == "" || this.items == null){
+    this.ngOnInit();
+  }
     
   }
 
@@ -232,6 +245,9 @@ export class ClientePesquisaPage implements OnInit {
           this.clienteService.findById(cliente_id)
             .subscribe(response => {
               this.cli = response;
+              if(this.cli.tipo != "3"){
+                this.pessoa = true;
+              }
               this.carregarEnderecos();
               console.log(this.endereco.id);
             },
@@ -287,6 +303,13 @@ export class ClientePesquisaPage implements OnInit {
     });
   }
 
+  alterarEnderecoEditado(){
+    const index = this.cli.enderecos.findIndex(objeto => objeto.id === this.endereco.id);
+    this.cli.enderecos[index] = this.endereco;
+  
+    this.salvar();
+  }
+
   inserir() {
     if(this.mesa){
       console.log("aqui")
@@ -302,6 +325,30 @@ export class ClientePesquisaPage implements OnInit {
       if (error.status == 403) {
       }
     });
+  }
+
+  addNewEndereco(){
+    this.setOpenNewEndereco(true);
+    this.carregarDadosEstado();
+  }
+
+  setOpenNewEndereco(isOpen: boolean) {
+    this.isModalNewEndereco = isOpen;
+  }
+
+  salvarNewEndereco(){
+    this.setOpenNewEndereco(false);
+    this.carregarComboEdicaoCidade();
+    this.newEndereco = {
+      id : "",
+      logradouro : "",
+      bairro : "",
+      numero : "",
+      complemento : "",
+      cep : "",
+      cidade : this.cidade,
+      cliente : this.cli
+    };
   }
 
 }

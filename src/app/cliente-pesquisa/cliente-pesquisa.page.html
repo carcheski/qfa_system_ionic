@@ -75,6 +75,9 @@
     <ion-item *ngIf="pessoa">
       <ion-input label="E-mail" [(ngModel)]="newCli.email" name="email" type="email" [clearInput]="true"></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-input label="Telefone" [(ngModel)]="newCli.telefone" name="telefone" type="text" [clearInput]="true" [brmasker]="{mask:'(00) 0 0000-0000', len:16}"></ion-input>
+    </ion-item>
     <ion-item *ngIf="pessoa">
       <ion-select label="Tipo Cliente" placeholder="Selecione" (ionChange)="handleChangeTipoCliente($event);">
         <ion-select-option value="PESSOAFISICA">Pessoa Física</ion-select-option>
@@ -137,6 +140,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" *ngIf="tipoTela == 3">
+  <ion-fab slot="fixed" vertical="center" horizontal="end">
+    <ion-fab-button (click)="addNewEndereco()" ><ion-icon name="home"></ion-icon></ion-fab-button>
+  </ion-fab>
   <form>
     <ion-item>
       <ion-input label="Nome" [(ngModel)]="cli.nome" name="nome" type="text" [clearInput]="true"></ion-input>
@@ -144,14 +150,16 @@
     <ion-item  *ngIf="pessoa">
       <ion-input label="E-mail" [(ngModel)]="cli.email" name="email" type="email" [clearInput]="true"></ion-input>
     </ion-item>
-
-    <ion-item  *ngIf="enderecos != [] && pessoa">
+    <ion-item>
+      <ion-input label="Telefone" [(ngModel)]="cli.telefone" name="telefone" type="text" [clearInput]="true" [brmasker]="{mask:'(00) 0 0000-0000', len:16}"></ion-input>
+    </ion-item>
+    <ion-item  *ngIf="pessoa">
       <ion-select label="Endereços" placeholder="Selecione"  (ionChange)="handleChangeEndereco($event)">
           <ion-select-option *ngFor="let item of enderecos" value="{{item.id}}">{{item.logradouro}}</ion-select-option>
       </ion-select>
   </ion-item>
 
-   <ion-card color="light" *ngIf="enderecos == [] || endereco.id != '' && pessoa">
+   <ion-card color="light" *ngIf="pessoa">
     <ion-card-title style="font-weight: bold; color: #747474;">Endereço</ion-card-title>
     <ion-item>
       <ion-input label="Logradouro" [(ngModel)]="endereco.logradouro" name="logradouro" type="text" [clearInput]="true"></ion-input>
@@ -185,9 +193,62 @@
 
   </ion-card>
 
-    <ion-button expand="block" color="warning"  id="btnSalvar" (click)="salvar()">Salvar
+    <ion-button expand="block" color="warning"  id="btnSalvar" (click)="alterarEnderecoEditado()">Salvar
       <ion-icon slot="end" name="open"></ion-icon>
     </ion-button>
 
   </form>
 </ion-content>
+
+<ion-modal [isOpen]="isModalNewEndereco">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Novo Endereço</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="setOpenNewEndereco(false)"><ion-icon name="close-circle-outline" size="large"></ion-icon></ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content [fullscreen]="true" *ngIf="tipoTela == 3">
+      <form>
+        <ion-card color="light" >
+          <ion-card-title style="font-weight: bold; color: #747474;">Endereço</ion-card-title>
+          <ion-item>
+            <ion-input label="Logradouro" [(ngModel)]="newEndereco.logradouro" name="logradouro" type="text" [clearInput]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Bairro" [(ngModel)]="newEndereco.bairro" name="bairro" type="text" [clearInput]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Número" [(ngModel)]="newEndereco.numero" name="numero" type="text" [clearInput]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Complemento" [(ngModel)]="newEndereco.complemento" name="complemento" type="text" [clearInput]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Cep" [(ngModel)]="newEndereco.cep" name="cep" type="text" [clearInput]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-select label="Estado" placeholder="Selecione"  (ionChange)="handleChangeEstados($event)">
+                <ion-select-option *ngFor="let item of estados" value="{{item.id}}">{{item.uf}}</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-select label="Cidade" placeholder="Selecione" (ionChange)="handleChangeCidades($event)">
+            <div *ngFor="let item of cidades">
+                <ion-select-option value="{{item.id}}">{{item.nome}}</ion-select-option>
+            </div>
+          </ion-select>
+        </ion-item>
+
+        </ion-card>
+    
+        <ion-button expand="block" color="warning"  id="btnSalvar" (click)="salvarNewEndereco()">Salvar
+          <ion-icon slot="end" name="open"></ion-icon>
+        </ion-button>
+    
+      </form>
+    </ion-content>
+  </ng-template>
+</ion-modal>
