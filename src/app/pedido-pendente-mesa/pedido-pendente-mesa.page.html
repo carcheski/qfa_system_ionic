@@ -132,7 +132,7 @@
       </ion-card-header>
 
       <ion-list>
-        <ion-item *ngFor="let item of cartItems">
+        <ion-item *ngFor="let item of carrinho">
           <ion-card-content >
             <ion-card-title style="font-weight: bold; font-size: 25px;">
               {{item?.produto.nome}}
@@ -161,30 +161,18 @@
 
     <ion-card-content>
       <ion-card-title>
-        Endereço cliente
-      </ion-card-title>
-
-      <ion-label>
-        <h1>{{enderecoSelecionado?.logradouro}}, {{enderecoSelecionado?.numero}}</h1>
-        <p>{{enderecoSelecionado?.complemento}} {{enderecoSelecionado?.bairro}} CEP {{enderecoSelecionado?.cep}}</p>
-        <p>{{enderecoSelecionado?.cidade.nome}}, {{enderecoSelecionado?.cidade.estado.nome}}</p>
-      </ion-label>
-    </ion-card-content>
-
-    <ion-card-content>
-      <ion-card-title>
         Forma de pagamento
       </ion-card-title>
 
-      <ion-label *ngIf="pedido.pagamento['@type']==='pagamentoComDebito'">
+      <ion-label *ngIf="pedido.pagamento.tipo === 'DEBITO'">
         <h1>Débito</h1>
       </ion-label>
-      <ion-label *ngIf="pedido.pagamento['@type']==='pagamentoComCredito'">
+      <ion-label *ngIf="pedido.pagamento.tipo ==='CREDITO'">
         <h1>Crédito</h1>
         <p>Parcelas: {{pedido.pagamento.numeroDeParcelas}}</p>
       </ion-label>
-      <ion-label *ngIf="pedido.pagamento['@type']==='conta'">
-        <h1>Na conta</h1>
+      <ion-label *ngIf="pedido.pagamento.tipo ==='DINHEIRO'">
+        <h1>Dinheiro</h1>
       </ion-label>
     </ion-card-content>
 
@@ -192,7 +180,7 @@
       <ion-icon slot="end" name="open"></ion-icon>
     </ion-button>
 
-    <ion-button expand="block" fill="outline" id="finalizar" (click)="back()"> Voltar
+    <ion-button expand="block" fill="outline" id="finalizar" (click)="home()"> Voltar
       <ion-icon slot="end" name="open"></ion-icon>
     </ion-button>
 
