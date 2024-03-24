@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController, NavController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { API_CONFIG } from 'src/config/api.config';
 import { CartItem } from 'src/models/cart-item';
 import { CategoriaDTO } from 'src/models/categoria.dto';
@@ -75,6 +75,7 @@ export class PedidoPendenteMesaPage implements OnInit {
     public router: Router,
     public route: ActivatedRoute,
     public homePage: HomePage,
+    private alertController: AlertController
   ) { }
 
   ngOnInit() {
@@ -171,10 +172,24 @@ export class PedidoPendenteMesaPage implements OnInit {
   }
 
   addToCart(produto: ProdutoDTO) {
-    console.log(produto);
-    this.cartService.addMaisProduto(produto, this.cart);
-    this.tipoTela = 3;
-    this.carregarPedido();
+    if(produto.quantidade > 0){
+      this.cartService.addMaisProduto(produto, this.cart);
+      this.tipoTela = 3;
+      this.carregarPedido();
+    }else{
+      this.alertaEstoque(produto);
+    }
+  }
+
+  async alertaEstoque(produto: ProdutoDTO){
+      const alert = await this.alertController.create({
+        header: 'Alerta !!! Estoque zerado',
+        message: 'O ' + produto.nome + " está com estoque zerado, favor verificar no estoque!",
+        buttons: ['OK'],
+      });
+  
+      await alert.present();
+
   }
 
   carregarPedido() {

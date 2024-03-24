@@ -32,12 +32,14 @@
   <ion-list [inset]="true">
     <ion-item *ngFor="let item of produtos[0]" [button]="true"  (click)="addToCart(item)">
         <ion-card-content>
-          <ion-card-title>
+          <ion-card-title style="font-weight: bold;">
             {{item?.nome}}
           </ion-card-title>
           <p>
             {{item.preco | currency}}
-            {{item.quantidade}}
+          </p>
+          <p>
+            Qtd: {{item.quantidade}}
           </p>
         </ion-card-content>
     </ion-item>
@@ -90,14 +92,17 @@
   <form [formGroup]="formPagamento" (ngSubmit)="confirmarPedido(); $event.preventDefault()">
     <ion-radio-group formControlName="tipo">
       <ion-item>
+        <ion-icon name="card-outline"></ion-icon>
         <ion-label>Débito</ion-label>
         <ion-radio checked="true" value="DEBITO"></ion-radio>
       </ion-item>
       <ion-item>
+        <ion-icon name="card-outline"></ion-icon>
         <ion-label>Crédito</ion-label>
         <ion-radio checked="true" value="CREDITO"></ion-radio>
       </ion-item>
       <ion-item>
+        <ion-icon name="cash-outline"></ion-icon>
         <ion-label>Dinheiro</ion-label>
         <ion-radio checked="true" value="DINHEIRO"></ion-radio>
       </ion-item>
