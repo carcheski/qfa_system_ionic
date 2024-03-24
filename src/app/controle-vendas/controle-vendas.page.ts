@@ -38,6 +38,7 @@ export class ControleVendasPage implements OnInit {
     dataFinal: "",
     dataVenda: "",
     lucro: 0,
+    situacao: "",
   }
 
   pedidosOntem : VendaDTO[] = [];
@@ -53,6 +54,7 @@ export class ControleVendasPage implements OnInit {
     dataFinal: "",
     dataVenda: "",
     lucro: 0,
+    situacao: "",
   }
 
   pedidosSemana : VendaDTO[] = [];
@@ -68,6 +70,7 @@ export class ControleVendasPage implements OnInit {
     dataFinal: "",
     dataVenda: "",
     lucro: 0,
+    situacao: "",
   }
 
   pedidosMes : VendaDTO[] = [];
@@ -83,6 +86,7 @@ export class ControleVendasPage implements OnInit {
     dataFinal: "",
     dataVenda: "",
     lucro: 0,
+    situacao: "",
   }
 
   pedidosAno : VendaDTO[] = [];
@@ -98,6 +102,7 @@ export class ControleVendasPage implements OnInit {
     dataFinal: "",
     dataVenda: "",
     lucro: 0,
+    situacao: "",
   }
 
   pedidosPersonalizados : VendaDTO[] = [];
@@ -113,6 +118,7 @@ export class ControleVendasPage implements OnInit {
     dataFinal: "",
     dataVenda: "",
     lucro: 0,
+    situacao: "",
   }
 
   isModalHoje = false;
@@ -171,7 +177,7 @@ export class ControleVendasPage implements OnInit {
         let endDate = new Date();
         let startDate : Date = new Date();
         var date = new Date();
-        startDate.setDate(date.getDate());
+        endDate.setDate(date.getDate() + 1);
         let dtInicial = datepipe.transform(startDate, 'dd-MM-yyyy');
         let dtFinal = datepipe.transform(endDate, 'dd-MM-yyyy');
         console.log("dt Inicial " + dtInicial + "Dt Final" + dtFinal);
@@ -185,7 +191,7 @@ export class ControleVendasPage implements OnInit {
             let dataVenda = parse(rec, 'dd/MM/yyyy', new Date());
   
             let hoje = {
-              numPedido: "",
+              numPedido: ped.id,
               vlrCompra: 0,
               totVlrCompra: 0,
               vlrVenda: 0,
@@ -196,6 +202,7 @@ export class ControleVendasPage implements OnInit {
               dataFinal: "",
               dataVenda: "",
               lucro: 0,
+              situacao: ped.pagamento.estado,
             }
             for(let e = 0; e < ped.itens.length ; e++){
               this.produtoService.findById(ped.itens[e].produto.id)
@@ -261,6 +268,7 @@ export class ControleVendasPage implements OnInit {
               dataFinal: "",
               dataVenda: "",
               lucro: 0,
+              situacao: ped.pagamento.estado
             }
             for(let e = 0; e < ped.itens.length ; e++){
               this.produtoService.findById(ped.itens[e].produto.id)
@@ -325,6 +333,7 @@ export class ControleVendasPage implements OnInit {
               dataFinal: "",
               dataVenda: "",
               lucro: 0,
+              situacao: ped.pagamento.estado
             }
             for(let e = 0; e < ped.itens.length ; e++){
               this.produtoService.findById(ped.itens[e].produto.id)
@@ -389,6 +398,7 @@ export class ControleVendasPage implements OnInit {
               dataFinal: "",
               dataVenda: "",
               lucro: 0,
+              situacao: ped.pagamento.estado
             }
             for(let e = 0; e < ped.itens.length ; e++){
               this.produtoService.findById(ped.itens[e].produto.id)
@@ -453,6 +463,7 @@ export class ControleVendasPage implements OnInit {
               dataFinal: "",
               dataVenda: "",
               lucro: 0,
+              situacao: ped.pagamento.estado
             }
             for(let e = 0; e < ped.itens.length ; e++){
               this.produtoService.findById(ped.itens[e].produto.id)
@@ -519,6 +530,7 @@ export class ControleVendasPage implements OnInit {
               dataFinal: "",
               dataVenda: "",
               lucro: 0,
+              situacao: ped.pagamento.estado
             }
             for(let e = 0; e < ped.itens.length ; e++){
               this.produtoService.findById(ped.itens[e].produto.id)

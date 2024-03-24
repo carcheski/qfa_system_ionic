@@ -26,13 +26,13 @@ export class HomePage implements OnInit {
   contador = 0;
 
   cli : ClienteDTO = {
-    id: "",
-    cpfOuCnpj: "",
-    email: "",
-    enderecos: this.enderecos,
-    nome: "",
-    tipo: "",
-    imageUrl: "",
+    id : "",
+    nome : "",
+    tipo : "",
+    cpfOuCnpj : "",
+    email : "",
+    telefone : "",
+    enderecos : this.enderecos,
     livre : "",
   }
 

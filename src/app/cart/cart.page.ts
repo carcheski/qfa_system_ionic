@@ -48,10 +48,6 @@ export class CartPage implements OnInit {
     this.items = this.cartService.removeProduto(produto).items;
   }
 
-  increaseQuantity(produto: ProdutoDTO) {
-    this.items = this.cartService.increaseQuantity(produto).items;
-  }
-
   decreaseQuantity(produto: ProdutoDTO) {
     this.items = this.cartService.decreaseQuantity(produto).items;
   }

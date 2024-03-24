@@ -35,6 +35,10 @@ export class ClienteService {
         return this.http.get<ClienteDTO[]>(`${API_CONFIG.baseUrl}/clientes/tipo/${tipo}`);
     }
 
+    findByTipoNotMesa()  {
+        return this.http.get<ClienteDTO[]>(`${API_CONFIG.baseUrl}/clientes/tipo`);
+    }
+
     insert(obj : ClienteDTO) {
 
         return this.http.post(

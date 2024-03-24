@@ -30,13 +30,16 @@
 
 <ion-content [fullscreen]="true" *ngIf="tipoTela == 2">
   <ion-list [inset]="true">
-    <ion-item *ngFor="let item of produtos[0]" [button]="true"  (click)="addToCart(item)">
+    <ion-item *ngFor="let item of produtos[0]" [button]="true"  (click)="addToCart(item)" >
         <ion-card-content>
           <ion-card-title>
             {{item?.nome}}
           </ion-card-title>
           <p>
             {{item.preco | currency}}
+          </p>
+          <p>
+            Qtd: {{item.quantidade}}
           </p>
         </ion-card-content>
     </ion-item>
@@ -185,7 +188,7 @@
       <ion-icon slot="end" name="open"></ion-icon>
     </ion-button>
 
-    <ion-button expand="block" fill="outline" id="finalizar" (click)="back()"> Voltar
+    <ion-button expand="block" fill="outline" id="voltar" (click)="home()"> Voltar
       <ion-icon slot="end" name="open"></ion-icon>
     </ion-button>
 

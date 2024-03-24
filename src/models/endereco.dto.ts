@@ -1,4 +1,5 @@
 import { CidadeDTO } from "./cidade.dto";
+import { ClienteDTO } from "./cliente.dto";
 
 export interface EnderecoDTO {
     id : string;
@@ -8,4 +9,5 @@ export interface EnderecoDTO {
     bairro : string;
     cep : string;
     cidade : CidadeDTO;
+    cliente : ClienteDTO;
 }

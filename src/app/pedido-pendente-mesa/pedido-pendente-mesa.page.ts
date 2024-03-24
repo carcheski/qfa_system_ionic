@@ -16,6 +16,7 @@ import { PedidoService } from 'src/services/domain/pedido.service';
 import { ProdutoService } from 'src/services/domain/produto.service';
 import { HomePage } from '../home/home.page';
 import { PagamentoDTO } from 'src/models/pagamento.dto';
+import { Cart } from 'src/models/cart';
 
 @Component({
   selector: 'app-pedido-pendente-mesa',
@@ -39,6 +40,7 @@ export class PedidoPendenteMesaPage implements OnInit {
   carrinho: CartItem[];
   vlrTotal: number;
   produtoEstoque : ProdutoDTO;
+  cart : Cart;
 
   //Tela de Clientes
   clienteSelecionado: ClienteDTO;
@@ -103,7 +105,7 @@ export class PedidoPendenteMesaPage implements OnInit {
       .subscribe(response => {
         let itens = response.itens;
         this.pedido = response;
-        let cart = this.cartService.getCart();
+        this.cart = this.cartService.getCart();
         for (let i = 0 ; i< itens.length ; i++){
           let prod = itens[i].produto
           this.produtoService.findById(prod.id)
@@ -112,9 +114,8 @@ export class PedidoPendenteMesaPage implements OnInit {
                 produto : response,
                 quantidade : itens[i].quantidade
               }
-              cart.items.push(itensCart);
-              console.log(cart.items)
-              this.carrinho = cart.items;
+              this.cart.items.push(itensCart);
+              this.carrinho = this.cart.items;
               this.cartService.addProduto(response);
             })
         }
@@ -169,16 +170,16 @@ export class PedidoPendenteMesaPage implements OnInit {
     return loader;
   }
 
-  addToCart() {
-    //console.log(produto)
+  addToCart(produto: ProdutoDTO) {
+    console.log(produto);
+    this.cartService.addMaisProduto(produto, this.cart);
     this.tipoTela = 3;
     this.carregarPedido();
   }
 
   carregarPedido() {
-    let cart = this.cartService.getCart();
-    this.carrinho = cart.items;
-    this.cartItems = cart.items;
+    this.carrinho = this.cart.items;
+    this.cartItems = this.cart.items;
     this.loadImageCarrinho();
   }
 
@@ -198,7 +199,7 @@ export class PedidoPendenteMesaPage implements OnInit {
   }
 
   increaseQuantity(produto: ProdutoDTO) {
-    this.carrinho = this.cartService.increaseQuantity(produto).items;
+    this.carrinho = this.cartService.increaseQuantity(produto, this.cart).items;
   }
 
   decreaseQuantity(produto: ProdutoDTO) {
@@ -324,6 +325,7 @@ export class PedidoPendenteMesaPage implements OnInit {
 
   cancelarPedido() {
     this.pedido.pagamento.estado = "CANCELADO";
+    this.atualizarEstoqueCancelado();
     this.pedidoService.salvar(this.pedido)
       .subscribe(response => {
         this.cartService.createOrClearCart();
@@ -334,6 +336,23 @@ export class PedidoPendenteMesaPage implements OnInit {
           this.navCtrl.navigateRoot(['/home']);
         }
       });
+  }
+
+  atualizarEstoqueCancelado(){
+    for(let i = 0 ; i < this.pedido.itens.length; i++){ 
+      let prod = this.pedido.itens[i].produto;
+      this.produtoService.findById(prod.id)
+      .subscribe(resp =>{
+        let produtoEstoque = resp
+        if(produtoEstoque.quantidade >= this.pedido.itens.length){
+          produtoEstoque.quantidade = (produtoEstoque.quantidade + this.pedido.itens.length)
+        }
+        this.produtoService.salvar(produtoEstoque)
+        .subscribe(response =>{
+  
+        })
+      });
+    }
   }
 
 

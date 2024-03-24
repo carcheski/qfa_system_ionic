@@ -10,4 +10,5 @@ export interface VendaDTO {
 	dataFinal: string,
 	dataVenda: string,
 	lucro: number,
+	situacao: string,
 }

@@ -37,6 +37,7 @@
           </ion-card-title>
           <p>
             {{item.preco | currency}}
+            {{item.quantidade}}
           </p>
         </ion-card-content>
     </ion-item>
@@ -108,7 +109,7 @@
         <ion-select-option *ngFor="let n of parcelas; first as f" [value]="n" [selected]="f">{{n}}</ion-select-option>
       </ion-select>
     </ion-item>
-    <ion-button expand="block" type="submit" [disabled]="formPagamento.invalid">Próximo</ion-button>
+    <ion-button expand="block" type="submit">Próximo</ion-button>
   </form>
 </ion-content>
 

@@ -21,6 +21,7 @@ export class CartService {
     getCart() : Cart {
         let cart: Cart = this.storage.getCart();
         if (cart == null) {
+            console.log("aqui")
             cart = this.createOrClearCart();
         }
         return cart;
@@ -28,6 +29,15 @@ export class CartService {
 
     addProduto(produto: ProdutoDTO) : Cart {
         let cart = this.getCart();
+        let position = cart.items.findIndex(x => x.produto.id == produto.id);
+        if (position == -1) {
+            cart.items.push({quantidade: 1, produto: produto});
+        }
+        this.storage.setCart(cart);
+        return cart;
+    }
+
+    addMaisProduto(produto: ProdutoDTO, cart: Cart) : Cart {
         let position = cart.items.findIndex(x => x.produto.id == produto.id);
         if (position == -1) {
             cart.items.push({quantidade: 1, produto: produto});
@@ -46,8 +56,8 @@ export class CartService {
         return cart;
     }
 
-    increaseQuantity(produto: ProdutoDTO) : Cart {
-        let cart = this.getCart();
+    increaseQuantity(produto: ProdutoDTO,
+        cart: Cart) : Cart {
         let position = cart.items.findIndex(x => x.produto.id == produto.id);
         if (position != -1) {
             cart.items[position].quantidade++;

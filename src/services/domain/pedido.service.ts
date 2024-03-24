@@ -57,4 +57,8 @@ export class PedidoService {
         return this.http.get<PedidoDTO[]>(`${API_CONFIG.baseUrl}/pedidos/${dataInicial}/e/${dataFinal}`);
     }
 
+    findAllHoje(dataVenda : string) : Observable<PedidoDTO[]>  {
+        return this.http.get<PedidoDTO[]>(`${API_CONFIG.baseUrl}/pedidos/hoje/${dataVenda}`);
+    }
+
 }

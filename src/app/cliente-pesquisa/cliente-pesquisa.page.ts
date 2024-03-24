@@ -64,6 +64,7 @@ export class ClientePesquisaPage implements OnInit {
     tipo : "",
     cpfOuCnpj : "",
     email : "",
+    telefone : "",
     enderecos : this.enderecosIniciais,
     livre : "",
   };
@@ -74,6 +75,7 @@ export class ClientePesquisaPage implements OnInit {
     tipo : "",
     cpfOuCnpj : "",
     email : "",
+    telefone : "",
     enderecos : this.enderecosIniciais,
     livre: "",
   };
@@ -85,7 +87,8 @@ export class ClientePesquisaPage implements OnInit {
     numero : "",
     complemento : "",
     cep : "",
-    cidade : this.cidade
+    cidade : this.cidade,
+    cliente : this.cli
   };
 
   // modal tipo cliente

@@ -6,6 +6,7 @@ export interface ClienteDTO {
     tipo : string;
     cpfOuCnpj : "";
     email : string;
+    telefone : string;
     imageUrl? : string;
     enderecos : EnderecoDTO[];
     livre : string;

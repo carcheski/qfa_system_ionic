@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController, NavController, NavParams } from '@ionic/angular';
+import { AlertController, LoadingController, NavController, NavParams } from '@ionic/angular';
 import { API_CONFIG } from 'src/config/api.config';
 import { CartItem } from 'src/models/cart-item';
 import { CategoriaDTO } from 'src/models/categoria.dto';
@@ -71,10 +71,13 @@ export class PedidoNovoMesaPage implements OnInit {
     public enderecoService: EnderecoService,
     public router: Router,
     public route: ActivatedRoute,
-    public homePage: HomePage
+    public homePage: HomePage,
+    private alertController: AlertController
   ) { }
 
   ngOnInit() {
+    console.log("aqui")
+    this.cartService.createOrClearCart();
     this.carregarCliente();
     this.carregarCategorias();
   }
@@ -149,9 +152,24 @@ export class PedidoNovoMesaPage implements OnInit {
 
   addToCart(produto: ProdutoDTO) {
     console.log(produto);
-    this.cartService.addProduto(produto);
-    this.tipoTela = 3;
-    this.carregarPedido();
+    if(produto.quantidade > 0){
+      this.cartService.addProduto(produto);
+      this.tipoTela = 3;
+      this.carregarPedido();
+    }else{
+      this.alertaEstoque(produto);
+    }
+  }
+
+  async alertaEstoque(produto: ProdutoDTO){
+      const alert = await this.alertController.create({
+        header: 'Alerta !!! Estoque zerado',
+        message: 'O ' + produto.nome + " está com estoque zerado, favor verificar no estoque!",
+        buttons: ['OK'],
+      });
+  
+      await alert.present();
+
   }
 
   carregarPedido() {
@@ -177,7 +195,8 @@ export class PedidoNovoMesaPage implements OnInit {
   }
 
   increaseQuantity(produto: ProdutoDTO) {
-    this.carrinho = this.cartService.increaseQuantity(produto).items;
+    let cart = this.cartService.getCart();
+    this.carrinho = this.cartService.increaseQuantity(produto, cart).items;
   }
 
   decreaseQuantity(produto: ProdutoDTO) {
@@ -190,7 +209,6 @@ export class PedidoNovoMesaPage implements OnInit {
 
   goOn() {
     this.tipoTela = 1;
-    this.ngOnInit();
   }
 
   voltarHome(){
@@ -273,7 +291,7 @@ export class PedidoNovoMesaPage implements OnInit {
   carregarTelaPagamento() {
       this.formPagamento = this.formBuilder.group({
         numeroDeParcelas: [1, Validators.required],
-        "@type": ["pagamentoComDebito", Validators.required]
+        tipo: ["pagamentoComDebito", Validators.required]
       });
   }
 
@@ -295,13 +313,14 @@ export class PedidoNovoMesaPage implements OnInit {
   }
 
   home() {
-    this.navCtrl.navigateRoot(['/home']);
+    this.router.navigate(['/home'], { queryParams: {cliente: this.clienteSelecionado.id}});
+    this.homePage.ngOnInit();
   }
 
   fecharPedido() {
     this.pedido.itens = this.cartItems;
     this.pedido.cliente = this.clienteSelecionado;
-    this.pedido.pagamento.estado = 'FINALIZAR';
+    this.pedido.pagamento.estado = 'QUITADO';
     this.pedidoService.insert(this.pedido)
       .subscribe(response => {
         this.cartService.createOrClearCart();
