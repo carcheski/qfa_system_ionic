@@ -19,6 +19,7 @@ import { CartService } from 'src/services/domain/cart.service';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { HomePage } from './home/home.page';
+import { UserService } from 'src/services/domain/user.service';
 
 
 registerLocaleData(localePt);
@@ -48,6 +49,7 @@ registerLocaleData(localePt);
     ClienteService,
     ProdutoService,
     CartService,
+    UserService,
     HomePage
   ],
   bootstrap: [AppComponent],
