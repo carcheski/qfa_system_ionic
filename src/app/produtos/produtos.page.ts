@@ -55,11 +55,9 @@ export class ProdutosPage implements OnInit {
   }
 
   loadImageUrls(start: number, end: number) {
-    console.log("total " + start + " e fim " + end)
       let produto = Object.values(this.items[0]);
       produto.map((item) => {
         let prod = item.id;
-        console.log(prod);
         this.produtoService.getSmallImageFromBucket(prod)
         .subscribe(response => {
           item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${prod}-small.jpg`;
@@ -70,7 +68,6 @@ export class ProdutosPage implements OnInit {
  
 
   onSucess(response: ProdutoDTO[]) {
-    console.log("aqui " + response);
     this.items.push
     this.items = (response);
   }

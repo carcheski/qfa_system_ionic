@@ -39,7 +39,6 @@ export class PagamentoService {
     }
 
     salvar(obj: PagamentoDTO) {
-        console.log(obj)
         return this.http.put(
             `${API_CONFIG.baseUrl}/pagamentos/${obj.id}`,
             obj,

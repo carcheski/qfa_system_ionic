@@ -29,7 +29,6 @@ export class ProdutoPesquisaPage implements OnInit {
   edicao(produto_id: string)
   {
     let prodId = produto_id;
-    console.log(produto_id)
     this.tipoTela = 3;
     this.carregarProdutoEdicao(prodId);
   }
@@ -89,7 +88,6 @@ export class ProdutoPesquisaPage implements OnInit {
 
     reloadComponent() {
       let currentUrl = this.router.url;
-      console.log(currentUrl);
       
           this.router.routeReuseStrategy.shouldReuseRoute = () => false;
           this.router.onSameUrlNavigation = 'reload';
@@ -105,7 +103,6 @@ export class ProdutoPesquisaPage implements OnInit {
           this.items = Object.values(res);
           this.itensPage = this.items.slice(this.page, this.offset+this.page);
           this.page += this.offset;
-          console.log(this.items);
           let start = this.items.length;
           let end = this.items.length - 1;
           loader.finally();
@@ -142,7 +139,6 @@ export class ProdutoPesquisaPage implements OnInit {
 } 
 
   carregarProdutoEdicao(produto_id : String) {
-    console.log("aqui" + produto_id);
         if(produto_id != null){
           this.produtoService.findById(produto_id)
             .subscribe(response => {
@@ -164,9 +160,7 @@ export class ProdutoPesquisaPage implements OnInit {
   handleChange(event: any) {
     const query = event.target.value.toLowerCase();
     this.items = this.items.filter((d) => d.nome.toLowerCase().indexOf(query) > -1);
-    console.log(event.target.value);
     if(event.detail.value == "" || this.items == null){
-      console.log("aqui")
       this.ngOnInit();
     }
   }

@@ -52,7 +52,6 @@ export class ClienteService {
     }
 
     salvar(obj: ClienteDTO) {
-        console.log(obj)
         return this.http.put(
             `${API_CONFIG.baseUrl}/clientes/${obj.id}`,
             obj,

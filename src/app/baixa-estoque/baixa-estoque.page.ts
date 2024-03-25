@@ -29,7 +29,6 @@ export class BaixaEstoquePage implements OnInit {
     this.isModalOpen = isOpen;
     this.produtoService.findById(produto_id)
     .subscribe(response => {
-      console.log(response);
       this.produtoEditado = response;
     })
   }
@@ -39,7 +38,6 @@ export class BaixaEstoquePage implements OnInit {
     .subscribe (response =>{
       const res = ((response));
       this.items = Object.values(res);
-      console.log(this.items);
 
     },
       error => this.onError
@@ -48,7 +46,6 @@ export class BaixaEstoquePage implements OnInit {
   }
 
   onSucess(response: ProdutoDTO[]) {
-    console.log("aqui " + response);
     this.items.push
     this.items = (response);
   }

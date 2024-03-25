@@ -17,7 +17,8 @@ export class ProfilePage implements OnInit {
     id: "",
     nome:"",
     email: "",
-    imageUrl:""
+    imageUrl:"",
+    role: "",
   };
 
   constructor(
@@ -35,8 +36,6 @@ export class ProfilePage implements OnInit {
           this.getImageIfExists();
         },
         error => {
-          
-        console.log(this.usuario);
         });
     }
   }

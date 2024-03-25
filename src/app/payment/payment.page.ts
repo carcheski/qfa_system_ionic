@@ -33,12 +33,9 @@ export class PaymentPage implements OnInit {
   }
 
   ngOnInit() {
-    
-    console.log(this.pedido);
   }
 
   nextPage() {
-    console.log(this.pedido.pagamento);
     this.pedido.pagamento = this.formGroup.value;
     const params : NavigationExtras = {
       state: this.pedido

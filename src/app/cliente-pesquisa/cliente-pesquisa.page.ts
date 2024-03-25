@@ -124,7 +124,6 @@ export class ClientePesquisaPage implements OnInit {
 
   reloadComponent() {
     let currentUrl = this.router.url;
-    console.log(currentUrl);
     
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = 'reload';
@@ -137,7 +136,6 @@ export class ClientePesquisaPage implements OnInit {
     this.clienteService.findAll()
     .subscribe(response => {
       this.items = response;
-      console.log(this.items)
     },
     error => {}
     );
@@ -162,25 +160,20 @@ export class ClientePesquisaPage implements OnInit {
   }
 
   handleChangeTipoCliente(e: any) {
-    console.log(e.target.value);
     if(e.detail.value != ""){
       this.newCli.tipo = e.target.value;
-      console.log(this.newCli.tipo);
     }
     
   }
 
   showEnderecos(cliente_id : ClienteDTO) {
-    console.log(cliente_id);
     this.router.navigate(['/pick-address'], { queryParams: {cliente_id: cliente_id}});    
   }
 
   handleChangeCliente(e: any) {
     const query = e.target.value.toLowerCase();
     this.items = this.items.filter((d) => d.nome.toLowerCase().indexOf(query) > -1);
-    console.log(e.target.value);
     if(e.detail.value == "" || this.items == null){
-      console.log("aqui")
       this.ngOnInit();
     }
   }
@@ -249,7 +242,6 @@ export class ClientePesquisaPage implements OnInit {
                 this.pessoa = true;
               }
               this.carregarEnderecos();
-              console.log(this.endereco.id);
             },
             error => {});
         };
@@ -312,10 +304,8 @@ export class ClientePesquisaPage implements OnInit {
 
   inserir() {
     if(this.mesa){
-      console.log("aqui")
       this.newCli.tipo = 'MESA';
     }
-    console.log(this.newCli);
     this.clienteService.insert(this.newCli)
     .subscribe(response => {
       this.tipoTela = 1;

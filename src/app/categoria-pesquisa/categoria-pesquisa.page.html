@@ -34,11 +34,36 @@
       <ion-input [(ngModel)]="newCat.nome" name="nome" type="text" [clearInput]="true"></ion-input>
     </ion-item>
 
-    <ion-select multiple="true" (ionChange)="handleChange($event)">
-      <div *ngFor="let item of produtos">
-          <ion-select-option value="{{item.id}}">{{item.nome}}</ion-select-option>
-      </div>
-   </ion-select>
+    <ion-item color="gray" style="background-color: gainsboro ;position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;">
+      <ion-row style="font-size: large; font-weight: bold; width: 100%;">
+        <ion-col size="4">Produto</ion-col>
+        <ion-col size="4">Valor R$</ion-col>
+        <ion-col size="4">Quantidade</ion-col>
+      </ion-row>
+    </ion-item>
+    <ion-item-sliding  *ngFor="let item of produtosDaCategoria[0]; index as i">
+      <ion-item-options side="start">
+        <ion-item-option (click)="edicao(item.id)">Editar</ion-item-option>
+        <ion-item-option color="danger" (click)="excluir(item.id)">Excluir</ion-item-option>
+      </ion-item-options>
+      <ion-item>
+          <ion-row  style="font-size: small; width: 100%;">
+            <ion-col size="4">{{ item?.nome }}</ion-col>
+            <ion-col size="4">{{ item?.preco | currency}}</ion-col>
+            <ion-col size="4">{{ item?.quantidade}}</ion-col>
+          </ion-row>
+      </ion-item>  
+    </ion-item-sliding>
+    <ion-infinite-scroll (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Carregando...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
     <ion-button expand="block" color="primary"  id="btnLogar" (click)="cadastrar()">Cadastrar
       <ion-icon slot="end" name="open"></ion-icon>
@@ -55,11 +80,36 @@
       <ion-input [(ngModel)]="cat.nome" name="login" type="text" [clearInput]="true"></ion-input>
     </ion-item>
 
-      <ion-select multiple="true" (ionChange)="handleChange($event)">
-        <div *ngFor="let item of produtos">
-            <ion-select-option value="{{item.id}}">{{item.nome}}</ion-select-option>
-        </div>
-     </ion-select>
+    <ion-item color="gray" style="background-color: gainsboro ;position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;">
+    <ion-row style="font-size: large; font-weight: bold; width: 100%;">
+      <ion-col size="4">Produto</ion-col>
+      <ion-col size="4">Valor R$</ion-col>
+      <ion-col size="4">Quantidade</ion-col>
+    </ion-row>
+  </ion-item>
+  <ion-item-sliding  *ngFor="let item of produtosDaCategoria[0]; index as i">
+    <ion-item-options side="start">
+      <ion-item-option (click)="edicao(item.id)">Editar</ion-item-option>
+      <ion-item-option color="danger" (click)="excluir(item.id)">Excluir</ion-item-option>
+    </ion-item-options>
+    <ion-item>
+        <ion-row  style="font-size: small; width: 100%;">
+          <ion-col size="4">{{ item?.nome }}</ion-col>
+          <ion-col size="4">{{ item?.preco | currency}}</ion-col>
+          <ion-col size="4">{{ item?.quantidade}}</ion-col>
+        </ion-row>
+    </ion-item>  
+  </ion-item-sliding>
+  <ion-infinite-scroll (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Carregando...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 
     <ion-button expand="block" color="warning"  id="btnLogar" (click)="salvar()">Salvar

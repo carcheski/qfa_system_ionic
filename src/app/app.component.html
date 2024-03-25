@@ -14,7 +14,7 @@
           </ion-menu-toggle>
         </ion-list>
 
-        <ion-list id="labels-list">
+        <ion-list id="labels-list" *ngIf="habilitado">
           <ion-list-header>
             <ion-label style="font-weight: bold;">Cadastros</ion-label>
           </ion-list-header>
@@ -26,7 +26,7 @@
           </ion-menu-toggle>
         </ion-list>
 
-        <ion-list id="labels-list">
+        <ion-list id="labels-list" *ngIf="habilitado">
           <ion-list-header>
             <ion-label style="font-weight: bold;">Controle</ion-label>
           </ion-list-header>

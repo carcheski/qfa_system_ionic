@@ -39,7 +39,6 @@ export class EnderecoService {
     }
 
     salvar(obj: EnderecoDTO) {
-        console.log(obj)
         return this.http.put(
             `${API_CONFIG.baseUrl}/enderecos/${obj.id}`,
             obj,

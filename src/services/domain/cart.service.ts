@@ -21,7 +21,6 @@ export class CartService {
     getCart() : Cart {
         let cart: Cart = this.storage.getCart();
         if (cart == null) {
-            console.log("aqui")
             cart = this.createOrClearCart();
         }
         return cart;

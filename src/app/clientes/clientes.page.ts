@@ -31,7 +31,6 @@ export class ClientesPage implements OnInit {
   }
 
   showEnderecos(cliente_id : ClienteDTO) {
-    console.log(cliente_id);
     this.router.navigate(['/pick-address'], { queryParams: {cliente_id: cliente_id}});    
   }
 

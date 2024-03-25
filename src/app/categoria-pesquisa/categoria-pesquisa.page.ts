@@ -20,6 +20,15 @@ export class CategoriaPesquisaPage implements OnInit {
 
   formProduto: FormGroup;
 
+  page : number = 0;
+  private readonly offset: number = 5;
+
+  pageTotal : number = 0;
+  private readonly offsetTotal: number = 5;
+
+  itensPage: ProdutoDTO[] = [];
+  itensPageTotal: ProdutoDTO[];
+
   cadastro()
   {
     this.tipoTela = 2;
@@ -35,6 +44,8 @@ export class CategoriaPesquisaPage implements OnInit {
   items: CategoriaDTO[] = [];
   categorias: CategoriaDTO[] = [];
   produtos: ProdutoDTO[] = [];
+
+  produtosDaCategoria: ProdutoDTO[] = [];
 
   newCat : CategoriaDTO = {
     id : "",
@@ -90,9 +101,22 @@ export class CategoriaPesquisaPage implements OnInit {
           this.categoriaService.findById(cat_id)
             .subscribe(response => {
               this.cat = response;
+              this.carregarProdutosDaCategoria(response);
             },
             error => {});
         };
+  }
+
+  carregarProdutosDaCategoria(categoria: CategoriaDTO){
+    let categoria_id = categoria.id
+    if(categoria_id != null){
+      this.produtoService.findByCategoria(categoria_id, this.page, 10)
+      .subscribe (response =>{
+        const res = ((response));
+        this.produtosDaCategoria = Object.values(res);
+      }
+      );
+    }
   }
 
   carregaProdutos() {
@@ -105,8 +129,6 @@ export class CategoriaPesquisaPage implements OnInit {
           let end = this.items.length - 1;
         }
     );
-
-    console.log(this.produtos);
   }
 
   handleChangeCategoria(e: any) {
@@ -163,6 +185,21 @@ export class CategoriaPesquisaPage implements OnInit {
 
   doRefresh(event: any) {
     setTimeout(() => {
+      event.target.complete();
+    }, 1000);
+  }
+
+  loadData(event: any) {
+    setTimeout(() => {
+      let news = this.produtos.slice(this.page, this.offset+this.page);
+      this.page += this.offset;
+      for(let i=0; i<news.length; i++) {
+        this.itensPage.push(news[i]);
+      }
+
+      if(this.itensPage.length === this.produtos.length)
+        event.target.disabled = true;
+
       event.target.complete();
     }, 1000);
   }

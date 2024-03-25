@@ -170,7 +170,6 @@ export class PedidoPage implements OnInit {
         .subscribe(response => {
           this.cli = response;
           this.carregarEnderecos();
-          console.log(this.endereco.id);
         },
         error => {});
     };
@@ -242,7 +241,6 @@ carregarDadosCidade(id_estado : string){
 }
 
 addNewCliente () {
-  console.log(this.newCli);
   this.newCli.enderecos.push(this.endereco)
   this.clienteService.insert(this.newCli)
   .subscribe(response => {
@@ -255,7 +253,6 @@ addNewCliente () {
 }
 
 salvar() {
-  console.log(this.cli);
   this.clienteService.salvar(this.cli)
   .subscribe(response => {
     this.fecharModalCliente();
@@ -344,7 +341,6 @@ fecharModalCliente(){
 
   ngOnInit() {
     this.carregarCategorias();
-    console.log("aqui");
     this.cartService.createOrClearCart();
   }
 
@@ -353,7 +349,6 @@ fecharModalCliente(){
     this.categoriaService.findAll()
     .subscribe(response => {
       this.categorias = response;
-      console.log(response)
     },
     error => {}
     );
@@ -377,11 +372,9 @@ fecharModalCliente(){
   }
 
   loadImageUrls(start: number, end: number) {
-    console.log("total " + start + " e fim " + end)
       let produto = Object.values(this.produtos[0]);
       produto.map((item) => {
         let prod = item.id;
-        console.log(prod);
         this.produtoService.getSmallImageFromBucket(prod)
         .subscribe(response => {
           item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${prod}-small.jpg`;
@@ -453,7 +446,6 @@ fecharModalCliente(){
     this.clienteService.findByTipoNotMesa()
     .subscribe(response => {
       this.clientes = response;
-      console.log(this.clientes)
     },
     error => {}
     );
@@ -538,7 +530,7 @@ fecharModalCliente(){
     //console.log(this.cartItems); ok
     //console.log(this.clienteSelecionado); ok
     //console.log(this.enderecoSelecionado); ok
-    //console.log(this.formPagamento.value);
+    //console.log(this.formPagamento.value); ok
     this.pedido.pagamento = this.formPagamento.value;
     this.tipoTela = 7;
   }

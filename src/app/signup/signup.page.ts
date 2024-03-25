@@ -51,7 +51,6 @@ export class SignupPage implements OnInit {
       .subscribe(response => {
         this.estados = response;
         this.formGroup.controls.estadoId.setValue(this.estados[0].id);
-        console.log("EstadoID = " + this.formGroup.value.estadoId);
         this.updateCidades();
       },
       error => {});
@@ -59,7 +58,6 @@ export class SignupPage implements OnInit {
 
   updateCidades() {
     let estado_id = this.formGroup.value.estadoId;
-    console.log("EstadoID = " + this.formGroup.value.estadoId);
     this.cidadeService.findCidades(estado_id)
       .subscribe(response => {
         this.cidades = response;

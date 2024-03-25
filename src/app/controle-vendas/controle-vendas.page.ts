@@ -152,16 +152,13 @@ export class ControleVendasPage implements OnInit {
       this.pedidoService.findAll()
       .subscribe(response => {
         this.pedidos = response;
-        console.log(response);
       })
     }
 
     handleChangePedido(e: any) {
       const query = e.target.value.toLowerCase();
-      console.log(e.target.value);
       this.pedidos = this.pedidos.filter((d) => d.id == query);
       if(e.detail.value == "" || this.pedidos == null){
-        console.log("aqui")
         this.ngOnInit();
       }
     }
@@ -180,11 +177,9 @@ export class ControleVendasPage implements OnInit {
         endDate.setDate(date.getDate() + 1);
         let dtInicial = datepipe.transform(startDate, 'dd-MM-yyyy');
         let dtFinal = datepipe.transform(endDate, 'dd-MM-yyyy');
-        console.log("dt Inicial " + dtInicial + "Dt Final" + dtFinal);
 
         this.pedidoService.findAllByDatas(dtInicial as any, dtFinal as any)
         .subscribe(resp => {
-          console.log(resp)
           for(let i = 0; i < resp.length; i++){
             let ped = resp[i];
             let rec = resp[i].instante
@@ -207,7 +202,6 @@ export class ControleVendasPage implements OnInit {
             for(let e = 0; e < ped.itens.length ; e++){
               this.produtoService.findById(ped.itens[e].produto.id)
               .subscribe(response => {
-                console.log(this.hoje.numPedido);
                 this.produto = response;
                 
                 hoje.qtdVendido = hoje.qtdVendido + ped.itens[e].quantidade
@@ -217,15 +211,12 @@ export class ControleVendasPage implements OnInit {
                   hoje.totVlrVenda += hoje.qtdVendido * this.produto.preco;
                 if(hoje.totVlrVenda != 0)
                   hoje.lucro = (hoje.totVlrVenda - hoje.totVlrCompra);
-                  console.log("Lucro: " + hoje.lucro);
                 })
               }
               hoje.numPedido = ped.id;
               let data = datepipe.transform(dataVenda, 'dd-MM-yyyy');
               hoje.dataVenda = data as any;
               this.pedidosHoje.push(hoje);
-  
-            console.log(this.pedidosHoje)
           }
         })
       }else{
@@ -246,11 +237,9 @@ export class ControleVendasPage implements OnInit {
         startDate.setDate(date.getDate() - 1);
         let dtInicial = datepipe.transform(startDate, 'dd-MM-yyyy');
         let dtFinal = datepipe.transform(endDate, 'dd-MM-yyyy');
-        console.log("dt Inicial " + dtInicial + "Dt Final" + dtFinal);
 
         this.pedidoService.findAllByDatas(dtInicial as any, dtFinal as any)
         .subscribe(resp => {
-          console.log(resp)
           for(let i = 0; i < resp.length; i++){
             let ped = resp[i];
             let rec = resp[i].instante
@@ -273,7 +262,6 @@ export class ControleVendasPage implements OnInit {
             for(let e = 0; e < ped.itens.length ; e++){
               this.produtoService.findById(ped.itens[e].produto.id)
               .subscribe(response => {
-                console.log(this.ontem.numPedido);
                 this.produto = response;
                 
                 ontem.qtdVendido = ontem.qtdVendido + ped.itens[e].quantidade
@@ -283,15 +271,12 @@ export class ControleVendasPage implements OnInit {
                   ontem.totVlrVenda += ontem.qtdVendido * this.produto.preco;
                 if(ontem.totVlrVenda != 0)
                   ontem.lucro = (ontem.totVlrVenda - ontem.totVlrCompra);
-                  console.log("Lucro: " + ontem.lucro);
                 })
               }
               ontem.numPedido = ped.id;
               let data = datepipe.transform(dataVenda, 'dd-MM-yyyy');
               ontem.dataVenda = data as any;
               this.pedidosOntem.push(ontem);
-  
-            console.log(this.pedidosOntem)
           }
         })
       }else{
@@ -311,11 +296,9 @@ export class ControleVendasPage implements OnInit {
         startDate.setDate(date.getDate() - 6);
         let dtInicial = datepipe.transform(startDate, 'dd-MM-yyyy');
         let dtFinal = datepipe.transform(endDate, 'dd-MM-yyyy');
-        console.log("dt Inicial " + dtInicial + "Dt Final" + dtFinal);
 
         this.pedidoService.findAllByDatas(dtInicial as any, dtFinal as any)
         .subscribe(resp => {
-          console.log(resp)
           for(let i = 0; i < resp.length; i++){
             let ped = resp[i];
             let rec = resp[i].instante
@@ -338,7 +321,6 @@ export class ControleVendasPage implements OnInit {
             for(let e = 0; e < ped.itens.length ; e++){
               this.produtoService.findById(ped.itens[e].produto.id)
               .subscribe(response => {
-                console.log(this.semana.numPedido);
                 this.produto = response;
                 
                 semana.qtdVendido = semana.qtdVendido + ped.itens[e].quantidade
@@ -348,15 +330,12 @@ export class ControleVendasPage implements OnInit {
                   semana.totVlrVenda += semana.qtdVendido * this.produto.preco;
                 if(semana.totVlrVenda != 0)
                   semana.lucro = (semana.totVlrVenda - semana.totVlrCompra);
-                  console.log("Lucro: " + semana.lucro);
                 })
               }
               semana.numPedido = ped.id;
               let data = datepipe.transform(dataVenda, 'dd-MM-yyyy');
               semana.dataVenda = data as any;
               this.pedidosSemana.push(semana);
-  
-            console.log(this.pedidosSemana)
           }
         })
       }else{
@@ -376,11 +355,9 @@ export class ControleVendasPage implements OnInit {
         startDate.setDate(date.getDate() -31);
         let dtInicial = datepipe.transform(startDate, 'dd-MM-yyyy');
         let dtFinal = datepipe.transform(endDate, 'dd-MM-yyyy');
-        console.log("dt Inicial " + dtInicial + "Dt Final" + dtFinal);
 
         this.pedidoService.findAllByDatas(dtInicial as any, dtFinal as any)
         .subscribe(resp => {
-          console.log(resp)
           for(let i = 0; i < resp.length; i++){
             let ped = resp[i];
             let rec = resp[i].instante
@@ -403,7 +380,6 @@ export class ControleVendasPage implements OnInit {
             for(let e = 0; e < ped.itens.length ; e++){
               this.produtoService.findById(ped.itens[e].produto.id)
               .subscribe(response => {
-                console.log(this.mes.numPedido);
                 this.produto = response;
                 
                 mes.qtdVendido = mes.qtdVendido + ped.itens[e].quantidade
@@ -413,15 +389,12 @@ export class ControleVendasPage implements OnInit {
                   mes.totVlrVenda += mes.qtdVendido * this.produto.preco;
                 if(mes.totVlrVenda != 0)
                   mes.lucro = (mes.totVlrVenda - mes.totVlrCompra);
-                  console.log("Lucro: " + mes.lucro);
                 })
               }
               mes.numPedido = ped.id;
               let data = datepipe.transform(dataVenda, 'dd-MM-yyyy');
               mes.dataVenda = data as any;
               this.pedidosMes.push(mes);
-  
-            console.log(this.pedidosMes)
           }
         })
       }else{
@@ -441,11 +414,9 @@ export class ControleVendasPage implements OnInit {
         startDate.setDate(date.getDate() - 365);
         let dtInicial = datepipe.transform(startDate, 'dd-MM-yyyy');
         let dtFinal = datepipe.transform(endDate, 'dd-MM-yyyy');
-        console.log("dt Inicial " + dtInicial + "Dt Final" + dtFinal);
 
         this.pedidoService.findAllByDatas(dtInicial as any, dtFinal as any)
         .subscribe(resp => {
-          console.log(resp)
           for(let i = 0; i < resp.length; i++){
             let ped = resp[i];
             let rec = resp[i].instante
@@ -468,7 +439,6 @@ export class ControleVendasPage implements OnInit {
             for(let e = 0; e < ped.itens.length ; e++){
               this.produtoService.findById(ped.itens[e].produto.id)
               .subscribe(response => {
-                console.log(this.ano.numPedido);
                 this.produto = response;
                 
                 ano.qtdVendido = ano.qtdVendido + ped.itens[e].quantidade
@@ -478,15 +448,12 @@ export class ControleVendasPage implements OnInit {
                   ano.totVlrVenda += ano.qtdVendido * this.produto.preco;
                 if(ano.totVlrVenda != 0)
                   ano.lucro = (ano.totVlrVenda - ano.totVlrCompra);
-                  console.log("Lucro: " + ano.lucro);
                 })
               }
               ano.numPedido = ped.id;
               let data = datepipe.transform(dataVenda, 'dd-MM-yyyy');
               ano.dataVenda = data as any;
               this.pedidosAno.push(ano);
-  
-            console.log(this.pedidosAno)
           }
         })
       }else{
@@ -501,18 +468,14 @@ export class ControleVendasPage implements OnInit {
     }
 
     vendasPersonalizado(isOpen: boolean){
-      console.log("aqui ")
-      console.log("Data Inicial" + this.dataInicial + " e " + this.dataFinal);
       const datepipe: DatePipe = new DatePipe('pt-BR') 
       this.isModalPersonalizado = isOpen;
       if(this.isModalPersonalizado && this.dataInicial != null && this.dataFinal != null){
         let dtInicial = datepipe.transform(this.dataInicial, 'dd-MM-yyyy');
         let dtFinal = datepipe.transform(this.dataFinal, 'dd-MM-yyyy');
-        console.log("Data Inicial" + dtInicial + " e " + dtFinal);
 
         this.pedidoService.findAllByDatas(dtInicial as any, dtFinal as any)
         .subscribe(resp => {
-          console.log(resp)
           for(let i = 0; i < resp.length; i++){
             let ped = resp[i];
             let rec = resp[i].instante
@@ -535,7 +498,6 @@ export class ControleVendasPage implements OnInit {
             for(let e = 0; e < ped.itens.length ; e++){
               this.produtoService.findById(ped.itens[e].produto.id)
               .subscribe(response => {
-                console.log(this.ano.numPedido);
                 this.produto = response;
                 
                 ano.qtdVendido = ano.qtdVendido + ped.itens[e].quantidade
@@ -545,15 +507,12 @@ export class ControleVendasPage implements OnInit {
                   ano.totVlrVenda += ano.qtdVendido * this.produto.preco;
                 if(ano.totVlrVenda != 0)
                   ano.lucro = (ano.totVlrVenda - ano.totVlrCompra);
-                  console.log("Lucro: " + ano.lucro);
                 })
               }
               ano.numPedido = ped.id;
               let data = datepipe.transform(dataVenda, 'dd-MM-yyyy');
               ano.dataVenda = data as any;
               this.pedidosPersonalizados.push(ano);
-  
-            console.log(this.pedidosAno)
           }
         })
       }else{

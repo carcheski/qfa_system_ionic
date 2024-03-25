@@ -40,7 +40,6 @@ export class OrderConfirmationPage implements OnInit {
 
     this.clienteService.findById(this.pedido.cliente.id)
       .subscribe(response => {
-        console.log(response);
         this.cliente = response as ClienteDTO;
         this.endereco = this.findEndereco(this.pedido.enderecoDeEntrega.id, response['enderecos']);
       },
@@ -70,7 +69,6 @@ export class OrderConfirmationPage implements OnInit {
     this.pedidoService.insert(this.pedido)
       .subscribe(response => {
         this.cartService.createOrClearCart();
-        console.log(response.headers.get('location'));
         this.codpedido = this.extractId(response.headers.get('location') as any);
       },
       error => {

@@ -33,7 +33,6 @@ export class EstoquePage implements OnInit {
     .subscribe (response =>{
       const res = ((response));
       this.items = Object.values(res);
-      console.log(this.items);
 
     },
       error => this.onError
@@ -42,7 +41,6 @@ export class EstoquePage implements OnInit {
   }
 
   onSucess(response: ProdutoDTO[]) {
-    console.log("aqui " + response);
     this.items.push
     this.items = (response);
   }

@@ -76,7 +76,6 @@ export class PedidoNovoMesaPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log("aqui")
     this.cartService.createOrClearCart();
     this.carregarCliente();
     this.carregarCategorias();
@@ -115,7 +114,6 @@ export class PedidoNovoMesaPage implements OnInit {
       this.produtoService.findByCategoria(categoria_id, this.page, 10)
       .subscribe (response =>{
         const res = ((response));
-        console.log(res)
         this.produtos = Object.values(res);
         let start = this.produtos.length;
         let end = this.produtos.length - 1;
@@ -128,11 +126,9 @@ export class PedidoNovoMesaPage implements OnInit {
   }
 
   loadImageUrls(start: number, end: number) {
-    console.log("total " + start + " e fim " + end)
       let produto = Object.values(this.produtos[0]);
       produto.map((item) => {
         let prod = item.id;
-        console.log(prod);
         this.produtoService.getSmallImageFromBucket(prod)
         .subscribe(response => {
           item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${prod}-small.jpg`;
@@ -151,7 +147,6 @@ export class PedidoNovoMesaPage implements OnInit {
   }
 
   addToCart(produto: ProdutoDTO) {
-    console.log(produto);
     if(produto.quantidade > 0){
       this.cartService.addProduto(produto);
       this.tipoTela = 3;
@@ -221,7 +216,7 @@ export class PedidoNovoMesaPage implements OnInit {
       enderecoDeEntrega: null as any,
       pagamento: null as any,
       itens : cart.items.map(x => 
-        {console.log(x.quantidade);
+        {
           return {quantidade: x.quantidade, produto: {id: x.produto.id}}})
     }
     this.atualizarEstoque();
@@ -324,7 +319,6 @@ export class PedidoNovoMesaPage implements OnInit {
     this.pedidoService.insert(this.pedido)
       .subscribe(response => {
         this.cartService.createOrClearCart();
-        console.log(response.headers.get('location'));
         this.cod_pedido = this.extractId(response.headers.get('location') as any);
       },
       error => {

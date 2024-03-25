@@ -18,7 +18,6 @@ export class ProdutoService {
     }
 
   insert(obj: ProdutoDTO) {
-    console.log(obj)
       return this.http.post(
           `${API_CONFIG.baseUrl}/produtos`,
           obj,
@@ -30,7 +29,6 @@ export class ProdutoService {
   }
 
   salvar(obj: ProdutoDTO) {
-    console.log(obj)
     return this.http.put(
         `${API_CONFIG.baseUrl}/produtos/${obj.id}`,
         obj,

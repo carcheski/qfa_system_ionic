@@ -22,11 +22,8 @@ export class AuthService {
     }
 
     authenticate(creds : CredenciaisDTO) {
-        console.log('1');
-        console.log(this.storage.getLocalUser());
-        console.log(creds);
+        localStorage.setItem("login" , creds.login)
         if(this.storage.getLocalUser() != null){
-            console.log('2');
             this.logout();
         }
         return this.http.post(
@@ -50,7 +47,6 @@ export class AuthService {
     }
 
     successfulLogin(body : string) {
-        console.log('Passou aqui');
         let tok = body.substring(17);
         let user : LocalUser = {
             token: tok,
