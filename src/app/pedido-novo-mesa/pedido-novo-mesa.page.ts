@@ -53,6 +53,14 @@ export class PedidoNovoMesaPage implements OnInit {
   cartItems: CartItem[];
   cod_pedido: string;
 
+  isAlertOpen: boolean = false;
+  public alertButtons = [
+    {
+      text: 'OK',
+      cssClass: 'alert-button-confirm',
+    },
+  ];
+
 
   showProdutos(categoria_id : string) {
        this.tipoTela = 2;
@@ -72,7 +80,7 @@ export class PedidoNovoMesaPage implements OnInit {
     public router: Router,
     public route: ActivatedRoute,
     public homePage: HomePage,
-    private alertController: AlertController
+    public alertController: AlertController
   ) { }
 
   ngOnInit() {
@@ -152,19 +160,12 @@ export class PedidoNovoMesaPage implements OnInit {
       this.tipoTela = 3;
       this.carregarPedido();
     }else{
-      this.alertaEstoque(produto);
+      this.alertaEstoque(true);
     }
   }
 
-  async alertaEstoque(produto: ProdutoDTO){
-      const alert = await this.alertController.create({
-        header: 'Alerta !!! Estoque zerado',
-        message: 'O ' + produto.nome + " está com estoque zerado, favor verificar no estoque!",
-        buttons: ['OK'],
-      });
-  
-      await alert.present();
-
+  alertaEstoque(isOpen: boolean){
+    this.isAlertOpen = isOpen;
   }
 
   carregarPedido() {

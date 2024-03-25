@@ -44,6 +44,13 @@
         </ion-card-content>
     </ion-item>
   </ion-list>
+  <ion-alert class="custom-alert"
+  [isOpen]="isAlertOpen"
+  header="Estoque zerado!!!"
+  message= "O produto está com estoque zerado, favor verificar no estoque!"
+  [buttons]="alertButtons"
+  (didDismiss)="alertaEstoque(false)"
+></ion-alert>
 </ion-content>
 
 <ion-header [translucent]="true" *ngIf="tipoTela == 3">
