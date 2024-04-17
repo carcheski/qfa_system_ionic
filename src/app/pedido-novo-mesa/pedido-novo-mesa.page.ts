@@ -196,7 +196,9 @@ export class PedidoNovoMesaPage implements OnInit {
   }
 
   decreaseQuantity(produto: ProdutoDTO) {
-    this.carrinho = this.cartService.decreaseQuantity(produto).items;
+    let cart = this.cartService.getCart();
+    this.carrinho = this.cartService.decreaseQuantity(produto, cart).items;
+    this.voltarAoEstoque();
   }
 
   total() : number {
@@ -275,6 +277,23 @@ export class PedidoNovoMesaPage implements OnInit {
         let produtoEstoque = resp
         if(produtoEstoque.quantidade >= this.pedido.itens.length){
           produtoEstoque.quantidade = (produtoEstoque.quantidade - this.pedido.itens.length)
+        }
+        this.produtoService.salvar(produtoEstoque)
+        .subscribe(response =>{
+  
+        })
+      });
+    }
+  }
+
+  voltarAoEstoque(){
+    for(let i = 0 ; i < this.pedido.itens.length; i++){ 
+      let prod = this.pedido.itens[i].produto;
+      this.produtoService.findById(prod.id)
+      .subscribe(resp =>{
+        let produtoEstoque = resp
+        if(produtoEstoque.quantidade >= this.pedido.itens.length){
+          produtoEstoque.quantidade = (produtoEstoque.quantidade + 1)
         }
         this.produtoService.salvar(produtoEstoque)
         .subscribe(response =>{

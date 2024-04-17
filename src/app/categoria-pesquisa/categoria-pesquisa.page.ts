@@ -29,6 +29,15 @@ export class CategoriaPesquisaPage implements OnInit {
   itensPage: ProdutoDTO[] = [];
   itensPageTotal: ProdutoDTO[];
 
+  isAlertOpen: boolean = false;
+  public alertButtons = [
+    {
+      text: 'OK',
+      cssClass: 'alert-button-confirm',
+    },
+  ];
+
+
   cadastro()
   {
     this.tipoTela = 2;
@@ -50,12 +59,14 @@ export class CategoriaPesquisaPage implements OnInit {
   newCat : CategoriaDTO = {
     id : "",
     nome : "",
+    status : "",
     produtos : this.produtos
   };
 
   cat : CategoriaDTO = {
     id : "",
     nome : "",
+    status : "",
     produtos : this.produtos
   };
 
@@ -65,6 +76,7 @@ export class CategoriaPesquisaPage implements OnInit {
     preco : null as any,
     quantidade : null as any,
     vlrCompra : null as any,
+    status : "",
     imageUrl : "",
     categorias : this.categorias
   };
@@ -157,6 +169,7 @@ export class CategoriaPesquisaPage implements OnInit {
   }
 
   cadastrar() {
+    this.newCat.status = "0";
     this.categoriaService.insert(this.newCat)
     .subscribe(response => {
       this.newCat.id = ""
@@ -202,6 +215,21 @@ export class CategoriaPesquisaPage implements OnInit {
 
       event.target.complete();
     }, 1000);
+  }
+
+  excluir(categoria: CategoriaDTO) {
+    let status = "";
+    categoria.status = "1";
+    this.categoriaService.salvar(categoria)
+    .subscribe(response =>{
+      this.alertaExclusao(true);
+      this.tipoTela == 1;
+      this.ngOnInit();
+    });
+  }
+
+  alertaExclusao(isOpen: boolean){
+    this.isAlertOpen = isOpen;
   }
 
 }

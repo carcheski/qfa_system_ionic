@@ -47,7 +47,6 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.verificarAtualizacao();
     this.carregarMesas();
-    //this.reloadComponent();
   }
 
   verificarAtualizacao(){

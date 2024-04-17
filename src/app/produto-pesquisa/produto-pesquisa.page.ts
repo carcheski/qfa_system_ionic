@@ -20,6 +20,14 @@ export class ProdutoPesquisaPage implements OnInit {
   formProduto: FormGroup;
   categorias: CategoriaDTO [] = [];
 
+  isAlertOpen: boolean = false;
+  public alertButtons = [
+    {
+      text: 'OK',
+      cssClass: 'alert-button-confirm',
+    },
+  ];
+
   cadastro()
   {
     this.tipoTela = 2;
@@ -39,6 +47,7 @@ export class ProdutoPesquisaPage implements OnInit {
     preco : null as any,
     quantidade : null as any,
     vlrCompra : null as any,
+    status : "",
     imageUrl : "",
     categorias : this.categorias
   };
@@ -49,6 +58,7 @@ export class ProdutoPesquisaPage implements OnInit {
     preco : null as any,
     quantidade : null as any,
     vlrCompra : null as any,
+    status : "",
     imageUrl : "",
     categorias : this.categorias
   };
@@ -187,6 +197,7 @@ export class ProdutoPesquisaPage implements OnInit {
   }
 
   cadastrar() {
+    this.newProd.status = "0";
     this.produtoService.insert(this.newProd)
     .subscribe(response => {
       this.carregaProdutos();
@@ -216,9 +227,19 @@ export class ProdutoPesquisaPage implements OnInit {
     });
   }
 
-  excluir(produto_id: string) {
+  excluir(produto: ProdutoDTO) {
     let status = "";
-    this.produtoService.excluir(produto_id).subscribe(() => status = 'Exclusão concluída');
+    produto.status = "1";
+    this.produtoService.salvar(produto)
+    .subscribe(response =>{
+      this.alertaExclusao(true);
+      this.tipoTela == 1;
+      this.ngOnInit();
+    });
+  }
+
+  alertaExclusao(isOpen: boolean){
+    this.isAlertOpen = isOpen;
   }
 
 }

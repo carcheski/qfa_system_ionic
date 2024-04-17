@@ -65,8 +65,8 @@ export class CartService {
         return cart;
     }
 
-    decreaseQuantity(produto: ProdutoDTO) : Cart {
-        let cart = this.getCart();
+    decreaseQuantity(produto: ProdutoDTO,
+        cart: Cart) : Cart {
         let position = cart.items.findIndex(x => x.produto.id == produto.id);
         if (position != -1) {
             cart.items[position].quantidade--;

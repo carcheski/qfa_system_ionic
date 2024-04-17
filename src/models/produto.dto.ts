@@ -6,6 +6,7 @@ export interface ProdutoDTO {
     preco : number;
     quantidade : number;
     vlrCompra : number;
+    status : string;
     imageUrl? : string;
     categorias : CategoriaDTO [];
 }

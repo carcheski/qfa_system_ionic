@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavController, NavParams } from '@ionic/angular';
 import { API_CONFIG } from 'src/config/api.config';
+import { Cart } from 'src/models/cart';
 import { CartItem } from 'src/models/cart-item';
 import { ProdutoDTO } from 'src/models/produto.dto';
 import { CartService } from 'src/services/domain/cart.service';
@@ -16,6 +17,7 @@ export class CartPage implements OnInit {
 
   items: CartItem[];
   vlrTotal: number;
+  cart: Cart;
 
   constructor(
     public produtoService: ProdutoService,
@@ -49,7 +51,7 @@ export class CartPage implements OnInit {
   }
 
   decreaseQuantity(produto: ProdutoDTO) {
-    this.items = this.cartService.decreaseQuantity(produto).items;
+    this.items = this.cartService.decreaseQuantity(produto, this.cart).items;
   }
 
   total() : number {

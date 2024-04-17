@@ -75,7 +75,7 @@
     <ion-item *ngIf="pessoa">
       <ion-input label="E-mail" [(ngModel)]="newCli.email" name="email" type="email" [clearInput]="true"></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item  *ngIf="pessoa">
       <ion-input label="Telefone" [(ngModel)]="newCli.telefone" name="telefone" type="text" [clearInput]="true" [brmasker]="{mask:'(00) 0 0000-0000', len:16}"></ion-input>
     </ion-item>
     <ion-item *ngIf="pessoa">
